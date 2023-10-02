@@ -13,7 +13,8 @@ public class BaseWeareTest {
 
     @BeforeClass
     public static void beforeTestSetUp() {
-
+        UserActions.loadBrowser("weare.homePage");
+        login();
     }
 
     @AfterClass
