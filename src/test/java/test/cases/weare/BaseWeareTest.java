@@ -3,8 +3,11 @@ package test.cases.weare;
 import api.WEareApi;
 import com.telerikacademy.testframework.UserActions;
 import com.telerikacademy.testframework.pages.weare.LoginPage;
+import io.restassured.response.Response;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+
+import static io.restassured.RestAssured.given;
 
 public class BaseWeareTest {
 
