@@ -26,6 +26,12 @@ public abstract class BasePage {
         this.driver.get(url);
     }
 
+    public void logout() {
+
+        // To Do
+
+    }
+
     public void assertPageNavigated() {
         String currentUrl = driver.getCurrentUrl();
         Assert.assertTrue("Landed URL is not as expected. Actual URL: " + currentUrl + ". Expected URL: " + url,
