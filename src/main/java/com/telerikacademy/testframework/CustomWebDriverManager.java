@@ -2,6 +2,7 @@ package com.telerikacademy.testframework;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class CustomWebDriverManager {
 
@@ -24,10 +25,22 @@ public class CustomWebDriverManager {
         }
 
         private WebDriver setupBrowser() {
-            WebDriver driver = new ChromeDriver();
-            driver.manage().window().maximize();
-            this.driver = driver;
-            return driver;
+            String osName = System.getProperty("os.name").toLowerCase();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--remote-allow-origins=*");
+
+            if (osName.contains("mac")) {
+                System.setProperty("webdriver.chrome.driver", "/Applications/chromedriver-mac-arm64/chromedriver");
+                WebDriver driver = new ChromeDriver(options);
+                driver.manage().window().maximize();
+                this.driver = driver;
+                return driver;
+            } else {
+                WebDriver driver = new ChromeDriver(options);
+                driver.manage().window().maximize();
+                this.driver = driver;
+                return driver;
+            }
         }
     }
 }
