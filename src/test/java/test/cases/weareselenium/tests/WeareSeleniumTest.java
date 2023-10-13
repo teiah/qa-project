@@ -19,13 +19,12 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
     Helpers helpers = new Helpers();
 
     @Test
-    public void user_Can_Register_With_Valid_Credentials() {
+    public void user_Can_Register_With_Valid_Credentials() throws InterruptedException {
 
         // Generate a random username and password
         String username = helpers.generateUsernameAsImplemented(ROLE_USER.toString());
         String password = helpers.generatePassword();
         String email = helpers.generateEmail();
-
 
         RegisterPage registerPage = new RegisterPage(actions.getDriver());
         registerPage.registerUser(username, email, password);
@@ -56,6 +55,8 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         homePage.assertUserHasLoggedIn();
 
         weareApi.disableUser(globalAdminUser, user.getId());
+
+        homePage.logout();
 
     }
 }

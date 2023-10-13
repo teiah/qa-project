@@ -11,4 +11,9 @@ public class HomePage extends BaseWearePage{
             throw new AssertionError("Error: User has not successfully logged in. Logout button is not present.");
         }
     }
+
+    public void logout() {
+        actions.waitForElementClickable("weare.homePage.logout");
+        actions.clickElement("weare.homePage.logout");
+    }
 }
