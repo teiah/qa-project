@@ -4,7 +4,7 @@ import com.telerikacademy.testframework.models.CommentModel;
 import com.telerikacademy.testframework.models.PostModel;
 import com.telerikacademy.testframework.models.UserModel;
 import org.testng.annotations.*;
-import test.cases.wearerestassured.base.BaseTestSetup;
+import test.cases.BaseTestSetup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class RESTPostControllerTest extends BaseTestSetup {
 
     @AfterClass
     public void clear() {
-        weareApi.disableUser(globalAdminUser, postUser);
+        weareApi.disableUser(globalAdminUser, postUser.getId());
     }
 
     @Test

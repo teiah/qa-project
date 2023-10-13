@@ -7,7 +7,7 @@ import com.telerikacademy.testframework.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import test.cases.wearerestassured.base.BaseTestSetup;
+import test.cases.BaseTestSetup;
 
 import java.sql.SQLException;
 
@@ -25,7 +25,7 @@ public class RESTUserControllerTest extends BaseTestSetup {
         assertEquals(user.getPassword(), user.getPassword(), "User was not registered");
         assertEquals(user.getAuthorities().size(), 1, "User is not registered as \"USER\".");
 
-        weareApi.disableUser(globalAdminUser, user);
+        weareApi.disableUser(globalAdminUser, user.getId());
 
     }
 
@@ -38,7 +38,7 @@ public class RESTUserControllerTest extends BaseTestSetup {
         assertEquals(adminUser.getPassword(), adminUser.getPassword(), "User was not registered");
         assertEquals(adminUser.getAuthorities().size(), 2, "User was not registered as admin");
 
-        weareApi.disableUser(globalAdminUser, adminUser);
+        weareApi.disableUser(globalAdminUser, adminUser.getId());
 
     }
 
@@ -51,7 +51,7 @@ public class RESTUserControllerTest extends BaseTestSetup {
 
         assertEquals(user.getPersonalProfile().toString(), personalProfile.toString(), "User personal profile was not updated.");
 
-        weareApi.disableUser(globalAdminUser, user);
+        weareApi.disableUser(globalAdminUser, user.getId());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class RESTUserControllerTest extends BaseTestSetup {
         assertEquals(user.getExpertiseProfile().toString(), expertiseProfile.toString(),
                 "User expertise profile was not updated.");
 
-        weareApi.disableUser(globalAdminUser, user);
+        weareApi.disableUser(globalAdminUser, user.getId());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class RESTUserControllerTest extends BaseTestSetup {
         assertEquals(userAfterSearch.getUsername(), userOne.getUsername(), "User was not found");
         assertEquals(userAfterSearch.getId(), userOne.getId(), "User was not found");
 
-        weareApi.disableUser(globalAdminUser, userOne);
+        weareApi.disableUser(globalAdminUser, userOne.getId());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class RESTUserControllerTest extends BaseTestSetup {
             weareApi.deletePost(user, userPost.getPostId());
         }
 
-        weareApi.disableUser(globalAdminUser, user);
+        weareApi.disableUser(globalAdminUser, user.getId());
 
     }
 
@@ -121,7 +121,7 @@ public class RESTUserControllerTest extends BaseTestSetup {
 
         Assert.assertEquals(Integer.parseInt(userId), user.getId(), "Ids do not match.");
 
-        weareApi.disableUser(globalAdminUser, user);
+        weareApi.disableUser(globalAdminUser, user.getId());
     }
 
     @Test
@@ -137,13 +137,13 @@ public class RESTUserControllerTest extends BaseTestSetup {
 
         assertTrue(userToBeDisabled.isEnabled(), "User is not enabled");
 
-        weareApi.disableUser(adminUser, userToBeDisabled);
+        weareApi.disableUser(adminUser, userToBeDisabled.getId());
 
         userToBeDisabled = weareApi.searchUser(firstname);
 
         assertFalse(userToBeDisabled.isEnabled(), "User was not disabled");
 
-        weareApi.disableUser(globalAdminUser, adminUser);
+        weareApi.disableUser(globalAdminUser, adminUser.getId());
     }
 
     @Test
@@ -157,7 +157,7 @@ public class RESTUserControllerTest extends BaseTestSetup {
 
         String firstname = userToBeEnabled.getPersonalProfile().getFirstName();
 
-        weareApi.disableUser(adminUser, userToBeEnabled);
+        weareApi.disableUser(adminUser, userToBeEnabled.getId());
 
         userToBeEnabled = weareApi.searchUser(firstname);
 
@@ -169,8 +169,8 @@ public class RESTUserControllerTest extends BaseTestSetup {
 
         assertTrue(userToBeEnabled.isEnabled(), "User wss not enabled");
 
-        weareApi.disableUser(globalAdminUser, adminUser);
-        weareApi.disableUser(globalAdminUser, userToBeEnabled);
+        weareApi.disableUser(globalAdminUser, adminUser.getId());
+        weareApi.disableUser(globalAdminUser, userToBeEnabled.getId());
     }
 
     // Delete User is not implemented and cannot be tested

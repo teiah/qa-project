@@ -1,4 +1,4 @@
-package test.cases.wearerestassured.base;
+package test.cases;
 
 import api.WEareApi;
 import com.telerikacademy.testframework.utils.Helpers;
@@ -49,7 +49,7 @@ public class BaseTestSetup {
 
     @AfterClass
     public void clear() {
-        weareApi.disableUser(globalAdminUser, globalAdminUser);
+        weareApi.disableUser(globalAdminUser, globalAdminUser.getId());
     }
 
 }

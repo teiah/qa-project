@@ -200,20 +200,20 @@ public class WEareApi {
 
     }
 
-    public void disableUser(UserModel adminUser, UserModel userToBeDisabled) {
+    public void disableUser(UserModel adminUser, int userId) {
 
         Response response = given()
                 .auth()
                 .form(adminUser.getUsername(), adminUser.getPassword(),
                         new FormAuthConfig(AUTHENTICATE, "username", "password"))
                 .formParam("enable", false)
-                .queryParam("userId", userToBeDisabled.getId())
+                .queryParam("userId", userId)
                 .post(ADMIN_STATUS);
 
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_MOVED_TEMPORARILY, "Incorrect status code. Expected 200.");
 
-        System.out.printf("User %s with id %d disabled.\n", userToBeDisabled.getUsername(), userToBeDisabled.getId());
+        System.out.printf("User with id %d disabled.\n", userId);
     }
 
     public void enableUser(UserModel adminUser, UserModel userToBeEnabled) {

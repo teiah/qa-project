@@ -4,9 +4,10 @@ import api.WEareApi;
 import com.telerikacademy.testframework.UserActions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import test.cases.BaseTestSetup;
 
 
-public class BaseWeareTest {
+public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     protected static WEareApi WEareApi = new WEareApi();
     protected static UserActions actions = new UserActions();
@@ -15,7 +16,6 @@ public class BaseWeareTest {
     public static void beforeTestSetUp() {
         UserActions.loadBrowser("weare.baseUrl");
     }
-
 
 
     @AfterClass
