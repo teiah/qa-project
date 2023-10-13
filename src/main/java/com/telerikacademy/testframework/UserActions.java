@@ -1,14 +1,14 @@
 package com.telerikacademy.testframework;
 
-import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
-import static com.telerikacademy.testframework.Utils.*;
+import static com.telerikacademy.testframework.utils.Utils.*;
 import static java.lang.String.format;
 
 public class UserActions {
@@ -93,8 +93,8 @@ public class UserActions {
     }
 
     public void assertElementPresent(String locator) {
-        Assert.assertNotNull(format("Element with %s doesn't present.", locator),
-            driver.findElement(By.xpath(getUIMappingByKey(locator))));
+        Assert.assertNotNull(driver.findElement(By.xpath(getUIMappingByKey(locator))),
+                format("Element with %s doesn't present.", locator));
     }
 
     public void assertElementAttribute(String locator, String attributeName, String attributeValue) {

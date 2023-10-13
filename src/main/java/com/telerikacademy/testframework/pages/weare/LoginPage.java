@@ -2,8 +2,6 @@ package com.telerikacademy.testframework.pages.weare;
 
 import org.openqa.selenium.WebDriver;
 
-import static com.telerikacademy.testframework.Utils.getConfigPropertyByKey;
-
 public class LoginPage extends BaseWearePage {
     public LoginPage(WebDriver driver) {
         super(driver, "weare.loginPage");

@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 
 public class HomePage extends BaseWearePage{
     public HomePage(WebDriver driver) {
-        super(driver, "weare.homePage");
+        super(driver, "weare.baseUrl");
     }
     public void assertUserHasLoggedIn() {
         if (!actions.isElementPresent("weare.homePage.logoutButton")) {

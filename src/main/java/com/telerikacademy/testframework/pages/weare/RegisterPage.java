@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.telerikacademy.testframework.Utils.getUIMappingByKey;
+import static com.telerikacademy.testframework.utils.Utils.getUIMappingByKey;
 
 public class RegisterPage extends BaseWearePage {
     public RegisterPage(WebDriver driver) {

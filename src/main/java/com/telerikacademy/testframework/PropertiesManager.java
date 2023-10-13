@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import static com.telerikacademy.testframework.Utils.LOGGER;
+import static com.telerikacademy.testframework.utils.Utils.LOGGER;
 
 public class PropertiesManager {
 

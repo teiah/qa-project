@@ -1,9 +1,9 @@
 package com.telerikacademy.testframework.pages;
 
 import com.telerikacademy.testframework.UserActions;
-import com.telerikacademy.testframework.Utils;
-import org.junit.Assert;
+import com.telerikacademy.testframework.utils.Utils;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 
 public abstract class BasePage {
 
@@ -34,8 +34,7 @@ public abstract class BasePage {
 
     public void assertPageNavigated() {
         String currentUrl = driver.getCurrentUrl();
-        Assert.assertTrue("Landed URL is not as expected. Actual URL: " + currentUrl + ". Expected URL: " + url,
-            currentUrl.contains(url));
+        Assert.assertTrue(currentUrl.contains(url), "Landed URL is not as expected. Actual URL: " + currentUrl + ". Expected URL: " + url);
     }
 
 }

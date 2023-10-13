@@ -1,5 +1,7 @@
-package com.telerikacademy.testframework;
+package com.telerikacademy.testframework.utils;
 
+import com.telerikacademy.testframework.CustomWebDriverManager;
+import com.telerikacademy.testframework.PropertiesManager;
 import org.apache.logging.log4j.*;
 import org.openqa.selenium.WebDriver;
 import java.util.Properties;

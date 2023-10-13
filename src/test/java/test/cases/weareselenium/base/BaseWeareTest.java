@@ -1,9 +1,9 @@
-package test.cases.weare;
+package test.cases.weareselenium.base;
 
 import api.WEareApi;
 import com.telerikacademy.testframework.UserActions;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 
 public class BaseWeareTest {
@@ -13,7 +13,7 @@ public class BaseWeareTest {
 
     @BeforeClass
     public static void beforeTestSetUp() {
-        UserActions.loadBrowser("weare.homePage");
+        UserActions.loadBrowser("weare.baseUrl");
     }
 
 

@@ -9,8 +9,8 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
-import static com.telerikacademy.testframework.Utils.LOGGER;
-import static com.telerikacademy.testframework.Utils.getConfigPropertyByKey;
+import static com.telerikacademy.testframework.utils.Utils.LOGGER;
+import static com.telerikacademy.testframework.utils.Utils.getConfigPropertyByKey;
 
 public class Driver implements WebDriver {
 
