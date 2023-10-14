@@ -28,11 +28,6 @@ public abstract class BasePage {
         this.driver.get(url);
     }
 
-    public void logout() {
-
-        // To Do
-
-    }
 
     public void assertPageNavigated() {
         String currentUrl = driver.getCurrentUrl();

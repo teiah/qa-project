@@ -11,10 +11,8 @@ public class CreatePostPage extends BaseWearePage {
     }
 
     public void createPost(String text) {
-
-        WebElement messageField = driver.findElement(By.id("message"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", messageField);
-
+        actions.scrollToElement("weare.createPostPage.messageField");
+        actions.waitForElementClickable("weare.createPostPage.messageField");
         actions.typeValueInField(text, "weare.createPostPage.messageField");
         actions.clickElement("weare.createPostPage.savePostButton");
 

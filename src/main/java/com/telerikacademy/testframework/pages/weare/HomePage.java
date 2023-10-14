@@ -21,4 +21,9 @@ public class HomePage extends BaseWearePage{
         actions.waitForElementClickable("weare.homePage.addNewPostButton");
         actions.clickElement("weare.homePage.addNewPostButton");
     }
+
+    public void clickLatestPosts() {
+        actions.waitForElementClickable("weare.homePage.LatestPostsLink");
+        actions.clickElement("weare.homePage.LatestPostsLink");
+    }
 }
