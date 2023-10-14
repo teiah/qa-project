@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 
 public abstract class BaseWearePage extends BasePage {
 
-    public BaseWearePage(WebDriver driver, String pageUrlKey) {
-        super(driver, pageUrlKey);
+    public BaseWearePage(WebDriver driver, String pageUrlKey, Object... arguments) {
+        super(driver, pageUrlKey, arguments);
     }
 
 }

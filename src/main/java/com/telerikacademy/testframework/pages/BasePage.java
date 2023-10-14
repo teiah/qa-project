@@ -5,14 +5,16 @@ import com.telerikacademy.testframework.utils.Utils;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
+import static java.lang.String.format;
+
 public abstract class BasePage {
 
     protected String url;
     protected WebDriver driver;
     public UserActions actions;
 
-    public BasePage(WebDriver driver, String urlKey) {
-        String pageUrl = Utils.getConfigPropertyByKey(urlKey);
+    public BasePage(WebDriver driver, String urlKey, Object... arguments) {
+        String pageUrl = format(Utils.getConfigPropertyByKey(urlKey), arguments);
         this.driver = driver;
         this.url = pageUrl;
         actions = new UserActions();
