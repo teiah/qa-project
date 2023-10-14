@@ -16,4 +16,9 @@ public class HomePage extends BaseWearePage{
         actions.waitForElementClickable("weare.homePage.logout");
         actions.clickElement("weare.homePage.logout");
     }
+
+    public void clickAddNewPost() {
+        actions.waitForElementClickable("weare.homePage.addNewPostButton");
+        actions.clickElement("weare.homePage.addNewPostButton");
+    }
 }
