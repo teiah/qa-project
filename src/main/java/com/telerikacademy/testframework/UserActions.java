@@ -219,4 +219,9 @@ public class UserActions {
         }
         return true;
     }
+
+    public void scrollToElement(String key, Object... arguments){
+        WebElement element = driver.findElement(By.xpath(getLocatorValueByKey(key, arguments)));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
 }
