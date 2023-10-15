@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 public class DeletePostPage extends BaseWearePage {
 
     public DeletePostPage(WebDriver driver, Integer postId) {
-        super(driver, "weare.deletePostPage", postId);
+        super(driver, "weare.postPage", postId);
     }
 
     public void deletePost() {
