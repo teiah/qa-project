@@ -19,10 +19,8 @@ public class BaseTestSetup {
     protected WEareApi WEareApi;
     protected UserModel globalAdminUser;
     protected Helpers helpers;
-    protected UserActions actions = new UserActions();
+    protected UserActions actions;
 
-    public BaseTestSetup() {
-    }
     @BeforeClass
     public void setup() {
         EncoderConfig encoderConfig = RestAssured.config().getEncoderConfig()
@@ -33,6 +31,8 @@ public class BaseTestSetup {
         RestAssured.baseURI = BASE_URL;
 
         WEareApi = new WEareApi();
+        helpers = new Helpers();
+        actions = new UserActions();
         globalAdminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
         Logger logger;

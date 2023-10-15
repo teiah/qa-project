@@ -10,13 +10,13 @@ import test.cases.BaseTestSetup;
 public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     @BeforeClass
-    public static void beforeTestSetUp() {
+    public void beforeTestSetUp() {
         UserActions.loadBrowser("weare.baseUrl");
     }
 
 
     @AfterClass
-    public static void afterTestTearDown() {
+    public void afterTestTearDown() {
         UserActions.quitDriver();
     }
 
