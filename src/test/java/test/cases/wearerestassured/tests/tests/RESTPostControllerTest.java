@@ -18,7 +18,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     private UserModel postUser;
 
     @BeforeClass
-    private void setUp() {
+    public void setUp() {
         postUser = WEareApi.registerUser(ROLE_USER.toString());
     }
 

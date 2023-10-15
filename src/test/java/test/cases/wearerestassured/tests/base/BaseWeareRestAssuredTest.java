@@ -1,19 +1,44 @@
 package test.cases.wearerestassured.tests.base;
 
+import api.WEareApi;
+import com.telerikacademy.testframework.UserActions;
+import com.telerikacademy.testframework.models.UserModel;
+import com.telerikacademy.testframework.utils.Helpers;
+import io.restassured.RestAssured;
+import io.restassured.config.EncoderConfig;
 import org.testng.annotations.*;
-import test.cases.BaseTestSetup;
+import org.testng.log4testng.Logger;
+
+import static com.telerikacademy.testframework.utils.Constants.BASE_URL;
+import static com.telerikacademy.testframework.utils.UserRoles.ROLE_ADMIN;
 
 
-public class BaseWeareRestAssuredTest extends BaseTestSetup {
+public class BaseWeareRestAssuredTest {
 
+    protected WEareApi WEareApi;
+    protected UserModel globalAdminUser;
+    protected Helpers helpers;
+    protected UserActions actions;
     @BeforeClass
-    public void beforeTestSetUp() {
+    public void setUpRestAssured() {
+        EncoderConfig encoderConfig = RestAssured.config().getEncoderConfig()
+                .appendDefaultContentCharsetToContentTypeIfUndefined(false);
 
+        RestAssured.config = RestAssured.config().encoderConfig(encoderConfig);
+
+        RestAssured.baseURI = BASE_URL;
+
+        WEareApi = new WEareApi();
+        helpers = new Helpers();
+        actions = new UserActions();
+        globalAdminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
+
+        Logger logger;
     }
 
 
     @AfterClass
-    public void afterTestTearDown() {
+    public void tearDownRestAssured() {
 
     }
 

@@ -12,9 +12,8 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;
 public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
-
     @Test
-    public void userCanSendRequestToAnotherUser() {
+    public void user_Can_Send_Request_To_Another_User() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -29,7 +28,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanApproveRequestFromAnotherUser() {
+    public void user_Can_Approve_Request_From_Another_User() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -46,7 +45,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanDisconnectFromAnotherUser() {
+    public void user_Can_Disconnect_From_Another_User() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -67,7 +66,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanGetUserRequests() {
+    public void user_Can_Receive_User_Request() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());

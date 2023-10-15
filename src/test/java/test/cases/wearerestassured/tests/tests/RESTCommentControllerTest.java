@@ -18,7 +18,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     private UserModel commentUser;
 
     @BeforeClass
-    private void setUp() {
+    public void setUp() {
         commentUser = WEareApi.registerUser(ROLE_USER.toString());
     }
 
