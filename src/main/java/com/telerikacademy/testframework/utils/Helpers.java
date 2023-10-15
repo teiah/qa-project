@@ -144,6 +144,6 @@ public class Helpers {
     }
 
     public String generateCommentContent() {
-        return faker.lorem().characters(0, 1000);
+        return faker.lorem().sentence(5);
     }
 }
