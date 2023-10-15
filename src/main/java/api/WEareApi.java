@@ -377,9 +377,9 @@ public class WEareApi {
                 .as(PostModel.class);
 
         if (publicVisibility) {
-            LOGGER.info(String.format("Public post with id %d created by user %s.\n", post.getPostId(), user.getUsername()));
+            LOGGER.info(String.format("Public post with id %d created by user %s.", post.getPostId(), user.getUsername()));
         } else {
-            LOGGER.info(String.format("Private post with id %d created by user %s.\n", post.getPostId(), user.getUsername()));
+            LOGGER.info(String.format("Private post with id %d created by user %s.", post.getPostId(), user.getUsername()));
         }
 
         return post;
@@ -402,7 +402,7 @@ public class WEareApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        LOGGER.info(String.format("Post with id %d edited.\n", postId));
+        LOGGER.info(String.format("Post with id %d edited.", postId));
 
     }
 
@@ -434,7 +434,7 @@ public class WEareApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        LOGGER.info(String.format("Post with id %d deleted.\n", postId));
+        LOGGER.info(String.format("Post with id %d deleted.", postId));
 
     }
 
@@ -512,7 +512,7 @@ public class WEareApi {
         comment.setUser(user);
         comment.setPost(post);
 
-        LOGGER.info(String.format("Comment with id %d created.\n", comment.getCommentId()));
+        LOGGER.info(String.format("Comment with id %d created.", comment.getCommentId()));
 
         return comment;
 
@@ -528,7 +528,13 @@ public class WEareApi {
                         new FormAuthConfig(AUTHENTICATE, "username", "password"))
                 .queryParam("commentId", commentToBeEdited.getCommentId())
                 .queryParam("content", commentContent)
-                .put(API + EDIT_COMMENT);
+                .put(API + EDIT_COMMENT)
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
+
+        LOGGER.info(String.format("Comment with id %d edited.", commentToBeEdited.getCommentId()));
 
         return editedCommentResponse;
     }
@@ -560,7 +566,7 @@ public class WEareApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        LOGGER.info(String.format("Comment with id %d deleted.\n", commentId));
+        LOGGER.info(String.format("Comment with id %d deleted.", commentId));
 
     }
 
