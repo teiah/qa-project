@@ -1,11 +1,9 @@
 package test.cases.weareselenium.tests;
 
-import api.WEareApi;
 import com.telerikacademy.testframework.models.PostModel;
 import com.telerikacademy.testframework.models.UserByIdModel;
 import com.telerikacademy.testframework.models.UserModel;
 import com.telerikacademy.testframework.pages.weare.*;
-import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import test.cases.weareselenium.base.BaseWeareSeleniumTest;
@@ -14,9 +12,6 @@ import test.cases.weareselenium.base.BaseWeareSeleniumTest;
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 
 public class WeareSeleniumTest extends BaseWeareSeleniumTest {
-
-    WEareApi weareApi = new WEareApi();
-    Helpers helpers = new Helpers();
 
     @Test
     public void user_Can_Register_With_Valid_Credentials() {
@@ -36,13 +31,13 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         Assert.assertEquals(registeredUser.getEmail(), email);
         Assert.assertEquals(registeredUser.getId(), userId);
 
-        weareApi.disableUser(globalAdminUser, registeredUser.getId());
+        this.WEareApi.disableUser(globalAdminUser, registeredUser.getId());
     }
 
     @Test
     public void user_Can_Login_With_Valid_Credentials() {
 
-        UserModel user = weareApi.registerUser(ROLE_USER.toString());
+        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
         String username = user.getUsername();
         String password = user.getPassword();
 
@@ -52,7 +47,7 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         HomePage homePage = new HomePage(actions.getDriver());
         homePage.assertUserHasLoggedIn();
 
-        weareApi.disableUser(globalAdminUser, user.getId());
+        this.WEareApi.disableUser(globalAdminUser, user.getId());
 
         homePage.logout();
     }
@@ -60,7 +55,7 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
     @Test
     // only text, default visibility private, no image
     public void user_Can_Create_Post_With_Valid_Input() {
-        UserModel user = weareApi.registerUser(ROLE_USER.toString());
+        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
         String username = user.getUsername();
         String password = user.getPassword();
 
@@ -80,12 +75,12 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
     @Test
     public void user_Can_Like_Post() {
-        UserModel user = weareApi.registerUser(ROLE_USER.toString());
+        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
         String username = user.getUsername();
         String password = user.getPassword();
 
         boolean publicVisibility = true;
-        PostModel createdPost = weareApi.createPost(user, publicVisibility);
+        PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
         Integer postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -101,13 +96,13 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
     @Test
     public void admin_User_Can_Edit_Another_Users_Post() {
-        UserModel user = weareApi.registerUser(ROLE_USER.toString());
+        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
 
         boolean publicVisibility = true;
-        PostModel createdPost = weareApi.createPost(user, publicVisibility);
+        PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
         Integer postId = createdPost.getPostId();
 
-        UserModel adminUser = weareApi.registerUser(ROLE_ADMIN.toString());
+        UserModel adminUser = this.WEareApi.registerUser(ROLE_ADMIN.toString());
         String username = adminUser.getUsername();
         String password = adminUser.getPassword();
 
@@ -128,13 +123,13 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
     @Test
     public void admin_User_Can_Delete_Another_Users_Post() {
-        UserModel user = weareApi.registerUser(ROLE_USER.toString());
+        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
 
         boolean publicVisibility = true;
-        PostModel createdPost = weareApi.createPost(user, publicVisibility);
+        PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
         Integer postId = createdPost.getPostId();
 
-        UserModel adminUser = weareApi.registerUser(ROLE_ADMIN.toString());
+        UserModel adminUser = this.WEareApi.registerUser(ROLE_ADMIN.toString());
         String username = adminUser.getUsername();
         String password = adminUser.getPassword();
 

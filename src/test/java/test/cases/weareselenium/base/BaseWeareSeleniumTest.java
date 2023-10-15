@@ -9,9 +9,6 @@ import test.cases.BaseTestSetup;
 
 public class BaseWeareSeleniumTest extends BaseTestSetup {
 
-    protected static WEareApi WEareApi = new WEareApi();
-    protected static UserActions actions = new UserActions();
-
     @BeforeClass
     public static void beforeTestSetUp() {
         UserActions.loadBrowser("weare.baseUrl");
