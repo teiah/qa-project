@@ -14,8 +14,11 @@ import static com.telerikacademy.testframework.utils.UserRoles.*;
 
 public class WeareSeleniumTest extends BaseWeareSeleniumTest {
     protected UserModel user;
+    protected UserModel adminUser;
     protected String username;
+    protected String adminUsername;
     protected String password;
+    protected String adminPassword;
 
 
     @BeforeClass
@@ -24,6 +27,10 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         user = WEareApi.registerUser(ROLE_USER.toString());
         username = user.getUsername();
         password = user.getPassword();
+
+        adminUser = this.WEareApi.registerUser(ROLE_ADMIN.toString());
+        adminUsername = adminUser.getUsername();
+        adminPassword = adminUser.getPassword();
 
     }
 
@@ -100,7 +107,6 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         latestPostsPage.assertPostIsLiked(postId);
     }
 
-
     @Test
     public void admin_User_Can_Edit_Another_Users_Post() {
 
@@ -108,12 +114,8 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
         Integer postId = createdPost.getPostId();
 
-        UserModel adminUser = this.WEareApi.registerUser(ROLE_ADMIN.toString());
-        String username = adminUser.getUsername();
-        String password = adminUser.getPassword();
-
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
+        loginPage.loginUser(adminUsername, adminPassword);
 
         EditPostPage editPostPage = new EditPostPage(actions.getDriver(), postId);
         editPostPage.navigateToPage();
@@ -129,18 +131,14 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
     @Test
     public void admin_User_Can_Delete_Another_Users_Post() {
-        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
         Integer postId = createdPost.getPostId();
 
-        UserModel adminUser = this.WEareApi.registerUser(ROLE_ADMIN.toString());
-        String username = adminUser.getUsername();
-        String password = adminUser.getPassword();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
+        loginPage.loginUser(adminUsername, adminPassword);
 
         DeletePostPage deletePostPage = new DeletePostPage(actions.getDriver(), postId);
         deletePostPage.navigateToPage();
@@ -166,6 +164,9 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         PostPage postPage = new PostPage(actions.getDriver(), postId);
         postPage.navigateToPage();
         postPage.createComment(commentMessage);
+
+
+
         WEareApi.deletePost(user, postId);
     }
 
