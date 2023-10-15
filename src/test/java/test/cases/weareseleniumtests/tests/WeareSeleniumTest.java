@@ -1,4 +1,4 @@
-package test.cases.weareselenium.tests;
+package test.cases.weareseleniumtests.tests;
 
 import api.WEareApi;
 import com.telerikacademy.testframework.UserActions;
@@ -9,7 +9,7 @@ import com.telerikacademy.testframework.pages.weare.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.cases.weareselenium.base.BaseWeareSeleniumTest;
+import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;

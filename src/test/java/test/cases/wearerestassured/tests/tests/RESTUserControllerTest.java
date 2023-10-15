@@ -1,4 +1,4 @@
-package test.cases.wearerestassured.tests;
+package test.cases.wearerestassured.tests.tests;
 
 import com.telerikacademy.testframework.models.ExpertiseProfileModel;
 import com.telerikacademy.testframework.models.PersonalProfileModel;
@@ -8,13 +8,14 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import test.cases.BaseTestSetup;
+import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
 import java.sql.SQLException;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static org.testng.Assert.*;
 
-public class RESTUserControllerTest extends BaseTestSetup {
+public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
     public void user_Can_Register_With_Valid_Credentials() throws SQLException {

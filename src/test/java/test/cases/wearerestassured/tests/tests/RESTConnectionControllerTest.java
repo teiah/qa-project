@@ -1,15 +1,16 @@
-package test.cases.wearerestassured.tests;
+package test.cases.wearerestassured.tests.tests;
 
 import com.telerikacademy.testframework.models.RequestModel;
 import com.telerikacademy.testframework.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import test.cases.BaseTestSetup;
+import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;
-public class RESTConnectionControllerTest extends BaseTestSetup {
+public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
 
     @Test

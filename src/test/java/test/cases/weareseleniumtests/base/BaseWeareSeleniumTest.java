@@ -1,6 +1,5 @@
-package test.cases.weareselenium.base;
+package test.cases.weareseleniumtests.base;
 
-import api.WEareApi;
 import com.telerikacademy.testframework.UserActions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

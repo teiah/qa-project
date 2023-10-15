@@ -1,4 +1,4 @@
-package test.cases.wearerestassured.tests;
+package test.cases.wearerestassured.tests.tests;
 
 import test.cases.BaseTestSetup;
 import com.telerikacademy.testframework.models.CommentModel;
@@ -8,12 +8,13 @@ import io.restassured.response.Response;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static org.apache.http.HttpStatus.*;
 import static org.testng.Assert.*;
 
-public class RESTCommentControllerTest extends BaseTestSetup {
+public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     private UserModel commentUser;
 
     @BeforeClass

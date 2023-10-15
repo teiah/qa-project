@@ -1,10 +1,11 @@
-package test.cases.wearerestassured.tests;
+package test.cases.wearerestassured.tests.tests;
 
 import com.telerikacademy.testframework.models.SkillModel;
 import com.telerikacademy.testframework.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
 import test.cases.BaseTestSetup;
+import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;
 
-public class RESTSkillControllerTest extends BaseTestSetup {
+public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
 
     private UserModel skillUser;
 
