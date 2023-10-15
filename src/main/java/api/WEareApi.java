@@ -1,22 +1,21 @@
 package api;
 
+import api.models.*;
 import com.google.gson.Gson;
 import com.telerikacademy.testframework.PropertiesManager;
 import com.telerikacademy.testframework.models.*;
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.RestAssured;
 import io.restassured.authentication.FormAuthConfig;
-import io.restassured.config.EncoderConfig;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.testng.annotations.BeforeClass;
 import org.testng.log4testng.Logger;
 
 import java.sql.*;
 
 import static com.telerikacademy.testframework.utils.Constants.*;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
-import static com.telerikacademy.testframework.utils.JSONRequests.*;
+import static api.utils.JSONRequests.*;
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;

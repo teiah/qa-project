@@ -1,4 +1,4 @@
-package com.telerikacademy.testframework.models;
+package api.models;
 
 public class GrantedAuthorityModel {
     private String authority;

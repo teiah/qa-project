@@ -1,4 +1,4 @@
-package com.telerikacademy.testframework.models;
+package api.models;
 
 public class CategoryModel {
     private Integer id;

@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.telerikacademy.testframework.utils.JSONRequests.postBody;
+import static api.utils.JSONRequests.postBody;
 
 public class Helpers {
 

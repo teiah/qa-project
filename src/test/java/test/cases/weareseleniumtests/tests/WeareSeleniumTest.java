@@ -1,10 +1,8 @@
 package test.cases.weareseleniumtests.tests;
 
-import api.WEareApi;
-import com.telerikacademy.testframework.UserActions;
-import com.telerikacademy.testframework.models.PostModel;
-import com.telerikacademy.testframework.models.UserByIdModel;
-import com.telerikacademy.testframework.models.UserModel;
+import api.models.PostModel;
+import api.models.UserByIdModel;
+import api.models.UserModel;
 import com.telerikacademy.testframework.pages.weare.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -21,7 +19,7 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
 
     @BeforeClass
-    public void beforeTestsSetUp() {
+    public void setUp() {
 
         user = WEareApi.registerUser(ROLE_USER.toString());
         username = user.getUsername();

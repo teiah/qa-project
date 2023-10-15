@@ -1,4 +1,4 @@
-package com.telerikacademy.testframework.models;
+package api.models;
 
 public class CountryModel {
     private Integer id;

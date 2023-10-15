@@ -1,4 +1,4 @@
-package com.telerikacademy.testframework.utils;
+package api.utils;
 
 public class JSONRequests {
 

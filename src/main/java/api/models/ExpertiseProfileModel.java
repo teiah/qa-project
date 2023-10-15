@@ -1,4 +1,4 @@
-package com.telerikacademy.testframework.models;
+package api.models;
 
 import java.util.ArrayList;
 import java.util.List;

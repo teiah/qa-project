@@ -1,10 +1,9 @@
 package test.cases.wearerestassured.tests.tests;
 
-import com.telerikacademy.testframework.models.CommentModel;
-import com.telerikacademy.testframework.models.PostModel;
-import com.telerikacademy.testframework.models.UserModel;
+import api.models.CommentModel;
+import api.models.PostModel;
+import api.models.UserModel;
 import org.testng.annotations.*;
-import test.cases.BaseTestSetup;
 import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;

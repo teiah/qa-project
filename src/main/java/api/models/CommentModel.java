@@ -1,4 +1,4 @@
-package com.telerikacademy.testframework.models;
+package api.models;
 
 import java.util.HashSet;
 import java.util.Set;

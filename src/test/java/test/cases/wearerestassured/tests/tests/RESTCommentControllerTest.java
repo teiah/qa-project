@@ -1,9 +1,8 @@
 package test.cases.wearerestassured.tests.tests;
 
-import test.cases.BaseTestSetup;
-import com.telerikacademy.testframework.models.CommentModel;
-import com.telerikacademy.testframework.models.PostModel;
-import com.telerikacademy.testframework.models.UserModel;
+import api.models.CommentModel;
+import api.models.PostModel;
+import api.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

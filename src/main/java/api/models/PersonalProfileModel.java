@@ -1,6 +1,6 @@
-package com.telerikacademy.testframework.models;
+package api.models;
 
-import static com.telerikacademy.testframework.utils.JSONRequests.personalProfileBody;
+import static api.utils.JSONRequests.personalProfileBody;
 
 public class PersonalProfileModel {
     private Integer id;

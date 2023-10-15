@@ -1,13 +1,12 @@
 package test.cases.wearerestassured.tests.tests;
 
-import com.telerikacademy.testframework.models.ExpertiseProfileModel;
-import com.telerikacademy.testframework.models.PersonalProfileModel;
-import com.telerikacademy.testframework.models.PostModel;
-import com.telerikacademy.testframework.models.UserModel;
+import api.models.ExpertiseProfileModel;
+import api.models.PersonalProfileModel;
+import api.models.PostModel;
+import api.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import test.cases.BaseTestSetup;
 import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
 import java.sql.SQLException;
