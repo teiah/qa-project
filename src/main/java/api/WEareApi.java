@@ -3,7 +3,6 @@ package api;
 import api.models.*;
 import com.google.gson.Gson;
 import com.telerikacademy.testframework.PropertiesManager;
-import com.telerikacademy.testframework.models.*;
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.RestAssured;
 import io.restassured.authentication.FormAuthConfig;
@@ -24,7 +23,7 @@ import static org.testng.Assert.*;
 public class WEareApi {
 
     private final Helpers helpers = new Helpers();
-    Logger logger;
+    private static final Logger LOGGER = Logger.getLogger(WEareApi.class);
 
     public RequestSpecification getRestAssured(String... args) {
         Gson deserializer = new Gson();
@@ -71,7 +70,7 @@ public class WEareApi {
                 .body(String.format(userBody, authority, category.getId(), category.getName(), password, email, password, username))
                 .post(API + REGISTER_USER);
 
-        System.out.println(response.getBody().asPrettyString());
+        LOGGER.info(response.getBody().asPrettyString());
 
         int userId = Integer.parseInt(getUserId(response));
 
@@ -139,6 +138,8 @@ public class WEareApi {
 
         assertEditPersonalProfile(editProfileResponse, user.getPersonalProfile());
 
+        LOGGER.info(String.format("Personal profile of user %s with id %d was updated", user.getUsername(), user.getId()));
+
         return user.getPersonalProfile();
 
     }
@@ -168,7 +169,7 @@ public class WEareApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        System.out.println(response.getBody().asPrettyString());
+        LOGGER.info(String.format("Expertise profile of user %s with id %d was updated", user.getUsername(), user.getId()));
 
         return response.as(ExpertiseProfileModel.class);
     }
@@ -212,7 +213,7 @@ public class WEareApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_MOVED_TEMPORARILY, "Incorrect status code. Expected 200.");
 
-        System.out.printf("User with id %d disabled.\n", userId);
+        LOGGER.info(String.format("User with id %d disabled.", userId));
     }
 
     public void enableUser(UserModel adminUser, UserModel userToBeEnabled) {
@@ -228,7 +229,7 @@ public class WEareApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_MOVED_TEMPORARILY, "Incorrect status code. Expected 200.");
 
-        System.out.printf("User %s with id %d enabled.\n", userToBeEnabled.getUsername(), userToBeEnabled.getId());
+        LOGGER.info(String.format("User %s with id %d enabled.", userToBeEnabled.getUsername(), userToBeEnabled.getId()));
 
     }
 
@@ -269,7 +270,7 @@ public class WEareApi {
         Connection conn = DriverManager.getConnection("jdbc:mysql://84.21.205.241:33061/telerik_project",
                 "telerik", "nakovEtap");
 
-        System.out.println("Connected to database");
+        LOGGER.info("Connected to database");
 
         return conn;
     }
@@ -301,9 +302,13 @@ public class WEareApi {
 
         Response response = given()
                 .queryParam("principal", username)
-                .get(String.format(API + USER_BY_ID, userId));
+                .get(String.format(API + USER_BY_ID, userId))
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
 
-        System.out.println(response.getBody().asPrettyString());
+        LOGGER.info(String.format("User with id %d found", userId));
 
         return response;
     }
@@ -372,9 +377,9 @@ public class WEareApi {
                 .as(PostModel.class);
 
         if (publicVisibility) {
-            System.out.printf("Public post with id %d created by user %s.\n", post.getPostId(), user.getUsername());
+            LOGGER.info(String.format("Public post with id %d created by user %s.\n", post.getPostId(), user.getUsername()));
         } else {
-            System.out.printf("Private post with id %d created by user %s.\n", post.getPostId(), user.getUsername());
+            LOGGER.info(String.format("Private post with id %d created by user %s.\n", post.getPostId(), user.getUsername()));
         }
 
         return post;
@@ -397,7 +402,7 @@ public class WEareApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        System.out.printf("Post with id %d edited.\n", postId);
+        LOGGER.info(String.format("Post with id %d edited.\n", postId));
 
     }
 
@@ -429,7 +434,7 @@ public class WEareApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        System.out.printf("Post with id %d deleted.\n", postId);
+        LOGGER.info(String.format("Post with id %d deleted.\n", postId));
 
     }
 
@@ -507,7 +512,7 @@ public class WEareApi {
         comment.setUser(user);
         comment.setPost(post);
 
-        System.out.printf("Comment with id %d created.\n", comment.getCommentId());
+        LOGGER.info(String.format("Comment with id %d created.\n", comment.getCommentId()));
 
         return comment;
 
@@ -555,7 +560,7 @@ public class WEareApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        System.out.printf("Comment with id %d deleted.\n", commentId);
+        LOGGER.info(String.format("Comment with id %d deleted.\n", commentId));
 
     }
 
@@ -617,7 +622,7 @@ public class WEareApi {
                 .body(String.format(sendRequestBody, receiver.getId(), receiver.getUsername()))
                 .post(API + REQUEST);
 
-        System.out.println(response.getBody().asPrettyString());
+        LOGGER.info(response.getBody().asPrettyString());
 
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
@@ -679,7 +684,7 @@ public class WEareApi {
                 .queryParam("requestId", request.getId())
                 .post(String.format(API + APPROVE_REQUEST_WITH_ID, receiver.getId()));
 
-        System.out.println(response.getBody().asPrettyString());
+        LOGGER.info(response.getBody().asPrettyString());
 
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
@@ -697,7 +702,7 @@ public class WEareApi {
                 .body(String.format(sendRequestBody, receiver.getId(), receiver.getUsername()))
                 .post(API + REQUEST);
 
-        System.out.println(response.getBody().asPrettyString());
+        LOGGER.info(response.getBody().asPrettyString());
 
         return response;
 
@@ -744,6 +749,7 @@ public class WEareApi {
 
         SkillModel skill = response.as(SkillModel.class);
 
+        LOGGER.info(String.format("Skill %s created in category %s.", skillService, categoryName));
         return skill;
 
     }
@@ -757,6 +763,7 @@ public class WEareApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
+        LOGGER.info("Skill deleted.");
     }
 
     public SkillModel getSkillById(int skillId) {

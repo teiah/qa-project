@@ -4,9 +4,7 @@ import api.models.CommentModel;
 import api.models.PostModel;
 import api.models.UserModel;
 import io.restassured.response.Response;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;
