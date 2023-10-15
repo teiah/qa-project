@@ -4,6 +4,8 @@ import api.models.PostModel;
 import api.models.UserByIdModel;
 import api.models.UserModel;
 import com.telerikacademy.testframework.pages.weare.*;
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -164,7 +166,7 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         PostPage postPage = new PostPage(actions.getDriver(), postId);
         postPage.navigateToPage();
         postPage.createComment(commentMessage);
-
+        postPage.assertPostCommentsCountUpdates("1 Comments");
 
 
         WEareApi.deletePost(user, postId);
