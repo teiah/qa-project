@@ -1,10 +1,13 @@
 package test.cases.weareselenium.tests;
 
+import api.WEareApi;
+import com.telerikacademy.testframework.UserActions;
 import com.telerikacademy.testframework.models.PostModel;
 import com.telerikacademy.testframework.models.UserByIdModel;
 import com.telerikacademy.testframework.models.UserModel;
 import com.telerikacademy.testframework.pages.weare.*;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import test.cases.weareselenium.base.BaseWeareSeleniumTest;
 
@@ -12,6 +15,20 @@ import test.cases.weareselenium.base.BaseWeareSeleniumTest;
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 
 public class WeareSeleniumTest extends BaseWeareSeleniumTest {
+    protected UserModel user;
+    protected String username;
+    protected String password;
+
+
+    @BeforeClass
+    public void beforeTestsSetUp() {
+
+        user = WEareApi.registerUser(ROLE_USER.toString());
+        username = user.getUsername();
+        password = user.getPassword();
+
+    }
+
 
     @Test
     public void user_Can_Register_With_Valid_Credentials() {
@@ -37,10 +54,6 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
     @Test
     public void user_Can_Login_With_Valid_Credentials() {
 
-        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
-        String username = user.getUsername();
-        String password = user.getPassword();
-
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(username, password);
 
@@ -55,9 +68,7 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
     @Test
     // only text, default visibility private, no image
     public void user_Can_Create_Post_With_Valid_Input() {
-        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
-        String username = user.getUsername();
-        String password = user.getPassword();
+
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(username, password);
@@ -75,9 +86,7 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
     @Test
     public void user_Can_Like_Post() {
-        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
-        String username = user.getUsername();
-        String password = user.getPassword();
+
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
@@ -96,7 +105,6 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
     @Test
     public void admin_User_Can_Edit_Another_Users_Post() {
-        UserModel user = this.WEareApi.registerUser(ROLE_USER.toString());
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
@@ -144,5 +152,24 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
                 "Deletion confirmation is not present");
 
     }
+
+    @Test
+    public void userCanCreateCommentWithValidInput() {
+
+        boolean publicVisibility = true;
+        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
+        Integer postId = createdPost.getPostId();
+
+        LoginPage loginPage = new LoginPage(actions.getDriver());
+        loginPage.loginUser(username, password);
+
+        String commentMessage = helpers.generateCommentContent();
+
+        PostPage postPage = new PostPage(actions.getDriver(), postId);
+        postPage.navigateToPage();
+        postPage.createComment(commentMessage);
+        WEareApi.deletePost(user, postId);
+    }
+
 
 }

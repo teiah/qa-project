@@ -17,7 +17,15 @@ public class PostPage extends BaseWearePage {
         return actions.isElementPresent("weare.postPage.postMessage", message);
     }
 
-    public void createComment(String text) {
+    public void createComment(String comment) {
+
+        actions.scrollToElement("weare.postPage.commentMessage");
+        actions.waitForElementClickable("weare.postPage.commentMessage");
+        actions.typeValueInField(comment, "weare.postPage.commentMessage");
+        actions.clickElement("weare.postPage.postComment");
 
     }
+
+
 }
+
