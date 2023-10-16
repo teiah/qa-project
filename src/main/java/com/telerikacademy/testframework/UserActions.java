@@ -39,6 +39,12 @@ public class UserActions {
         element.click();
     }
 
+    public void clickElementWithJavascript(String key, Object... arguments){
+        WebElement element = driver.findElement(By.xpath(getLocatorValueByKey(key, arguments)));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+    }
+
+
     public void submitElement(String key, Object... arguments) {
         String locator = getLocatorValueByKey(key, arguments);
 
