@@ -55,7 +55,7 @@ public class WEareApi {
     public UserModel registerUser(String authority) {
 
         String email = helpers.generateEmail();
-        String password = helpers.generatePassword();
+        String password = helpers.generatePasswordAsImplemented();
         String username = helpers.generateUsernameAsImplemented(authority);
         int categoryId = 100;
         String categoryName = "All";
@@ -85,6 +85,51 @@ public class WEareApi {
         assertEquals(response.body().asString(), String.format("User with name %s and id %s was created",
                 username, userId), "User was not registered");
 
+        UserModel user = extractUser(userId, username, password);
+
+        return user;
+    }
+
+    public UserModel registerUserWithUsernameAndPasswordAsRequired(String authority) {
+
+        String email = helpers.generateEmail();
+        String username = helpers.generateUsernameAsRequired(authority);
+        String password = helpers.generatePasswordAsRequired();
+        int categoryId = 100;
+        String categoryName = "All";
+        CategoryModel category = new CategoryModel();
+        category.setName(categoryName);
+        category.setId(categoryId);
+
+        if (authority.equals(ROLE_ADMIN.toString())) {
+            authority = String.format("\"%s\", \"%s\"", ROLE_USER, ROLE_ADMIN);
+        } else if (authority.equals(ROLE_USER.toString())) {
+            authority = String.format("\"%s\"", ROLE_USER);
+        }
+
+        Response response = given()
+                .contentType("application/json")
+                .body(String.format(userBody, authority, category.getId(), category.getName(), password, email, password, username))
+                .post(API + REGISTER_USER)
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
+
+        LOGGER.info(response.getBody().asPrettyString());
+
+        int userId = Integer.parseInt(getUserId(response));
+
+        assertEquals(response.body().asString(), String.format("User with name %s and id %s was created",
+                username, userId), "User was not registered");
+
+        UserModel user = extractUser(userId, username, password);
+
+        return user;
+    }
+
+    private UserModel extractUser(int userId, String username, String password) {
+
         UserModel user = new UserModel();
         UserByIdModel userByIdModel = getUserById(username, userId).as(UserByIdModel.class);
         user.setUserId(userByIdModel.getId());
@@ -113,7 +158,6 @@ public class WEareApi {
         assertNotNull(user.getExpertiseProfile().getCategory(), "User has no professional category");
 
         return user;
-
     }
 
     public PersonalProfileModel editPersonalProfile(UserModel user) {

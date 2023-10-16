@@ -18,8 +18,6 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
         UserModel user = WEareApi.registerUser(ROLE_USER.toString());
 
-        assertEquals(user.getUsername(), user.getUsername(), "User was not registered");
-        assertEquals(user.getPassword(), user.getPassword(), "User was not registered");
         assertEquals(user.getAuthorities().size(), 1, "User is not registered as \"USER\".");
 
         WEareApi.disableUser(globalAdminUser, user.getId());

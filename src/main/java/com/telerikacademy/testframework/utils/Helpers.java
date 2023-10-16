@@ -14,10 +14,7 @@ public class Helpers {
     Faker faker = new Faker();
 
     public boolean isRequiredPassword(String password) {
-        String regex = "^(?=.*[0-9])"
-                + "(?=.*[a-z])(?=.*[A-Z])"
-                + "(?=.*[@#$%^&+=])"
-                + "(?=\\S+$).{8,200}$";
+        String regex = "^(?=.*[\\x21-\\x60])[a-z\\x21-\\x60]{8,}$";
 
         Pattern pattern = Pattern.compile(regex);
 
@@ -80,24 +77,32 @@ public class Helpers {
             return "user" + generex.random(5, 16);
         }
 
-//        if (authority.equals(ROLE_ADMIN.toString())) {
-//            username = "admin" + faker.name().firstName() + faker.name().lastName();
-//            username = username.replaceAll("\\s", "");
-//            if (username.length() > 20) {
-//                username = username.substring(0, 19);
-//            }
-//        } else if (authority.equals(ROLE_USER.toString())) {
-//            username = faker.name().firstName() + faker.name().lastName();
-//            username = username.replaceAll("\\s", "");
-//            if (username.length() > 20) {
-//                username = username.substring(0, 19);
-//            }
-//        }
+    }
+
+    public String generateUsernameAsRequired(String authority) {
+
+        if (authority.equals(UserRoles.ROLE_ADMIN.toString())) {
+            String regex = "^(?=.*[\\x20-\\x7E])[\\x20-\\x7E]{1,15}$";
+            return "admin" + faker.regexify(regex);
+        } else {
+            String regex = "^(?=.*[\\x20-\\x7E])[\\x20-\\x7E]{1,15}$";
+            Generex generex = new Generex(regex);
+            String result = "user" + faker.regexify(regex);
+            System.out.println(result);
+            return result;
+        }
+    }
+
+    public String generatePasswordAsRequired() {
+
+        String regex = "^(?=.*[\\x21-\\x60])[a-z\\x21-\\x60]{8,}$";
+
+        return faker.regexify(regex);
 
     }
 
-    public String generatePassword() {
-        return faker.internet().password(8, 200);
+    public String generatePasswordAsImplemented() {
+        return faker.internet().password(6, 200);
     }
 
     public String generateEmail() {

@@ -42,7 +42,7 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
         // Generate a random username and password
         String username = helpers.generateUsernameAsImplemented(ROLE_USER.toString());
-        String password = helpers.generatePassword();
+        String password = helpers.generatePasswordAsImplemented();
         String email = helpers.generateEmail();
 
         RegisterPage registerPage = new RegisterPage(actions.getDriver());
