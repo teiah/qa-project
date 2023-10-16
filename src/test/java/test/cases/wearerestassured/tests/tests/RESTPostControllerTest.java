@@ -27,7 +27,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Create_Public_Post_With_Valid_Data() {
+    public void userCanCreatePublicPostWithValidData() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(postUser, publicVisibility);
@@ -38,7 +38,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Create_Private_Post_With_Valid_Data() {
+    public void userCanCreatePrivatePostWithValidData() {
 
         boolean publicVisibility = false;
         PostModel post = WEareApi.createPost(postUser, publicVisibility);
@@ -49,7 +49,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Edit_Own_Public_Post_With_Valid_Data() {
+    public void userCanEditOwnPublicPostWithValidData() {
 
         boolean publicVisibility = true;
 
@@ -65,7 +65,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Edit_Own_Private_Post_With_Valid_Data() {
+    public void userCan_Edit_Own_Private_Post_With_Valid_Data() {
 
         boolean publicVisibility = false;
 

@@ -14,7 +14,7 @@ import static org.testng.Assert.*;
 public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
-    public void user_Can_Register_With_Valid_Credentials() {
+    public void userCanRegisterWithValidCredentials() {
 
         UserModel user = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -25,7 +25,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Register_As_Admin_With_Valid_Credentials() {
+    public void userCanRegisterAsAdminWithValidCredentials() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
@@ -38,7 +38,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Edit_Personal_Profile_With_Valid_Data() {
+    public void userCanEditPersonalProfileWithValidData() {
 
         UserModel user = WEareApi.registerUser(ROLE_USER.toString());
         PersonalProfileModel personalProfile = WEareApi.editPersonalProfile(user);
@@ -50,7 +50,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Edit_Expertise_Profile_With_Valid_Data() {
+    public void userCanEditExpertiseProfileWithValid_Data() {
 
         UserModel user = WEareApi.registerUser(ROLE_USER.toString());
         ExpertiseProfileModel expertiseProfile = WEareApi.editExpertiseProfile(user);

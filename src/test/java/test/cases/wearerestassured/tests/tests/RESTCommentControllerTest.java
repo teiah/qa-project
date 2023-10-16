@@ -27,7 +27,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Create_Comment_Of_A_Public_Post_With_Valid_Data() {
+    public void userCanCreateCommentOfAPublicPostWithValidData() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -49,7 +49,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Create_Comment_Of_A_Private_Post_With_Valid_Data_If_Connected() {
+    public void userCanCreateCommentOfAPrivatePostWith_Valid_Data_If_Connected() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
 

@@ -12,7 +12,7 @@ import static org.testng.Assert.*;
 public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
-    public void user_Can_Send_Request_To_Another_User() {
+    public void userCanSendRequestToAnotherUser() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -34,7 +34,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Approve_Request_From_Another_User() {
+    public void userCanApproveRequestFromAnotherUser() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -64,7 +64,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Disconnect_From_Another_User() {
+    public void userCanDisconnectFromAnotherUser() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
