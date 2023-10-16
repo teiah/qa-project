@@ -166,7 +166,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Like_Comment_Of_A_Public_Post() {
+    public void userCanLikeCommentOfAPublicPost() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
         UserModel userToLikeComment = WEareApi.registerUser(ROLE_USER.toString());
@@ -189,7 +189,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Delete_Comment_Of_A_Public_Post() {
+    public void userCanDeleteCommentOfAPublicPost() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -209,7 +209,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Delete_Comment_Of_A_Public_Post() {
+    public void adminUserCanDeleteCommentOfAPublicPost() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
@@ -229,7 +229,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Delete_Comment_Of_A_Private_Post() {
+    public void adminUserCanDeleteCommentOfAPrivatePost() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
@@ -252,7 +252,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Find_All_Comments_Of_A_Post() {
+    public void userCanFindAllCommentsOfA_Post() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
 
