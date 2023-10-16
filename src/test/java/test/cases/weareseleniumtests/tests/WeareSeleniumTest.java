@@ -1,9 +1,11 @@
 package test.cases.weareseleniumtests.tests;
 
 import api.models.PostModel;
+import api.models.RequestModel;
 import api.models.UserByIdModel;
 import api.models.UserModel;
 import com.telerikacademy.testframework.pages.weare.*;
+import com.telerikacademy.testframework.utils.Utils;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -13,6 +15,9 @@ import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;
+import static com.telerikacademy.testframework.utils.Utils.getConfigPropertyByKey;
+import static com.telerikacademy.testframework.utils.Utils.getUIMappingByKey;
+import static org.testng.AssertJUnit.assertEquals;
 
 public class WeareSeleniumTest extends BaseWeareSeleniumTest {
     protected UserModel user;
@@ -106,6 +111,10 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         latestPostsPage.clickLikeButton(postId);
 
         latestPostsPage.assertPostIsLiked(postId);
+
+        actions.clickElement("//a[text()=\"Home\"]");
+        actions.clickElement("//a[text()=\"LOGOUT\"]");
+
     }
 
     @Test
@@ -167,9 +176,72 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         postPage.createComment(commentMessage);
         postPage.assertPostCommentsCountUpdates("1 Comments");
 
-
         WEareApi.deletePost(user, postId);
     }
 
+    @Test
+    public void user_Can_Send_Request_To_Another_User() {
+
+        UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
+
+        RequestModel[] requests = WEareApi.getUserRequests(receiver);
+        int previousRequestsCount = requests.length;
+
+        LoginPage loginPage = new LoginPage(actions.getDriver());
+        loginPage.loginUser(sender.getUsername(), sender.getPassword());
+
+        ProfilePage receiverProfilePage = new ProfilePage(actions.getDriver(), receiver.getId());
+        receiverProfilePage.navigateToPage();
+        receiverProfilePage.assertPageNavigated();
+
+        receiverProfilePage.sendRequest();
+
+        RequestModel[] requestsAfter = WEareApi.getUserRequests(receiver);
+        int currentRequestsCount = requestsAfter.length;
+
+        Assert.assertEquals(currentRequestsCount, previousRequestsCount + 1, "Request not received");
+
+    }
+
+    @Test
+    public void user_Can_Approve_Request_From_Another_User() {
+
+        UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
+
+        RequestModel[] requests = WEareApi.getUserRequests(receiver);
+        int previousRequestsCount = requests.length;
+
+        LoginPage loginPage = new LoginPage(actions.getDriver());
+        loginPage.loginUser(sender.getUsername(), sender.getPassword());
+
+        ProfilePage receiverProfilePage = new ProfilePage(actions.getDriver(), receiver.getId());
+        receiverProfilePage.navigateToPage();
+        receiverProfilePage.assertPageNavigated();
+
+        receiverProfilePage.sendRequest();
+
+        RequestModel[] requestsAfter = WEareApi.getUserRequests(receiver);
+        int currentRequestsCount = requestsAfter.length;
+
+        Assert.assertEquals(currentRequestsCount, previousRequestsCount + 1, "Request not received");
+
+        receiverProfilePage.logout();
+
+        loginPage.loginUser(receiver.getUsername(), receiver.getPassword());
+
+        receiverProfilePage.navigateToPage();
+
+        receiverProfilePage.seeRequests();
+
+        RequestsListPage requestsListPage = new RequestsListPage(actions.getDriver(),
+                "weare.requestsListPagePage", receiver.getId());
+
+        requestsListPage.approveRequest(sender.getPersonalProfile().getFirstName());
+
+        requestsListPage.logout();
+
+    }
 
 }

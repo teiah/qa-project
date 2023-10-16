@@ -103,6 +103,11 @@ public class UserActions {
                 format("Element with %s doesn't present.", locator));
     }
 
+    public void assertElementPresent(String locator, String... arguments) {
+        Assert.assertNotNull(driver.findElement(By.xpath(getLocatorValueByKey(locator, arguments))),
+                format("Element with %s doesn't present.", locator));
+    }
+
     public void assertElementAttribute(String locator, String attributeName, String attributeValue) {
         // 1. Find Element using the locator value from Properties
         String xpath = getLocatorValueByKey(locator);
@@ -205,7 +210,7 @@ public class UserActions {
         String currentUrl = driver.getCurrentUrl();
         String urlForAssert = getConfigPropertyByKey(urlKey);
 
-        Assert.assertEquals("Url doesn't match.", urlForAssert, currentUrl);
+        Assert.assertEquals(currentUrl, urlForAssert, "Url doesn't match.");
     }
 
     public void pressKey(Keys key) {

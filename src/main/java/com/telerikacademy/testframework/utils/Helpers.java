@@ -2,6 +2,7 @@ package com.telerikacademy.testframework.utils;
 
 import com.github.javafaker.Faker;
 import com.mifmif.common.regex.Generex;
+import io.restassured.response.Response;
 
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
@@ -150,5 +151,9 @@ public class Helpers {
 
     public String generateCommentContent() {
         return faker.lorem().sentence(5);
+    }
+
+    public String getUserId(String text) {
+        return text.replaceAll("\\D", "");
     }
 }

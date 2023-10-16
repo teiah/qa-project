@@ -11,7 +11,6 @@ public class LoginPage extends BaseWearePage {
         assertPageNavigated();
         // Fill in username
         actions.waitForElementVisible("weare.loginPage.username");
-        actions.clickElement("weare.loginPage.username");
         actions.typeValueInField(username, "weare.loginPage.username");
 
         // Fill in password

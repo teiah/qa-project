@@ -8,6 +8,8 @@ import test.cases.BaseTestSetup;
 
 public class BaseWeareSeleniumTest extends BaseTestSetup {
 
+    protected UserActions actions = new UserActions();
+
     @BeforeClass
     public void setUpSelenium() {
         UserActions.loadBrowser("weare.baseUrl");

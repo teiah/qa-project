@@ -16,7 +16,6 @@ public class BaseTestSetup {
     protected api.WEareApi WEareApi;
     protected UserModel globalAdminUser;
     protected Helpers helpers;
-    protected UserActions actions;
 
     @BeforeClass
     public void setup() {
@@ -30,7 +29,6 @@ public class BaseTestSetup {
 
         WEareApi = new WEareApi();
         helpers = new Helpers();
-        actions = new UserActions();
 
         globalAdminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
