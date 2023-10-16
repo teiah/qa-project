@@ -49,6 +49,10 @@ public class UserModel extends BaseModel{
         return password;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public PersonalProfileModel getPersonalProfile() {
         return personalProfile;
     }
@@ -104,7 +108,7 @@ public class UserModel extends BaseModel{
     public void setUsername(String username) {
         this.username = username;
     }
-    public void addAuthority(GrantedAuthorityModel authority) {
+    public void addAuthority(RoleModel authority) {
         this.authorities.add(authority);
     }
 }

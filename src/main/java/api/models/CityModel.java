@@ -20,4 +20,16 @@ public class CityModel {
     public String toString() {
         return city;
     }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(CountryModel country) {
+        this.country = country;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

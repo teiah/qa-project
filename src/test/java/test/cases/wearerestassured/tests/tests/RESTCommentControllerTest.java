@@ -3,12 +3,13 @@ package test.cases.wearerestassured.tests.tests;
 import api.models.CommentModel;
 import api.models.PostModel;
 import api.models.UserModel;
-import io.restassured.response.Response;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
-import static com.telerikacademy.testframework.utils.UserRoles.*;
-import static org.apache.http.HttpStatus.*;
+import static com.telerikacademy.testframework.utils.UserRoles.ROLE_ADMIN;
+import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.testng.Assert.*;
 
 public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
@@ -104,10 +105,11 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
         CommentModel comment = WEareApi.createComment(commentUser, post);
 
-        Response editedCommentResponse = WEareApi.editComment(commentUser, comment);
+        String contentToBeEdited = comment.getContent();
 
-        int statusCode = editedCommentResponse.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+        WEareApi.editComment(commentUser, comment);
+
+        assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
 
         WEareApi.deleteComment(commentUser, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
@@ -120,17 +122,17 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void admin_User_Can_Edit_Comment_Of_A_Public_Post_With_Valid_Data() {
 
-        UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
         UserModel newUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
         CommentModel comment = WEareApi.createComment(newUser, post);
 
-        Response editedCommentResponse = WEareApi.editComment(adminUser, comment);
+        String contentToBeEdited = comment.getContent();
 
-        int statusCode = editedCommentResponse.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+        WEareApi.editComment(globalAdminUser, comment);
+
+        assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
 
         WEareApi.deleteComment(newUser, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
@@ -149,10 +151,11 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
         CommentModel comment = WEareApi.createComment(commentUser, post);
 
-        Response editedCommentResponse = WEareApi.editComment(adminUser, comment);
+        String contentToBeEdited = comment.getContent();
 
-        int statusCode = editedCommentResponse.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+        WEareApi.editComment(adminUser, comment);
+
+        assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
 
         WEareApi.deleteComment(adminUser, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
@@ -300,5 +303,17 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         WEareApi.deletePost(commentUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
+    }
+
+    private void assertEditedComment(UserModel user, int postId, int commentId, String contentToBeEdited) {
+
+        CommentModel[] postComments = WEareApi.findAllCommentsOfAPost(user, postId);
+
+        for (CommentModel postComment : postComments) {
+            if (postComment.getCommentId() == commentId) {
+                assertNotEquals(postComment.getContent(), contentToBeEdited, "Contents are the same.");
+                break;
+            }
+        }
     }
 }

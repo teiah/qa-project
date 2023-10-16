@@ -11,13 +11,17 @@ import io.restassured.specification.RequestSpecification;
 import org.testng.log4testng.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.telerikacademy.testframework.utils.Constants.*;
-import static com.telerikacademy.testframework.utils.Endpoints.*;
 import static api.utils.JSONRequests.*;
-import static com.telerikacademy.testframework.utils.UserRoles.*;
+import static com.telerikacademy.testframework.utils.Constants.API;
+import static com.telerikacademy.testframework.utils.Endpoints.*;
+import static com.telerikacademy.testframework.utils.UserRoles.ROLE_ADMIN;
+import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static io.restassured.RestAssured.given;
-import static org.apache.http.HttpStatus.*;
+import static org.apache.http.HttpStatus.SC_MOVED_TEMPORARILY;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;
 
 public class WEareApi {
@@ -68,49 +72,54 @@ public class WEareApi {
         Response response = given()
                 .contentType("application/json")
                 .body(String.format(userBody, authority, category.getId(), category.getName(), password, email, password, username))
-                .post(API + REGISTER_USER);
+                .post(API + REGISTER_USER)
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
 
         LOGGER.info(response.getBody().asPrettyString());
 
         int userId = Integer.parseInt(getUserId(response));
 
-        int statusCode = response.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
         assertEquals(response.body().asString(), String.format("User with name %s and id %s was created",
                 username, userId), "User was not registered");
 
-//        UserModel user = getUserById(username, userId).as(UserModel.class);
         UserModel user = new UserModel();
-        extractUserModel(user, category, username, password, email, userId);
+        UserByIdModel userByIdModel = getUserById(username, userId).as(UserByIdModel.class);
+        user.setUserId(userByIdModel.getId());
+        user.setUsername(userByIdModel.getUsername());
+        user.setPassword(password);
+        user.setEmail(userByIdModel.getEmail());
+        String firstName = helpers.generateFirstName();
+        PersonalProfileModel personalProfileModel = editPersonalProfileFirstName(user, firstName);
+        user.setPersonalProfile(personalProfileModel);
+
+        UserBySearchModel userBySearchModel = searchUser(user.getPersonalProfile().getFirstName());
+        user.setExpertiseProfile(userBySearchModel.getExpertiseProfile());
+        user.setAccountNonExpired(userBySearchModel.isAccountNonExpired());
+        user.setAccountNonLocked(userBySearchModel.isAccountNonLocked());
+        user.setCredentialsNonExpired(userBySearchModel.isCredentialsNonExpired());
+        user.setEnabled(userBySearchModel.isEnabled());
+        List<GrantedAuthorityModel> authorities = new ArrayList<>();
+        RoleModel roleModel = new RoleModel();
+        roleModel.setAuthority(ROLE_USER.toString());
+        authorities.add(roleModel);
+        if (userByIdModel.getAuthorities().length == 2) {
+            roleModel.setAuthority(ROLE_ADMIN.toString());
+            authorities.add(roleModel);
+        }
+        user.setAuthorities(authorities);
         assertNotNull(user.getExpertiseProfile().getCategory(), "User has no professional category");
 
         return user;
 
     }
 
-    protected void extractUserModel(UserModel user, CategoryModel category, String username, String password, String email, int userId) {
-
-        user.setId(userId);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
-        GrantedAuthorityModel authorityModel = new GrantedAuthorityModel();
-        authorityModel.setAuthority(ROLE_USER.toString());
-        user.getAuthorities().add(authorityModel);
-        if (username.contains("admin")) {
-            GrantedAuthorityModel adminAuthorityModel = new GrantedAuthorityModel();
-            adminAuthorityModel.setAuthority(ROLE_ADMIN.toString());
-            user.getAuthorities().add(adminAuthorityModel);
-        }
-        user.getExpertiseProfile().getCategory().setName(category.getName());
-        user.getExpertiseProfile().getCategory().setId(category.getId());
-
-    }
-
     public PersonalProfileModel editPersonalProfile(UserModel user) {
 
         String birthYear = helpers.generateBirthdayDate();
-        String firstName = helpers.generateFirstName();
+        String firstName = user.getPersonalProfile().getFirstName();
         int id = user.getId();
         String lastName = helpers.generateLastName();
         String city = helpers.generateCity();
@@ -118,6 +127,17 @@ public class WEareApi {
         String picture = helpers.generatePicture();
         boolean picturePrivacy = true;
         String sex = "MALE";
+
+        PersonalProfileModel personalProfileModel = new PersonalProfileModel();
+        personalProfileModel.setBirthYear(birthYear);
+        personalProfileModel.setFirstName(firstName);
+        personalProfileModel.setId(id);
+        personalProfileModel.setLastName(lastName);
+        personalProfileModel.getLocation().getCity().setCity(city);
+        personalProfileModel.setPersonalReview(personalReview);
+        personalProfileModel.setPicture(picture);
+        personalProfileModel.setPicturePrivacy(picturePrivacy);
+        personalProfileModel.setSex(sex);
 
         String body = String.format(personalProfileBody, birthYear, firstName, id, lastName, city, personalReview, picture,
                 picturePrivacy, sex);
@@ -134,11 +154,39 @@ public class WEareApi {
         int statusCode = editProfileResponse.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
+        Response userByIdResponse = getUserById(user.getUsername(), user.getId());
+
+        assertEditPersonalProfile(userByIdResponse, personalProfileModel);
+        user.setPersonalProfile(editProfileResponse.as(PersonalProfileModel.class));
+        LOGGER.info(String.format("Personal profile of user %s with id %d was updated", user.getUsername(), user.getId()));
+
+        return user.getPersonalProfile();
+
+    }
+
+    public PersonalProfileModel editPersonalProfileFirstName(UserModel user, String firstName) {
+
+        int id = user.getId();
+
+        String body = String.format(personalProfileBodyFirstName, firstName);
+
+        Response editProfileResponse = given()
+                .auth()
+                .form(user.getUsername(), user.getPassword(),
+                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
+                .contentType("application/json")
+                .body(body)
+                .post(String.format(API + UPGRADE_USER_PERSONAL_WITH_ID, id));
+
+        int statusCode = editProfileResponse.getStatusCode();
+        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+
         user.setPersonalProfile(editProfileResponse.as(PersonalProfileModel.class));
 
-        assertEditPersonalProfile(editProfileResponse, user.getPersonalProfile());
+        assertEquals(editProfileResponse.getBody().jsonPath().getString("firstName"), user.getPersonalProfile().getFirstName(),
+                "User personal profile was not updated.");
 
-        LOGGER.info(String.format("Personal profile of user %s with id %d was updated", user.getUsername(), user.getId()));
+        LOGGER.info(String.format("First name of user %s with id %d was set.", user.getUsername(), user.getId()));
 
         return user.getPersonalProfile();
 
@@ -155,6 +203,19 @@ public class WEareApi {
         String skill4 = helpers.generateSkill();
         String skill5 = helpers.generateSkill();
 
+        ExpertiseProfileModel expertiseProfileModel = new ExpertiseProfileModel();
+        expertiseProfileModel.setAvailability(availability);
+        expertiseProfileModel.getCategory().setId(categoryId);
+        expertiseProfileModel.getCategory().setName(categoryName);
+        for (int i = 0; i < 5; i++) {
+            expertiseProfileModel.getSkills().add(new SkillModel());
+        }
+        expertiseProfileModel.getSkills().get(0).setSkill(skill1);
+        expertiseProfileModel.getSkills().get(1).setSkill(skill2);
+        expertiseProfileModel.getSkills().get(2).setSkill(skill3);
+        expertiseProfileModel.getSkills().get(3).setSkill(skill4);
+        expertiseProfileModel.getSkills().get(4).setSkill(skill5);
+
         String body = String.format(expertiseProfileBpdy, availability, categoryId, categoryName, skill1, skill2, skill3,
                 skill4, skill5);
 
@@ -164,17 +225,22 @@ public class WEareApi {
                         new FormAuthConfig(AUTHENTICATE, "username", "password"))
                 .contentType("application/json")
                 .body(body)
-                .post(String.format(API + UPGRADE_USER_EXPERTISE_WITH_ID, user.getId()));
+                .post(String.format(API + UPGRADE_USER_EXPERTISE_WITH_ID, user.getId()))
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
 
-        int statusCode = response.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+        UserBySearchModel userBySearchModel = searchUser(user.getPersonalProfile().getFirstName());
+
+        assertEditExpertiseProfile(userBySearchModel, expertiseProfileModel);
 
         LOGGER.info(String.format("Expertise profile of user %s with id %d was updated", user.getUsername(), user.getId()));
 
         return response.as(ExpertiseProfileModel.class);
     }
 
-    public UserModel searchUser(String firstname) {
+    public UserBySearchModel searchUser(String firstname) {
 
         int index = 0;
         boolean next = true;
@@ -194,7 +260,7 @@ public class WEareApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        UserModel[] userResponses = new Gson().fromJson(response.getBody().asString(), UserModel[].class);
+        UserBySearchModel[] userResponses = new Gson().fromJson(response.getBody().asString(), UserBySearchModel[].class);
 
         return userResponses[0];
 
@@ -257,7 +323,7 @@ public class WEareApi {
             Statement statementEnable = con.createStatement();
             statementEnable.executeUpdate(enableForeignKeyChecks);
 
-            System.out.printf("User with id %d was deleted.%n", userId);
+            LOGGER.info(String.format("User with id %d was deleted.%n", userId));
 
             con.close();
         } catch (SQLException e) {
@@ -295,7 +361,7 @@ public class WEareApi {
         UserModel user = response.as(UserModel.class);
 
         return user;
-//        System.out.println(response.getBody().asPrettyString());
+
     }
 
     public Response getUserById(String username, int userId) {
@@ -348,12 +414,15 @@ public class WEareApi {
                         new FormAuthConfig(AUTHENTICATE, "username", "password"))
                 .contentType("application/json")
                 .body(body)
-                .get(String.format(API + USER_POSTS_WITH_ID, user.getId()));
-
-        int statusCode = response.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+                .get(String.format(API + USER_POSTS_WITH_ID, user.getId()))
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
 
         PostModel[] userPosts = new Gson().fromJson(response.getBody().asString(), PostModel[].class);
+
+//        UserModel user = userPosts[0].
 
         return userPosts;
 
@@ -506,7 +575,7 @@ public class WEareApi {
         }
 
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-
+        assertEquals(response.jsonPath().getString("content"), commentContent, "Contents do not match.");
         CommentModel comment = response.as(CommentModel.class);
 
         comment.setUser(user);
@@ -518,7 +587,7 @@ public class WEareApi {
 
     }
 
-    public Response editComment(UserModel user, CommentModel commentToBeEdited) {
+    public void editComment(UserModel user, CommentModel commentToBeEdited) {
 
         String commentContent = helpers.generateCommentContent();
 
@@ -536,7 +605,6 @@ public class WEareApi {
 
         LOGGER.info(String.format("Comment with id %d edited.", commentToBeEdited.getCommentId()));
 
-        return editedCommentResponse;
     }
 
     public CommentModel likeComment(UserModel user, int commentId) {
@@ -812,23 +880,44 @@ public class WEareApi {
 
     }
 
-    protected void assertEditPersonalProfile(Response response, PersonalProfileModel personalProfile) {
+    private void assertEditPersonalProfile(Response response, PersonalProfileModel personalProfile) {
+        System.out.println(response.getBody().asPrettyString());
+        int statusCode = response.getStatusCode();
+        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+        assertEquals(response.getBody().jsonPath().getString("firstName"), personalProfile.getFirstName(),
+                "First names do not match.");
+        assertEquals(response.getBody().jsonPath().getString("lastNAme"), personalProfile.getLastName(),
+                "Last names do not match.");
+        assertEquals(response.getBody().jsonPath().getString("birthYear"), personalProfile.getBirthYear(),
+                "Birth years do not match.");
+        assertEquals(response.getBody().jsonPath().getString("location.city.city"), personalProfile.getLocation().getCity().toString(),
+                "Cities do not match.");
+        assertEquals(response.getBody().jsonPath().getString("personalReview"), personalProfile.getPersonalReview(),
+                "Personal reviews do not match.");
+        assertEquals(response.getBody().jsonPath().getString("picturePrivacy"), String.valueOf(personalProfile.getPicturePrivacy()),
+                "Picture privacies do not match.");
+    }
+
+    private void assertEditExpertiseProfile(UserBySearchModel userBySearchModel, ExpertiseProfileModel expertiseProfileModel) {
+
+        assertEquals(userBySearchModel.getExpertiseProfile().getCategory().getId(), expertiseProfileModel.getCategory().getId(),
+                "Category ids do not match.");
+        assertEquals(userBySearchModel.getExpertiseProfile().getCategory().getName(), expertiseProfileModel.getCategory().getName(),
+                "Category names do not match.");
+        assertEquals(userBySearchModel.getExpertiseProfile().getAvailability(), expertiseProfileModel.getAvailability(),
+                "Availabilities do not match.");
+        for (int i = 0; i < 5; i++) {
+            assertEquals(userBySearchModel.getExpertiseProfile().getSkills().get(i).getSkill(),
+                    expertiseProfileModel.getSkills().get(i).getSkill(), String.format("Skill%d do not match.", i));
+        }
+
+    }
+
+    protected void assertEditPersonalProfileFirstName(Response response, PersonalProfileModel personalProfile) {
 
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
         assertEquals(response.getBody().jsonPath().getString("firstName"), personalProfile.getFirstName(),
-                "User personal profile was not updated.");
-        assertEquals(personalProfile.getLastName(), response.getBody().jsonPath().getString("lastName"),
-                "User personal profile was not updated.");
-        assertEquals(personalProfile.getBirthYear(), response.getBody().jsonPath().getString("birthYear"),
-                "User personal profile was not updated.");
-        assertEquals(personalProfile.getLocation().getCity().toString(), response.getBody().jsonPath().getString("location.city.city"),
-                "User personal profile was not updated.");
-        assertEquals(personalProfile.getPersonalReview(), response.getBody().jsonPath().getString("personalReview"),
-                "User personal profile was not updated.");
-        assertEquals(personalProfile.getPicture(), response.getBody().jsonPath().getString("picture"),
-                "User personal profile was not updated.");
-        assertEquals(personalProfile.getPicturePrivacy(), response.getBody().jsonPath().getString("picturePrivacy"),
                 "User personal profile was not updated.");
     }
 

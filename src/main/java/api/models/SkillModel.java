@@ -16,4 +16,16 @@ public class SkillModel {
     public CategoryModel getCategory() {
         return category;
     }
+
+    public void setSkillId(Integer skillId) {
+        this.skillId = skillId;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill;
+    }
+
+    public void setCategory(CategoryModel category) {
+        this.category = category;
+    }
 }

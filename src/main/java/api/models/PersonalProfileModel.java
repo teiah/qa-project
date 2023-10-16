@@ -7,12 +7,52 @@ public class PersonalProfileModel {
     private String firstName;
     private String lastName;
     private String sex;
-    private LocationModel location;
+    private LocationModel location = new LocationModel();
     private String birthYear;
     private String personalReview;
     private String memberSince;
     private String picture;
-    private String picturePrivacy;
+    private boolean picturePrivacy;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public void setLocation(LocationModel location) {
+        this.location = location;
+    }
+
+    public void setBirthYear(String birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public void setPersonalReview(String personalReview) {
+        this.personalReview = personalReview;
+    }
+
+    public void setMemberSince(String memberSince) {
+        this.memberSince = memberSince;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public void setPicturePrivacy(boolean picturePrivacy) {
+        this.picturePrivacy = picturePrivacy;
+    }
 
     public Integer getId() {
         return id;
@@ -50,7 +90,7 @@ public class PersonalProfileModel {
         return picture;
     }
 
-    public String getPicturePrivacy() {
+    public boolean getPicturePrivacy() {
         return picturePrivacy;
     }
 

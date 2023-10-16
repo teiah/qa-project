@@ -34,6 +34,11 @@ public class JSONRequests {
             "\"picturePrivacy\": %s,\n" +
             "\"sex\": \"%s\"\n" +
             "}";
+    public static final String personalProfileBodyFirstName = "{\n" +
+            "\"firstName\": \"%s\",\n" +
+            "\"location\": {\n" +
+            "}\n" +
+            "}";
     public static final String expertiseProfileBpdy = "{\n" +
             "  \"availability\": %d,\n" +
             "  \"category\": {\n" +
