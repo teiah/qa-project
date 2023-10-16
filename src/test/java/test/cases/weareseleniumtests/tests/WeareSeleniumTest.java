@@ -1,5 +1,6 @@
 package test.cases.weareseleniumtests.tests;
 
+import api.models.CommentModel;
 import api.models.PostModel;
 import api.models.RequestModel;
 import api.models.UserByIdModel;
@@ -38,6 +39,7 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         adminUser = this.WEareApi.registerUser(ROLE_ADMIN.toString());
         adminUsername = adminUser.getUsername();
         adminPassword = adminUser.getPassword();
+
 
     }
 
@@ -138,14 +140,12 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
         Assert.assertTrue(postPage.messageIs(message), "Post message is not changed to " + message);
     }
 
-
     @Test
     public void admin_User_Can_Delete_Another_Users_Post() {
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
         Integer postId = createdPost.getPostId();
-
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(adminUsername, adminPassword);
@@ -159,25 +159,6 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
     }
 
-    @Test
-    public void userCanCreateCommentWithValidInput() {
-
-        boolean publicVisibility = true;
-        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
-        Integer postId = createdPost.getPostId();
-
-        LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
-
-        String commentMessage = helpers.generateCommentContent();
-
-        PostPage postPage = new PostPage(actions.getDriver(), postId);
-        postPage.navigateToPage();
-        postPage.createComment(commentMessage);
-        postPage.assertPostCommentsCountUpdates("1 Comments");
-
-        WEareApi.deletePost(user, postId);
-    }
 
     @Test
     public void user_Can_Send_Request_To_Another_User() {
@@ -244,4 +225,78 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
     }
 
+    @Test
+    public void userCanCreateCommentWithValidInput() {
+
+        boolean publicVisibility = true;
+        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
+        Integer postId = createdPost.getPostId();
+
+        LoginPage loginPage = new LoginPage(actions.getDriver());
+        loginPage.loginUser(username, password);
+
+        String commentMessage = helpers.generateCommentContent();
+
+        PostPage postPage = new PostPage(actions.getDriver(), postId);
+        postPage.navigateToPage();
+        postPage.createComment(commentMessage);
+        postPage.assertPostCommentsCountUpdates("1 Comments");
+        postPage.assertPostCommentsAuthorExists(username);
+        postPage.assertPostCommentTextExists(commentMessage);
+        WEareApi.deletePost(user, postId);
+    }
+
+    @Test
+    public void userCanEditCommentWithValidInput() {
+
+        boolean publicVisibility = true;
+        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
+        Integer postId = createdPost.getPostId();
+        CommentModel createdComment = WEareApi.createComment(user, createdPost);
+        LoginPage loginPage = new LoginPage(actions.getDriver());
+        loginPage.loginUser(username, password);
+
+        String editedCommentMessage = helpers.generateCommentContent();
+
+        PostPage postPage = new PostPage(actions.getDriver(), postId);
+        postPage.navigateToPage();
+        postPage.showComment();
+        postPage.editCommentNavigate();
+        postPage.editComment(editedCommentMessage);
+        postPage.assertPostCommentEditedTextExists(editedCommentMessage);
+        WEareApi.deletePost(user, postId);
+    }
+
+    @Test
+    public void userCanDeleteOwnComment() {
+        boolean publicVisibility = true;
+        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
+        Integer postId = createdPost.getPostId();
+        CommentModel createdComment = WEareApi.createComment(user, createdPost);
+        LoginPage loginPage = new LoginPage(actions.getDriver());
+        loginPage.loginUser(username, password);
+
+        PostPage postPage = new PostPage(actions.getDriver(), postId);
+        postPage.navigateToPage();
+        postPage.showComment();
+        postPage.deleteComment();
+        // postPage.assertPostCommentDeleted();
+        WEareApi.deletePost(user, postId);
+    }
+    @Test
+    public void userCanLikeComment() {
+        boolean publicVisibility = true;
+        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
+        Integer postId = createdPost.getPostId();
+        CommentModel createdComment = WEareApi.createComment(user, createdPost);
+        LoginPage loginPage = new LoginPage(actions.getDriver());
+        loginPage.loginUser(username, password);
+
+        PostPage postPage = new PostPage(actions.getDriver(), postId);
+        postPage.navigateToPage();
+        postPage.showComment();
+        postPage.likeComment();
+        // postPage.assertPostCommentLiked();
+        WEareApi.deletePost(user, postId);
+    }
 }

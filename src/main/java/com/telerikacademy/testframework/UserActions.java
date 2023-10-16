@@ -43,7 +43,10 @@ public class UserActions {
         WebElement element = driver.findElement(By.xpath(getLocatorValueByKey(key, arguments)));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
-
+    public void scrollElementWithJavascript(String key, Object... arguments){
+        WebElement element = driver.findElement(By.xpath(getLocatorValueByKey(key, arguments)));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
 
     public void submitElement(String key, Object... arguments) {
         String locator = getLocatorValueByKey(key, arguments);
@@ -234,5 +237,11 @@ public class UserActions {
     public void scrollToElement(String key, Object... arguments){
         WebElement element = driver.findElement(By.xpath(getLocatorValueByKey(key, arguments)));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+    public void moveToElementAndClickOnIt(String key,Object...arguments){
+        String locator = getLocatorValueByKey(key, arguments);
+        WebElement element = driver.findElement(By.xpath(locator));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().build().perform();
     }
 }
