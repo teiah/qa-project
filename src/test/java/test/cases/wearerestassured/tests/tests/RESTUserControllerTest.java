@@ -14,7 +14,7 @@ import static org.testng.Assert.*;
 public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
-    public void user_Can_Register_With_Valid_Credentials() throws SQLException {
+    public void user_Can_Register_With_Valid_Credentials() {
 
         UserModel user = WEareApi.registerUser(ROLE_USER.toString());
 

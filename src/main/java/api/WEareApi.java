@@ -940,4 +940,16 @@ public class WEareApi {
             }
         }
     }
+
+    public void assertEditedComment(UserModel user, int postId, int commentId, String contentToBeEdited) {
+
+        CommentModel[] postComments = findAllCommentsOfAPost(user, postId);
+
+        for (CommentModel postComment : postComments) {
+            if (postComment.getCommentId() == commentId) {
+                assertNotEquals(postComment.getContent(), contentToBeEdited, "Contents are the same.");
+                break;
+            }
+        }
+    }
 }
