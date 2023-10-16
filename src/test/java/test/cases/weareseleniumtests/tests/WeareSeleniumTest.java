@@ -94,7 +94,6 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
     @Test
     public void user_Can_Like_Post() {
 
-
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
         Integer postId = createdPost.getPostId();
