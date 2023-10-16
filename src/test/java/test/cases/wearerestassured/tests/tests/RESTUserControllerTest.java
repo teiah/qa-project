@@ -63,7 +63,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Get_Users_By_Search_Parameters() {
+    public void userCanGetUsersBySearchParameters() {
         UserModel userOne = WEareApi.registerUser(ROLE_USER.toString());
 
         String firstname = userOne.getPersonalProfile().getFirstName();
@@ -77,7 +77,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_See_Profile_Posts_Of_User() {
+    public void userCanSeeProfilePostsOfUser() {
 
         UserModel user = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -103,7 +103,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Find_User_By_ID() {
+    public void userCanFindUserByID() {
 
         UserModel user = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -117,7 +117,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Disable_Another_User() {
+    public void adminUserCanDisableAnotherUser() {
 
 //        UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 //        UserModel userToBeDisabled = WEareApi.registerUser(ROLE_USER.toString());
@@ -139,7 +139,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Enable_Another_User() {
+    public void adminUserCanEnable_Another_User() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
         UserModel userToBeEnabled = WEareApi.registerUser(ROLE_USER.toString());

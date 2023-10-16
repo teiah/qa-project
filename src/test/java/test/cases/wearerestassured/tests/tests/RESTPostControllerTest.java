@@ -65,7 +65,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCan_Edit_Own_Private_Post_With_Valid_Data() {
+    public void userCanEditOwnPrivatePostWithValidData() {
 
         boolean publicVisibility = false;
 
@@ -82,7 +82,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Edit_Public_Post_Of_Another_User_With_Valid_Data() {
+    public void adminUserCanEditPublicPostOfAnotherUserWithValidData() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
@@ -101,7 +101,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Edit_Private_Post_Of_Another_User_With_Valid_Data() {
+    public void adminUserCanEditPrivatePostOfAnotherUserWithValidData() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
@@ -120,7 +120,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Find_All_Posts() {
+    public void userCanFindAllPosts() {
 
         List<Integer> postIds = new ArrayList<>();
 
@@ -147,7 +147,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Like_Post() {
+    public void userCanLikePost() {
 
         boolean publicVisibility = false;
         PostModel postToBeLiked = WEareApi.createPost(postUser, publicVisibility);
@@ -163,7 +163,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Delete_Post() {
+    public void userCanDeletePost() {
 
         boolean publicVisibility = false;
 
@@ -177,7 +177,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Delete_Private_Post_Of_Another_User() {
+    public void adminUserCanDeletePrivatePostOfAnotherUser() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
@@ -192,7 +192,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Delete_Public_Post_Of_Another_User() {
+    public void adminUserCanDeletePublicPostOfAnotherUser() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
@@ -207,7 +207,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Find_All_Comments_Of_A_Post() {
+    public void userCanFindAllCommentsOfAPost() {
 
         List<Integer> commentIds = new ArrayList<>();
 

@@ -49,7 +49,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanCreateCommentOfAPrivatePostWith_Valid_Data_If_Connected() {
+    public void userCanCreateCommentOfAPrivatePostWithValidDataIfConnected() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -72,7 +72,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Cannot_Create_Comment_Of_A_Private_Post_With_Valid_Data() {
+    public void userCannotCreateCommentOfAPrivatePostWithValid_Data() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -89,7 +89,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Find_All_Comments() {
+    public void userCanFindAllComments() {
 
         CommentModel[] comments = WEareApi.findAllComments();
 
@@ -100,7 +100,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Edit_Comment_Of_A_Post_With_Valid_Data() {
+    public void userCanEditCommentOfAPostWith_Valid_Data() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
@@ -121,7 +121,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Edit_Comment_Of_A_Public_Post_With_Valid_Data() {
+    public void adminUserCanEditCommentOfAPublicPostWithValidData() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
@@ -144,7 +144,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void admin_User_Can_Edit_Comment_Of_A_Private_Post_With_Valid_Data() {
+    public void adminUserCanEditCommentOfAPrivatePostWithValid_Data() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
