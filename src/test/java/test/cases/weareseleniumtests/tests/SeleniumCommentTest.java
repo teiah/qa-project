@@ -72,6 +72,10 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
         postPage.showComment();
         postPage.deleteComment();
         postPage.assertPostCommentDeleted();
+        postPage.assertDeleteCommentConfirmationTextExists();
+        postPage.navigateToPage();
+        postPage.assertPostCommentsCountUpdates("0 Comments");
+
 
     }
 
