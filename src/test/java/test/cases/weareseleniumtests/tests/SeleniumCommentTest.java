@@ -3,20 +3,26 @@ package test.cases.weareseleniumtests.tests;
 import api.models.CommentModel;
 import api.models.PostModel;
 import com.telerikacademy.testframework.pages.weare.*;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
 
-import static org.testng.AssertJUnit.assertEquals;
-
 public class SeleniumCommentTest extends BaseWeareSeleniumTest {
+    Integer postId;
+    boolean publicVisibility = true;
+
+    @AfterMethod
+    public void tearDownSeleniumCommentTest() {
+        WEareApi.deletePost(user, postId);
+    }
 
     @Test
-    public void user_Can_Create_Comment_With_Valid_Input() {
+    public void userCanCreateCommentWithValidInput() {
 
-        boolean publicVisibility = true;
+
         PostModel createdPost = WEareApi.createPost(user, publicVisibility);
-        Integer postId = createdPost.getPostId();
+        postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(username, password);
@@ -29,15 +35,14 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
         postPage.assertPostCommentsCountUpdates("1 Comments");
         postPage.assertPostCommentsAuthorExists(username);
         postPage.assertPostCommentTextExists(commentMessage);
-        WEareApi.deletePost(user, postId);
+
     }
 
     @Test
-    public void user_Can_Edit_Comment_With_Valid_Input() {
+    public void userCanEditCommentWithValidInput() {
 
-        boolean publicVisibility = true;
         PostModel createdPost = WEareApi.createPost(user, publicVisibility);
-        Integer postId = createdPost.getPostId();
+        postId = createdPost.getPostId();
         CommentModel createdComment = WEareApi.createComment(user, createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(username, password);
@@ -50,14 +55,14 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
         postPage.editCommentNavigate();
         postPage.editComment(editedCommentMessage);
         postPage.assertPostCommentEditedTextExists(editedCommentMessage);
-        WEareApi.deletePost(user, postId);
+
     }
 
     @Test
-    public void user_Can_Delete_Own_Comment() {
-        boolean publicVisibility = true;
+    public void userCanDeleteOwnComment() {
+
         PostModel createdPost = WEareApi.createPost(user, publicVisibility);
-        Integer postId = createdPost.getPostId();
+        postId = createdPost.getPostId();
         CommentModel createdComment = WEareApi.createComment(user, createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(username, password);
@@ -66,14 +71,15 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
         postPage.navigateToPage();
         postPage.showComment();
         postPage.deleteComment();
-        // postPage.assertPostCommentDeleted();
-        WEareApi.deletePost(user, postId);
+        postPage.assertPostCommentDeleted();
+
     }
+
     @Test
-    public void user_Can_Like_Comment() {
-        boolean publicVisibility = true;
+    public void userCanLikeComment() {
+
         PostModel createdPost = WEareApi.createPost(user, publicVisibility);
-        Integer postId = createdPost.getPostId();
+        postId = createdPost.getPostId();
         CommentModel createdComment = WEareApi.createComment(user, createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(username, password);
@@ -82,7 +88,9 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
         postPage.navigateToPage();
         postPage.showComment();
         postPage.likeComment();
-        // postPage.assertPostCommentLiked();
-        WEareApi.deletePost(user, postId);
+
+        postPage.assertPostCommentDislikeButtonIsPresent();
+        postPage.assertPostCommentLiked();
+
     }
 }

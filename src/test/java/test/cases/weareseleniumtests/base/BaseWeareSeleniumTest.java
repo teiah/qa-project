@@ -3,6 +3,7 @@ package test.cases.weareseleniumtests.base;
 import api.models.UserModel;
 import com.telerikacademy.testframework.UserActions;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import test.cases.BaseTestSetup;
 
@@ -35,6 +36,7 @@ public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     @AfterClass
     public void tearDownSelenium() {
+
         UserActions.quitDriver();
     }
 

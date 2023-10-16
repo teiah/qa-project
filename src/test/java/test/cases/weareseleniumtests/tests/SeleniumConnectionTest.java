@@ -6,6 +6,7 @@ import com.telerikacademy.testframework.pages.weare.LoginPage;
 import com.telerikacademy.testframework.pages.weare.ProfilePage;
 import com.telerikacademy.testframework.pages.weare.RequestsListPage;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
@@ -14,7 +15,7 @@ import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
     @Test
-    public void user_Can_Send_Request_To_Another_User() {
+    public void userCanSendRequestToAnotherUser() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -41,7 +42,7 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void user_Can_Approve_Request_From_Another_User() {
+    public void userCanApproveRequestFromAnotherUser() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -84,7 +85,7 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void user_Can_Disconnect_From_Another_User() {
+    public void userCanDisconnectFromAnotherUser() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());

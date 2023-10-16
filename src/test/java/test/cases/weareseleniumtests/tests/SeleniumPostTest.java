@@ -10,7 +10,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
 
     @Test
     // only text, default visibility private, no image
-    public void user_Can_Create_Post_With_Valid_Input() {
+    public void userCanCreatePostWithValidInput() {
 
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -28,7 +28,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void user_Can_Like_Post() {
+    public void userCanLikePost() {
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
@@ -49,7 +49,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void admin_User_Can_Edit_Another_Users_Post() {
+    public void adminUserCanEditAnotherUsersPost() {
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
@@ -70,7 +70,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void admin_User_Can_Delete_Another_Users_Post() {
+    public void adminUserCanDeleteAnotherUsersPost() {
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
@@ -82,7 +82,6 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
         DeletePostPage deletePostPage = new DeletePostPage(actions.getDriver(), postId);
         deletePostPage.navigateToPage();
         deletePostPage.deletePost();
-
         Assert.assertTrue(actions.isElementPresent("weare.deletePostPage.deleteConfirmationMessage"),
                 "Deletion confirmation is not present");
 

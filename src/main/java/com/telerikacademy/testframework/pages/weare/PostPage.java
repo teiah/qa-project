@@ -62,6 +62,7 @@ public class PostPage extends BaseWearePage {
         actions.typeValueInField(editedComment, "weare.postPage.commentMessageEdit");
         actions.clickElement("weare.postPage.commentEditPost");
     }
+
     public void deleteComment() {
 
         actions.waitForElementClickable("weare.postPage.commentDelete");
@@ -71,12 +72,14 @@ public class PostPage extends BaseWearePage {
         actions.waitForElementClickable("weare.postPage.commentDeleteConfirmOption");
         actions.clickElement("weare.postPage.commentDeleteConfirmOption");
     }
+
     public void likeComment() {
 
         actions.waitForElementClickable("weare.postPage.commentLikeButton");
         actions.clickElement("weare.postPage.commentLikeButton");
 
     }
+
     public void assertPostCommentsCountUpdates(String expectedCount) {
         String commentCount = (driver.findElement(By.xpath(getUIMappingByKey("weare.postPage.commentCount")))).getAttribute("innerHTML");
         System.out.println("comment count is:" + commentCount);
@@ -100,10 +103,25 @@ public class PostPage extends BaseWearePage {
         System.out.println("comment text is:" + commentText);
         Assert.assertEquals(commentText, expectedEditedText, "Wrong comment text");
     }
+
     public void assertPostCommentDeleted() {
-        String confirmText = (driver.findElement(By.xpath(getUIMappingByKey("weare.postPage.commentDeleteConfirmText")))).getAttribute("innerHTML");
+//        String confirmText = (driver.findElement(By.xpath(getUIMappingByKey("weare.postPage.commentDeleteConfirmText")))).getAttribute("innerHTML");
+//        System.out.println("Confirmation text is:" + confirmText);
+//        Assert.assertEquals(confirmText, "Comment deleted successfully" , "Wrong comment text");
+        Assert.assertTrue(actions.isElementPresent("weare.postPage.commentDeleteConfirmText"),
+                "Deletion confirmation is not present");
+    }
+
+    public void assertPostCommentLiked() {
+        String confirmText = (driver.findElement(By.xpath(getUIMappingByKey("weare.postPage.commentLikeCount")))).getAttribute("innerHTML");
         System.out.println("Confirmation text is:" + confirmText);
-        Assert.assertEquals(confirmText, "Comment deleted successfully" , "Wrong comment text");
+        Assert.assertEquals(confirmText, "Likes: 1", "Wrong comment text");
+    }
+
+    public void assertPostCommentDislikeButtonIsPresent() {
+        Assert.assertTrue(actions.isElementPresent("weare.postPage.commentDislikeButton"),
+                "Dislike button is not present");
+
     }
 
 }

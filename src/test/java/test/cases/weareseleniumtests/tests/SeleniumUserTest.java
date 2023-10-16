@@ -13,7 +13,7 @@ import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 public class SeleniumUserTest extends BaseWeareSeleniumTest {
 
     @Test
-    public void user_Can_Register_With_Valid_Credentials() {
+    public void userCanRegisterWithValidCredentials() {
 
         // Generate a random username and password
         String username = helpers.generateUsernameAsImplemented(ROLE_USER.toString());
@@ -34,7 +34,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void user_Can_Login_With_Valid_Credentials() {
+    public void userCanLoginWithValidCredentials() {
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(username, password);
