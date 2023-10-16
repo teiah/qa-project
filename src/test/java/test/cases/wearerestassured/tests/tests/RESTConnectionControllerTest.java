@@ -14,8 +14,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanSendRequestToAnotherUser() {
 
-        UserModel sender = WEareApi.registerUser(ROLEUSER.toString());
-        UserModel receiver = WEareApi.registerUser(ROLEUSER.toString());
+        UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
 
         RequestModel[] requests = WEareApi.getUserRequests(receiver);
         int previousRequestsCount = requests.length;
@@ -36,8 +36,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanApproveRequestFromAnotherUser() {
 
-        UserModel sender = WEareApi.registerUser(ROLEUSER.toString());
-        UserModel receiver = WEareApi.registerUser(ROLEUSER.toString());
+        UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
 
         RequestModel[] requests = WEareApi.getUserRequests(receiver);
         int previousRequestsCount = requests.length;
@@ -66,8 +66,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanDisconnectFromAnotherUser() {
 
-        UserModel sender = WEareApi.registerUser(ROLEUSER.toString());
-        UserModel receiver = WEareApi.registerUser(ROLEUSER.toString());
+        UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
 
         RequestModel sendRequest = WEareApi.sendRequest(sender, receiver);
 
