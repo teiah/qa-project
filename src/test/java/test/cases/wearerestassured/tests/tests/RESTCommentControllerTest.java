@@ -270,7 +270,6 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         assertEquals(postComments.length, commentCount, "Wrong post comments count");
 
         for (CommentModel comment : postComments) {
-            assertEquals(comment.getClass(), CommentModel.class, "Wrong type of comment");
             assertNotNull(comment, "Comment is null");
         }
 
