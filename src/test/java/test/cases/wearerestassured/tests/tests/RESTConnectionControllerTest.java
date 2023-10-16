@@ -17,10 +17,17 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
 
+        RequestModel[] requests = WEareApi.getUserRequests(receiver);
+        int previousRequestsCount = requests.length;
+
         RequestModel request = WEareApi.sendRequest(sender, receiver);
+
+        RequestModel[] requestsAfter = WEareApi.getUserRequests(receiver);
+        int afterRequestCount = requestsAfter.length;
 
         assertEquals(request.getSender().getId(), sender.getId(), "Sender doesn't match the one in the request.");
         assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
+        assertEquals(afterRequestCount, previousRequestsCount + 1, "Request is not sent.");
 
         WEareApi.disableUser(globalAdminUser, sender.getId());
         WEareApi.disableUser(globalAdminUser, receiver.getId());
@@ -32,12 +39,25 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
 
+        RequestModel[] requests = WEareApi.getUserRequests(receiver);
+        int previousRequestsCount = requests.length;
+
         RequestModel sentRequest = WEareApi.sendRequest(sender, receiver);
+
+        RequestModel[] requestsAfter = WEareApi.getUserRequests(receiver);
+        int afterRequestCount = requestsAfter.length;
+
+        assertEquals(afterRequestCount, previousRequestsCount + 1, "Request is not sent.");
 
         Response approveRequestResponse = WEareApi.approveRequest(receiver, sentRequest);
 
         assertEquals(approveRequestResponse.body().asString(), String.format("%s approved request of %s",
                 receiver.getUsername(), sender.getUsername()), "Request is not approved.");
+
+        RequestModel[] requestsAfterApprove = WEareApi.getUserRequests(receiver);
+        int requestsAfterApproveCount = requestsAfterApprove.length;
+
+        assertEquals(requestsAfterApproveCount, previousRequestsCount, "Request is not approved.");
 
         WEareApi.disableUser(globalAdminUser, sender.getId());
         WEareApi.disableUser(globalAdminUser, receiver.getId());
@@ -70,13 +90,17 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
 
+        RequestModel[] requests = WEareApi.getUserRequests(receiver);
+        int previousRequestCount = requests.length;
+
         WEareApi.sendRequest(sender, receiver);
 
-        RequestModel[] requests = WEareApi.getUserRequests(receiver);
+        RequestModel[] requestsAfter = WEareApi.getUserRequests(receiver);
+        int afterRequestCount = requestsAfter.length;
 
-        assertTrue(requests.length > 0, "There are no requests");
-        for (RequestModel request : requests) {
-            assertEquals(request.getClass(), RequestModel.class, "Wrong type of request");
+        assertEquals(afterRequestCount, previousRequestCount + 1, "Request is not approved.");
+        assertTrue(requestsAfter.length > 0, "There are no requests");
+        for (RequestModel request : requestsAfter) {
             assertNotNull(request, "Request is null");
         }
 

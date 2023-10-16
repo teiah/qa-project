@@ -183,6 +183,8 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
         Assert.assertEquals(currentRequestsCount, previousRequestsCount + 1, "Request not received");
 
+        WEareApi.disableUser(sender, sender.getId());
+        WEareApi.disableUser(receiver, receiver.getId());
     }
 
     @Test
@@ -223,6 +225,30 @@ public class WeareSeleniumTest extends BaseWeareSeleniumTest {
 
         requestsListPage.logout();
 
+        WEareApi.disableUser(sender, sender.getId());
+        WEareApi.disableUser(receiver, receiver.getId());
+
+    }
+
+    @Test
+    public void user_Can_Disconnect_From_Another_User() {
+
+        UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
+
+        RequestModel sendRequest = WEareApi.sendRequest(sender, receiver);
+
+        WEareApi.approveRequest(receiver, sendRequest);
+
+        LoginPage loginPage = new LoginPage(actions.getDriver());
+        loginPage.loginUser(sender.getUsername(), sender.getPassword());
+
+        ProfilePage receiverProfilePage = new ProfilePage(actions.getDriver(), receiver.getId());
+        receiverProfilePage.navigateToPage();
+        receiverProfilePage.assertPageNavigated();
+
+        WEareApi.disableUser(sender, sender.getId());
+        WEareApi.disableUser(receiver, receiver.getId());
     }
 
     @Test
