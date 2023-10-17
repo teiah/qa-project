@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SeleniumTestSuite">
+    <test name="SeleniumTests">
+        <classes>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumCommentTest"/>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumConnectionTest"/>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumPostTest"/>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumUserTest"/>
+            <!-- Add more test classes as needed -->
+        </classes>
+    </test>
+</suite>
