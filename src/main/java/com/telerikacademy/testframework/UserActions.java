@@ -162,18 +162,6 @@ public class UserActions {
         }
     }
 
-    public boolean isElementPresent(String locator, Object... arguments) {
-        String xpath = getLocatorValueByKey(locator, arguments);
-        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(5));
-        try {
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
-    }
-
     public void waitFor(long timeOutMilliseconds) {
         try {
             LOGGER.info("Waiting for " + timeOutMilliseconds);
@@ -223,6 +211,18 @@ public class UserActions {
         actions.sendKeys(Keys.ENTER).build().perform();
     }
 
+    public boolean isElementPresent(String locator, Object... arguments) {
+        String xpath = getLocatorValueByKey(locator, arguments);
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(5));
+        try {
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean isElementVisible(String locator, Object... arguments) {
         String xpath = getLocatorValueByKey(locator, arguments);
         WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(5));
@@ -231,6 +231,18 @@ public class UserActions {
         } catch (Exception e) {
             return false;
         }
+        return true;
+    }
+
+    public boolean isElementClickable(String locator, Object... arguments) {
+        String xpath = getLocatorValueByKey(locator, arguments);
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(5));
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+        } catch (Exception e) {
+            return false;
+        }
+
         return true;
     }
 

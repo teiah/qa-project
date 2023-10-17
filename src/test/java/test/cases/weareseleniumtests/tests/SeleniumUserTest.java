@@ -16,7 +16,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     public void userCanRegisterWithValidCredentials() {
 
         // Generate a random username and password
-        String username = helpers.generateUsername(ROLE_USER.toString());
+        String username = helpers.generateUsernameAsImplemented(ROLE_USER.toString());
         String password = helpers.generatePassword();
         String email = helpers.generateEmail();
 
@@ -30,7 +30,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
         Assert.assertEquals(registeredUser.getEmail(), email);
         Assert.assertEquals(registeredUser.getId(), userId);
 
-        this.WEareApi.disableUser(globalAdminUser, registeredUser.getId());
+        this.WEareApi.disableUser(globalSeleniumAdminUser, registeredUser.getId());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
         HomePage homePage = new HomePage(actions.getDriver());
         homePage.assertUserHasLoggedIn();
 
-        this.WEareApi.disableUser(globalAdminUser, globalUser.getId());
+        this.WEareApi.disableUser(globalSeleniumAdminUser, globalUser.getId());
 
         homePage.logout();
     }

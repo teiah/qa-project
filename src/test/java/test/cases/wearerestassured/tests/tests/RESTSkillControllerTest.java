@@ -1,6 +1,7 @@
 package test.cases.wearerestassured.tests.tests;
 
 import api.models.SkillModel;
+import api.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
 import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
@@ -8,17 +9,30 @@ import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;
 
 public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
+
+    UserModel skillUser;
+
+    @BeforeClass
+    public void setUpPostTest() {
+        skillUser = WEareApi.registerUser(ROLE_USER.toString());
+    }
+
+    @AfterClass
+    public void tearDownPostTest() {
+        WEareApi.disableUser(globalRESTAdminUser, skillUser.getId());
+    }
 
     @Test
     public void userCanFindAllSkills() {
 
         List<Integer> skillIds = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            SkillModel skill = WEareApi.createSkill(globalUser);
+            SkillModel skill = WEareApi.createSkill(skillUser);
             skillIds.add(skill.getSkillId());
         }
 
@@ -37,7 +51,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanCreateSkill() {
 
-        SkillModel skill = WEareApi.createSkill(globalUser);
+        SkillModel skill = WEareApi.createSkill(skillUser);
 
         assertNotNull(skill, "Skill was not created.");
 
@@ -47,7 +61,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanDeleteSkill() {
 
-        SkillModel skill = WEareApi.createSkill(globalUser);
+        SkillModel skill = WEareApi.createSkill(skillUser);
 
         WEareApi.deleteSkill(skill.getSkillId());
 
@@ -58,7 +72,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanEditSkill() {
 
-        SkillModel skill = WEareApi.createSkill(globalUser);
+        SkillModel skill = WEareApi.createSkill(skillUser);
 
         Response editedSkillResponse = WEareApi.editSkill(skill.getSkillId());
 
@@ -71,7 +85,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanGetSkillById() {
 
-        SkillModel skill = WEareApi.createSkill(globalUser);
+        SkillModel skill = WEareApi.createSkill(skillUser);
 
         SkillModel foundSkill = WEareApi.getSkillById(skill.getSkillId());
 

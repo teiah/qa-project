@@ -28,8 +28,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
         assertEquals(afterRequestCount, initialRequestsCount + 1, "Request is not sent.");
 
-        WEareApi.disableUser(globalAdminUser, sender.getId());
-        WEareApi.disableUser(globalAdminUser, receiver.getId());
+        WEareApi.disableUser(globalRESTAdminUser, sender.getId());
+        WEareApi.disableUser(globalRESTAdminUser, receiver.getId());
     }
 
     @Test
@@ -58,8 +58,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
         assertEquals(requestsAfterApproveCount, previousRequestsCount, "Request is not approved.");
 
-        WEareApi.disableUser(globalAdminUser, sender.getId());
-        WEareApi.disableUser(globalAdminUser, receiver.getId());
+        WEareApi.disableUser(globalRESTAdminUser, sender.getId());
+        WEareApi.disableUser(globalRESTAdminUser, receiver.getId());
     }
 
     @Test
@@ -79,8 +79,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         assertEquals(disconnectRequestResponse.body().asString(), String.format("%s disconnected from %s",
                 receiver.getUsername(), sender.getUsername()), "Disconnection was not done");
 
-        WEareApi.disableUser(globalAdminUser, sender.getId());
-        WEareApi.disableUser(globalAdminUser, receiver.getId());
+        WEareApi.disableUser(globalRESTAdminUser, sender.getId());
+        WEareApi.disableUser(globalRESTAdminUser, receiver.getId());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
             assertNotNull(request, "Request is null");
         }
 
-        WEareApi.disableUser(globalAdminUser, sender.getId());
-        WEareApi.disableUser(globalAdminUser, receiver.getId());
+        WEareApi.disableUser(globalRESTAdminUser, sender.getId());
+        WEareApi.disableUser(globalRESTAdminUser, receiver.getId());
     }
 }

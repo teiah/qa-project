@@ -67,7 +67,7 @@ public class Helpers {
 
     }
 
-    public String generateUsername(String authority) {
+    public String generateUsernameAsImplemented(String authority) {
 
         String regex = "[a-zA-Z]*";
         Generex generex = new Generex(regex);

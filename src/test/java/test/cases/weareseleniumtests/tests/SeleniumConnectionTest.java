@@ -5,13 +5,14 @@ import api.models.UserModel;
 import com.telerikacademy.testframework.pages.weare.LoginPage;
 import com.telerikacademy.testframework.pages.weare.ProfilePage;
 import com.telerikacademy.testframework.pages.weare.RequestsListPage;
+import com.telerikacademy.testframework.utils.Utils;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
@@ -36,8 +37,8 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         Assert.assertEquals(currentRequestsCount, initialRequestsCount + 1, "Request not received");
 
-        WEareApi.disableUser(globalAdminUser, sender.getId());
-        WEareApi.disableUser(globalAdminUser, receiver.getId());
+        WEareApi.disableUser(globalSeleniumAdminUser, sender.getId());
+        WEareApi.disableUser(globalSeleniumAdminUser, receiver.getId());
     }
 
     @Test
@@ -76,8 +77,8 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         requestsListPage.logout();
 
-        WEareApi.disableUser(globalAdminUser, sender.getId());
-        WEareApi.disableUser(globalAdminUser, receiver.getId());
+        WEareApi.disableUser(globalSeleniumAdminUser, sender.getId());
+        WEareApi.disableUser(globalSeleniumAdminUser, receiver.getId());
 
     }
 
@@ -98,13 +99,50 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
         receiverProfilePage.navigateToPage();
         receiverProfilePage.assertPageNavigated();
 
-        WEareApi.disableUser(globalAdminUser, sender.getId());
-        WEareApi.disableUser(globalAdminUser, receiver.getId());
+        WEareApi.disableUser(globalSeleniumAdminUser, sender.getId());
+        WEareApi.disableUser(globalSeleniumAdminUser, receiver.getId());
     }
 
     @Test
     public void userCanReceiveUserRequest() {
 
+        UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
+
+        int initialRequestsCount = WEareApi.getUserRequests(receiver).length;
+
+        RequestModel request = WEareApi.sendRequest(sender, receiver);
+
+        int afterRequestCount = WEareApi.getUserRequests(receiver).length;
+
+        assertEquals(request.getSender().getId(), sender.getId(), "Sender doesn't match the one in the request.");
+        assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
+        assertEquals(afterRequestCount, initialRequestsCount + 1, "Request is not sent.");
+
+        LoginPage loginPage = new LoginPage(actions.getDriver());
+        loginPage.loginUser(receiver.getUsername(), receiver.getPassword());
+
+        ProfilePage receiverProfilePage = new ProfilePage(actions.getDriver(), receiver.getId());
+
+        receiverProfilePage.navigateToPage();
+
+        receiverProfilePage.seeRequests();
+
+        RequestsListPage requestsListPage = new RequestsListPage(actions.getDriver(),
+                "weare.requestsListPagePage", receiver.getId());
+
+        Assert.assertEquals(afterRequestCount, initialRequestsCount + 1, "Request not approved");
+        assertTrue(actions.isElementVisible(Utils.getUIMappingByKey("weare.requestsListPage.requestSenderInfo"),
+                sender.getPersonalProfile().getFirstName()));
+        assertTrue(actions.isElementPresent(Utils.getUIMappingByKey("weare.requestsListPage.requestSenderInfo"),
+                sender.getPersonalProfile().getFirstName()));
+        assertTrue(actions.isElementClickable(Utils.getUIMappingByKey("weare.requestsListPage.requestSenderInfo"),
+                sender.getPersonalProfile().getFirstName()));
+
+        requestsListPage.logout();
+
+        WEareApi.disableUser(globalSeleniumAdminUser, sender.getId());
+        WEareApi.disableUser(globalSeleniumAdminUser, receiver.getId());
 
     }
 

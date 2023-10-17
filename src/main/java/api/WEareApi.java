@@ -56,7 +56,7 @@ public class WEareApi {
 
         String email = helpers.generateEmail();
         String generatedPassword = helpers.generatePassword();
-        String generatedUsername = helpers.generateUsername(authority);
+        String generatedUsername = helpers.generateUsernameAsImplemented(authority);
         int categoryId = 100;
         String categoryName = "All";
         CategoryModel category = new CategoryModel();
@@ -265,9 +265,9 @@ public class WEareApi {
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
         UserBySearchModel[] foundUsers = new Gson().fromJson(response.getBody().asString(), UserBySearchModel[].class);
-        for (UserBySearchModel user : foundUsers) {
-            if (user.getUserId() == userId) {
-                return user;
+        for (UserBySearchModel serBySearchModel: foundUsers) {
+            if (serBySearchModel.getUserId() == userId) {
+                return serBySearchModel;
             }
         }
 
@@ -367,9 +367,9 @@ public class WEareApi {
 
         System.out.println(response.getBody().asPrettyString());
 
-        UserModel user = response.as(UserModel.class);
+        UserModel userModel = response.as(UserModel.class);
 
-        return user;
+        return userModel;
 
     }
 
@@ -430,8 +430,6 @@ public class WEareApi {
                 .extract().response();
 
         PostModel[] userPosts = new Gson().fromJson(response.getBody().asString(), PostModel[].class);
-
-//        UserModel user = userPosts[0].
 
         return userPosts;
 

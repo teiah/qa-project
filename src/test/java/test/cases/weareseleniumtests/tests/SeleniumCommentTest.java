@@ -20,7 +20,6 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void userCanCreateCommentWithValidInput() {
 
-
         PostModel createdPost = WEareApi.createPost(globalUser, publicVisibility);
         postId = createdPost.getPostId();
 
