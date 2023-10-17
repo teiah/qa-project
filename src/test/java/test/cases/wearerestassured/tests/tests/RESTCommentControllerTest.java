@@ -252,7 +252,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanFindAllCommentsOfA_Post() {
+    public void userCanFindAllCommentsOfAPost() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -284,7 +284,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void user_Can_Find_A_Comment_By_Id() {
+    public void userCanFindACommentById() {
 
         UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
 
