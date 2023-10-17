@@ -7,14 +7,17 @@ public class HomePage extends BaseWearePage{
         super(driver, "weare.baseUrl");
     }
     public void assertUserHasLoggedIn() {
-        if (!actions.isElementPresent("weare.homePage.logoutButton")) {
+        if (!isLoggedIn()) {
             throw new AssertionError("Error: User has not successfully logged in. Logout button is not present.");
         }
     }
 
+    public boolean isLoggedIn() {
+        return actions.isElementPresent("weare.homePage.logoutButton");
+    }
     public void logout() {
-        actions.waitForElementClickable("weare.homePage.logout");
-        actions.clickElement("weare.homePage.logout");
+        actions.waitForElementClickable("weare.homePage.logoutButton");
+        actions.clickElement("weare.homePage.logoutButton");
     }
 
     public void clickAddNewPost() {
