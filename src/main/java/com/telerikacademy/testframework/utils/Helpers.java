@@ -2,7 +2,6 @@ package com.telerikacademy.testframework.utils;
 
 import com.github.javafaker.Faker;
 import com.mifmif.common.regex.Generex;
-import io.restassured.response.Response;
 
 import java.text.SimpleDateFormat;
 import java.util.Random;
@@ -68,7 +67,7 @@ public class Helpers {
 
     }
 
-    public String generateUsernameAsImplemented(String authority) {
+    public String generateUsername(String authority) {
 
         String regex = "[a-zA-Z]*";
         Generex generex = new Generex(regex);
@@ -106,7 +105,7 @@ public class Helpers {
 
     }
 
-    public String generatePasswordAsImplemented() {
+    public String generatePassword() {
         return faker.internet().password(6, 200);
     }
 

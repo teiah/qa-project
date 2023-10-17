@@ -16,8 +16,8 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     public void userCanRegisterWithValidCredentials() {
 
         // Generate a random username and password
-        String username = helpers.generateUsernameAsImplemented(ROLE_USER.toString());
-        String password = helpers.generatePasswordAsImplemented();
+        String username = helpers.generateUsername(ROLE_USER.toString());
+        String password = helpers.generatePassword();
         String email = helpers.generateEmail();
 
         RegisterPage registerPage = new RegisterPage(actions.getDriver());

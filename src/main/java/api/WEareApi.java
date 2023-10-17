@@ -55,8 +55,8 @@ public class WEareApi {
     public UserModel registerUser(String authority) {
 
         String email = helpers.generateEmail();
-        String generatedPassword = helpers.generatePasswordAsImplemented();
-        String generatedUsername = helpers.generateUsernameAsImplemented(authority);
+        String generatedPassword = helpers.generatePassword();
+        String generatedUsername = helpers.generateUsername(authority);
         int categoryId = 100;
         String categoryName = "All";
         CategoryModel category = new CategoryModel();
