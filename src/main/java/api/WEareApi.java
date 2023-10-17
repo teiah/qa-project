@@ -55,8 +55,8 @@ public class WEareApi {
     public UserModel registerUser(String authority) {
 
         String email = helpers.generateEmail();
-        String password = helpers.generatePasswordAsImplemented();
-        String username = helpers.generateUsernameAsImplemented(authority);
+        String generatedPassword = helpers.generatePasswordAsImplemented();
+        String generatedUsername = helpers.generateUsernameAsImplemented(authority);
         int categoryId = 100;
         String categoryName = "All";
         CategoryModel category = new CategoryModel();
@@ -71,7 +71,7 @@ public class WEareApi {
 
         Response response = given()
                 .contentType("application/json")
-                .body(String.format(userBody, authority, category.getId(), category.getName(), password, email, password, username))
+                .body(String.format(userBody, authority, category.getId(), category.getName(), generatedPassword, email, generatedPassword, generatedUsername))
                 .post(API + REGISTER_USER)
                 .then()
                 .assertThat()
@@ -83,69 +83,29 @@ public class WEareApi {
         int userId = Integer.parseInt(getUserId(response));
 
         assertEquals(response.body().asString(), String.format("User with name %s and id %s was created",
-                username, userId), "User was not registered");
+                generatedUsername, userId), "User was not registered");
 
-        UserModel user = extractUser(userId, username, password);
-
-        return user;
-    }
-
-    public UserModel registerUserWithUsernameAndPasswordAsRequired(String authority) {
-
-        String email = helpers.generateEmail();
-        String username = helpers.generateUsernameAsRequired(authority);
-        String password = helpers.generatePasswordAsRequired();
-        int categoryId = 100;
-        String categoryName = "All";
-        CategoryModel category = new CategoryModel();
-        category.setName(categoryName);
-        category.setId(categoryId);
-
-        if (authority.equals(ROLE_ADMIN.toString())) {
-            authority = String.format("\"%s\", \"%s\"", ROLE_USER, ROLE_ADMIN);
-        } else if (authority.equals(ROLE_USER.toString())) {
-            authority = String.format("\"%s\"", ROLE_USER);
-        }
-
-        Response response = given()
-                .contentType("application/json")
-                .body(String.format(userBody, authority, category.getId(), category.getName(), password, email, password, username))
-                .post(API + REGISTER_USER)
-                .then()
-                .assertThat()
-                .statusCode(SC_OK)
-                .extract().response();
-
-        LOGGER.info(response.getBody().asPrettyString());
-
-        int userId = Integer.parseInt(getUserId(response));
-
-        assertEquals(response.body().asString(), String.format("User with name %s and id %s was created",
-                username, userId), "User was not registered");
-
-        UserModel user = extractUser(userId, username, password);
-
-        return user;
+        return extractUser(userId, generatedUsername, generatedPassword);
     }
 
     private UserModel extractUser(int userId, String username, String password) {
 
-        UserModel user = new UserModel();
+        UserModel userModel = new UserModel();
         UserByIdModel userByIdModel = getUserById(username, userId).as(UserByIdModel.class);
-        user.setUserId(userByIdModel.getId());
-        user.setUsername(userByIdModel.getUsername());
-        user.setPassword(password);
-        user.setEmail(userByIdModel.getEmail());
+        userModel.setUserId(userByIdModel.getId());
+        userModel.setUsername(userByIdModel.getUsername());
+        userModel.setPassword(password);
+        userModel.setEmail(userByIdModel.getEmail());
         String firstName = helpers.generateFirstName();
-        PersonalProfileModel personalProfileModel = editPersonalProfileFirstName(user, firstName);
-        user.setPersonalProfile(personalProfileModel);
+        PersonalProfileModel personalProfileModel = editPersonalProfileFirstName(userModel, firstName);
+        userModel.setPersonalProfile(personalProfileModel);
 
-        UserBySearchModel userBySearchModel = searchUser(user.getPersonalProfile().getFirstName());
-        user.setExpertiseProfile(userBySearchModel.getExpertiseProfile());
-        user.setAccountNonExpired(userBySearchModel.isAccountNonExpired());
-        user.setAccountNonLocked(userBySearchModel.isAccountNonLocked());
-        user.setCredentialsNonExpired(userBySearchModel.isCredentialsNonExpired());
-        user.setEnabled(userBySearchModel.isEnabled());
+        UserBySearchModel userBySearchModel = searchUser(userModel.getId(), userModel.getPersonalProfile().getFirstName());
+        userModel.setExpertiseProfile(userBySearchModel.getExpertiseProfile());
+        userModel.setAccountNonExpired(userBySearchModel.isAccountNonExpired());
+        userModel.setAccountNonLocked(userBySearchModel.isAccountNonLocked());
+        userModel.setCredentialsNonExpired(userBySearchModel.isCredentialsNonExpired());
+        userModel.setEnabled(userBySearchModel.isEnabled());
         List<GrantedAuthorityModel> authorities = new ArrayList<>();
         RoleModel roleModel = new RoleModel();
         roleModel.setAuthority(ROLE_USER.toString());
@@ -154,10 +114,10 @@ public class WEareApi {
             roleModel.setAuthority(ROLE_ADMIN.toString());
             authorities.add(roleModel);
         }
-        user.setAuthorities(authorities);
-        assertNotNull(user.getExpertiseProfile().getCategory(), "User has no professional category");
+        userModel.setAuthorities(authorities);
+        assertNotNull(userModel.getExpertiseProfile().getCategory(), "User has no professional category");
 
-        return user;
+        return userModel;
     }
 
     public PersonalProfileModel editPersonalProfile(UserModel user) {
@@ -275,7 +235,7 @@ public class WEareApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        UserBySearchModel userBySearchModel = searchUser(user.getPersonalProfile().getFirstName());
+        UserBySearchModel userBySearchModel = searchUser(user.getId(), user.getPersonalProfile().getFirstName());
 
         assertEditExpertiseProfile(userBySearchModel, expertiseProfileModel);
 
@@ -284,7 +244,7 @@ public class WEareApi {
         return response.as(ExpertiseProfileModel.class);
     }
 
-    public UserBySearchModel searchUser(String firstname) {
+    public UserBySearchModel searchUser(int userId, String firstname) {
 
         int index = 0;
         boolean next = true;
@@ -304,9 +264,14 @@ public class WEareApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        UserBySearchModel[] userResponses = new Gson().fromJson(response.getBody().asString(), UserBySearchModel[].class);
+        UserBySearchModel[] foundUsers = new Gson().fromJson(response.getBody().asString(), UserBySearchModel[].class);
+        for (UserBySearchModel user : foundUsers) {
+            if (user.getUserId() == userId) {
+                return user;
+            }
+        }
 
-        return userResponses[0];
+        return null;
 
     }
 
@@ -472,11 +437,11 @@ public class WEareApi {
 
     }
 
-    public PostModel createPost(UserModel user, boolean publicVisibility) {
+    public PostModel createPost(UserModel userModel, boolean publicVisibility) {
 
         PostModel post = given()
                 .auth()
-                .form(user.getUsername(), user.getPassword(),
+                .form(userModel.getUsername(), userModel.getPassword(),
                         new FormAuthConfig(AUTHENTICATE, "username", "password"))
                 .contentType("application/json")
                 .body(helpers.generatePostBody(publicVisibility))
@@ -490,9 +455,9 @@ public class WEareApi {
                 .as(PostModel.class);
 
         if (publicVisibility) {
-            LOGGER.info(String.format("Public post with id %d created by user %s.", post.getPostId(), user.getUsername()));
+            LOGGER.info(String.format("Public post with id %d created by user %s.", post.getPostId(), userModel.getUsername()));
         } else {
-            LOGGER.info(String.format("Private post with id %d created by user %s.", post.getPostId(), user.getUsername()));
+            LOGGER.info(String.format("Private post with id %d created by user %s.", post.getPostId(), userModel.getUsername()));
         }
 
         return post;
@@ -925,7 +890,7 @@ public class WEareApi {
     }
 
     private void assertEditPersonalProfile(Response response, PersonalProfileModel personalProfile) {
-        System.out.println(response.getBody().asPrettyString());
+
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
         assertEquals(response.getBody().jsonPath().getString("firstName"), personalProfile.getFirstName(),

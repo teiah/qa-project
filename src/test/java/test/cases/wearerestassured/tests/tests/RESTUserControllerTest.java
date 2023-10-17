@@ -6,8 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
-import java.sql.SQLException;
-
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static org.testng.Assert.*;
 
@@ -20,8 +18,6 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
         assertEquals(user.getAuthorities().size(), 1, "User is not registered as \"USER\".");
 
-        WEareApi.disableUser(globalAdminUser, user.getId());
-
     }
 
     @Test
@@ -33,135 +29,115 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
         assertEquals(adminUser.getPassword(), adminUser.getPassword(), "User was not registered");
         assertEquals(adminUser.getAuthorities().size(), 2, "User was not registered as admin");
 
-        WEareApi.disableUser(globalAdminUser, adminUser.getId());
-
     }
 
     @Test
     public void userCanEditPersonalProfileWithValidData() {
 
-        UserModel user = WEareApi.registerUser(ROLE_USER.toString());
-        PersonalProfileModel personalProfile = WEareApi.editPersonalProfile(user);
-        user.setPersonalProfile(personalProfile);
+        PersonalProfileModel personalProfile = WEareApi.editPersonalProfile(globalUser);
+        globalUser.setPersonalProfile(personalProfile);
 
-        assertEquals(user.getPersonalProfile().toString(), personalProfile.toString(), "User personal profile was not updated.");
+        assertEquals(globalUser.getPersonalProfile().toString(), personalProfile.toString(), "User personal profile was not updated.");
 
-        WEareApi.disableUser(globalAdminUser, user.getId());
     }
 
     @Test
     public void userCanEditExpertiseProfileWithValid_Data() {
 
-        UserModel user = WEareApi.registerUser(ROLE_USER.toString());
-        ExpertiseProfileModel expertiseProfile = WEareApi.editExpertiseProfile(user);
-        user.setExpertiseProfile(expertiseProfile);
+        ExpertiseProfileModel expertiseProfile = WEareApi.editExpertiseProfile(globalUser);
+        globalUser.setExpertiseProfile(expertiseProfile);
 
-        assertEquals(user.getExpertiseProfile().toString(), expertiseProfile.toString(),
+        assertEquals(globalUser.getExpertiseProfile(), expertiseProfile,
                 "User expertise profile was not updated.");
 
-        WEareApi.disableUser(globalAdminUser, user.getId());
     }
 
     @Test
     public void userCanGetUsersBySearchParameters() {
-        UserModel userOne = WEareApi.registerUser(ROLE_USER.toString());
 
-        String firstname = userOne.getPersonalProfile().getFirstName();
+        String firstname = globalUser.getPersonalProfile().getFirstName();
 
-        UserBySearchModel userAfterSearch = WEareApi.searchUser(firstname);
+        UserBySearchModel userAfterSearch = WEareApi.searchUser(globalUser.getId(), firstname);
 
-        assertEquals(userAfterSearch.getUsername(), userOne.getUsername(), "User was not found");
-        assertEquals(userAfterSearch.getUserId(), userOne.getId(), "User was not found");
+        assertEquals(userAfterSearch.getUsername(), globalUser.getUsername(), "User was not found");
+        assertEquals(userAfterSearch.getUserId(), globalUser.getId(), "User was not found");
 
-        WEareApi.disableUser(globalAdminUser, userOne.getId());
     }
 
     @Test
     public void userCanSeeProfilePostsOfUser() {
 
-        UserModel user = WEareApi.registerUser(ROLE_USER.toString());
-
         boolean publicVisibility;
         int postsCount = 3;
         for (int i = 0; i < postsCount; i++) {
             publicVisibility = i % 2 == 0;
-            WEareApi.createPost(user, publicVisibility);
+            WEareApi.createPost(globalUser, publicVisibility);
         }
 
-        PostModel[] userPosts = WEareApi.showProfilePosts(user);
+        PostModel[] userPosts = WEareApi.showProfilePosts(globalUser);
 
         assertEquals(userPosts.length, postsCount, "Wrong profile posts count");
 
         for (PostModel userPost : userPosts) {
             assertEquals(userPost.getClass(), PostModel.class, "Wrong type of post");
             assertNotNull(userPost, "Post is null");
-            WEareApi.deletePost(user, userPost.getPostId());
+            WEareApi.deletePost(globalUser, userPost.getPostId());
         }
-
-        WEareApi.disableUser(globalAdminUser, user.getId());
 
     }
 
     @Test
     public void userCanFindUserByID() {
 
-        UserModel user = WEareApi.registerUser(ROLE_USER.toString());
 
-        Response returnedUser = WEareApi.getUserById(user.getUsername(), user.getId());
+        Response returnedUser = WEareApi.getUserById(globalUser.getUsername(), globalUser.getId());
 
         String userId = String.valueOf(returnedUser.getBody().jsonPath().getString("id"));
 
-        Assert.assertEquals(Integer.parseInt(userId), user.getId(), "Ids do not match.");
+        Assert.assertEquals(Integer.parseInt(userId), globalUser.getId(), "Ids do not match.");
 
-        WEareApi.disableUser(globalAdminUser, user.getId());
     }
 
     @Test
     public void adminUserCanDisableAnotherUser() {
 
-//        UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
-//        UserModel userToBeDisabled = WEareApi.registerUser(ROLE_USER.toString());
-//
-//        PersonalProfileModel personalProfile = WEareApi.editPersonalProfile(userToBeDisabled);
-//        userToBeDisabled.setPersonalProfile(personalProfile);
-//
-//        String firstname = userToBeDisabled.getPersonalProfile().getFirstName();
-//
-//        assertTrue(userToBeDisabled.isEnabled(), "User is not enabled");
-//
-//        WEareApi.disableUser(adminUser, userToBeDisabled.getId());
-//
-//        userToBeDisabled = WEareApi.searchUser(firstname);
-//
-//        assertFalse(userToBeDisabled.isEnabled(), "User was not disabled");
-//
-//        WEareApi.disableUser(globalAdminUser, adminUser.getId());
+        UserModel userToBeDisabled = WEareApi.registerUser(ROLE_USER.toString());
+
+        String firstname = userToBeDisabled.getPersonalProfile().getFirstName();
+
+        assertTrue(userToBeDisabled.isEnabled(), "User is not enabled");
+
+        WEareApi.disableUser(globalAdminUser, userToBeDisabled.getId());
+
+        UserBySearchModel returnedDisabledUser = WEareApi.searchUser(userToBeDisabled.getId(), firstname);
+
+        assertEquals(returnedDisabledUser.getUserId(), userToBeDisabled.getId(), "Users do not match.");
+
+        assertFalse(returnedDisabledUser.isEnabled(), "User was not disabled");
     }
 
     @Test
-    public void adminUserCanEnable_Another_User() {
+    public void adminUserCanEnableAnotherUser() {
 
-        UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
         UserModel userToBeEnabled = WEareApi.registerUser(ROLE_USER.toString());
 
         String firstname = userToBeEnabled.getPersonalProfile().getFirstName();
 
-        WEareApi.disableUser(adminUser, userToBeEnabled.getId());
+        WEareApi.disableUser(globalAdminUser, userToBeEnabled.getId());
 
-        UserBySearchModel userBySearchModel = WEareApi.searchUser(firstname);
+        UserBySearchModel returnedDisabledUser = WEareApi.searchUser(userToBeEnabled.getId(), firstname);
 
-        assertEquals(userBySearchModel.getUserId(), userToBeEnabled.getId(), "User ids do not match.");
+        assertEquals(returnedDisabledUser.getUserId(), userToBeEnabled.getId(), "Users do not match.");
 
-        assertFalse(userBySearchModel.isEnabled(), "User is not disabled");
+        assertFalse(returnedDisabledUser.isEnabled(), "User is not disabled");
 
-        WEareApi.enableUser(adminUser, userToBeEnabled);
+        WEareApi.enableUser(globalAdminUser, userToBeEnabled);
 
-        userBySearchModel = WEareApi.searchUser(firstname);
-        assertEquals(userBySearchModel.getUserId(), userToBeEnabled.getId(), "User ids do not match.");
+        UserBySearchModel returnedEnabledUser = WEareApi.searchUser(userToBeEnabled.getId(), firstname);
+        assertEquals(returnedEnabledUser.getUserId(), userToBeEnabled.getId(), "User ids do not match.");
 
-        assertTrue(userBySearchModel.isEnabled(), "User wss not enabled");
+        assertTrue(returnedEnabledUser.isEnabled(), "User wss not enabled");
 
-        WEareApi.disableUser(globalAdminUser, adminUser.getId());
         WEareApi.disableUser(globalAdminUser, userToBeEnabled.getId());
     }
 

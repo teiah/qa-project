@@ -3,7 +3,7 @@ package api.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserModel extends BaseModel{
+public class UserModel {
 
     private List<GrantedAuthorityModel> authorities = new ArrayList<>();
     private boolean accountNonExpired = true;

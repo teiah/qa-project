@@ -14,18 +14,18 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
 
     @AfterMethod
     public void tearDownSeleniumCommentTest() {
-        WEareApi.deletePost(user, postId);
+        WEareApi.deletePost(globalUser, postId);
     }
 
     @Test
     public void userCanCreateCommentWithValidInput() {
 
 
-        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
+        PostModel createdPost = WEareApi.createPost(globalUser, publicVisibility);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
+        loginPage.loginUser(globalUserUsername, globalUserPassword);
 
         String commentMessage = helpers.generateCommentContent();
 
@@ -33,7 +33,7 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
         postPage.navigateToPage();
         postPage.createComment(commentMessage);
         postPage.assertPostCommentsCountUpdates("1 Comments");
-        postPage.assertPostCommentsAuthorExists(username);
+        postPage.assertPostCommentsAuthorExists(globalUserUsername);
         postPage.assertPostCommentTextExists(commentMessage);
 
     }
@@ -41,11 +41,11 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void userCanEditCommentWithValidInput() {
 
-        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
+        PostModel createdPost = WEareApi.createPost(globalUser, publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = WEareApi.createComment(user, createdPost);
+        CommentModel createdComment = WEareApi.createComment(globalUser, createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
+        loginPage.loginUser(globalUserUsername, globalUserPassword);
 
         String editedCommentMessage = helpers.generateCommentContent();
 
@@ -61,11 +61,11 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void userCanDeleteOwnComment() {
 
-        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
+        PostModel createdPost = WEareApi.createPost(globalUser, publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = WEareApi.createComment(user, createdPost);
+        CommentModel createdComment = WEareApi.createComment(globalUser, createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
+        loginPage.loginUser(globalUserUsername, globalUserPassword);
 
         PostPage postPage = new PostPage(actions.getDriver(), postId);
         postPage.navigateToPage();
@@ -82,11 +82,11 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void userCanLikeComment() {
 
-        PostModel createdPost = WEareApi.createPost(user, publicVisibility);
+        PostModel createdPost = WEareApi.createPost(globalUser, publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = WEareApi.createComment(user, createdPost);
+        CommentModel createdComment = WEareApi.createComment(globalUser, createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
+        loginPage.loginUser(globalUserUsername, globalUserPassword);
 
         PostPage postPage = new PostPage(actions.getDriver(), postId);
         postPage.navigateToPage();

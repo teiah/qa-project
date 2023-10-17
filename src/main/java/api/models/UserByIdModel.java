@@ -9,7 +9,7 @@ public class UserByIdModel {
     private String firstName;
     private String[] gender;
     private int id;
-    private String lastName;
+    private String lastNAme;
     private String personalReview;
     private SkillModel[] skills;
     private String username;
@@ -46,8 +46,8 @@ public class UserByIdModel {
         return id;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastNAme() {
+        return lastNAme;
     }
 
     public String getPersonalReview() {

@@ -122,8 +122,6 @@
             <version>5.2.0-M1</version>
         </dependency>
 
-
-
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -138,7 +136,6 @@
             <artifactId>generex</artifactId>
             <version>1.0.2</version>
         </dependency>
-
 
     </dependencies>
 </project>

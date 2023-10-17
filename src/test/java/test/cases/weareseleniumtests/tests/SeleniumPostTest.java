@@ -14,7 +14,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
 
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
+        loginPage.loginUser(globalUserUsername, globalUserPassword);
 
         String postMessage = helpers.generatePostContent();
 
@@ -31,11 +31,11 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     public void userCanLikePost() {
 
         boolean publicVisibility = true;
-        PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
+        PostModel createdPost = this.WEareApi.createPost(globalUser, publicVisibility);
         Integer postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
+        loginPage.loginUser(globalUserUsername, globalUserPassword);
 
         LatestPostsPage latestPostsPage = new LatestPostsPage(actions.getDriver());
         latestPostsPage.navigateToPage();
@@ -43,16 +43,13 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
 
         latestPostsPage.assertPostIsLiked(postId);
 
-        actions.clickElement("//a[text()=\"Home\"]");
-        actions.clickElement("//a[text()=\"LOGOUT\"]");
-
     }
 
     @Test
     public void adminUserCanEditAnotherUsersPost() {
 
         boolean publicVisibility = true;
-        PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
+        PostModel createdPost = this.WEareApi.createPost(globalUser, publicVisibility);
         Integer postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -73,7 +70,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     public void adminUserCanDeleteAnotherUsersPost() {
 
         boolean publicVisibility = true;
-        PostModel createdPost = this.WEareApi.createPost(user, publicVisibility);
+        PostModel createdPost = this.WEareApi.createPost(globalUser, publicVisibility);
         Integer postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());

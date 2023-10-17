@@ -15,7 +15,7 @@ public class ProfilePage extends BaseWearePage {
     }
 
     public void seeRequests() {
-        actions.waitForElementPresent("weare.profilePage.newFriendRequestsButton");
+        actions.waitForElementClickable("weare.profilePage.newFriendRequestsButton");
         actions.clickElement("weare.profilePage.newFriendRequestsButton");
     }
 

@@ -1,38 +1,29 @@
 package test.cases.wearerestassured.tests.tests;
 
-import api.WEareApi;
 import api.models.CommentModel;
 import api.models.PostModel;
 import api.models.UserModel;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
 
-import static com.telerikacademy.testframework.utils.UserRoles.ROLE_ADMIN;
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.testng.Assert.*;
 
 public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
-    private UserModel commentUser;
+
+    UserModel newUser = new UserModel();
 
     @BeforeClass
-    public void setUp() {
-        commentUser = WEareApi.registerUser(ROLE_USER.toString());
-    }
-
-    @AfterClass
-    public void clear() {
-        WEareApi.disableUser(globalAdminUser, commentUser.getId());
+    public void setUpCommentTest() {
+        newUser = WEareApi.registerUser(ROLE_USER.toString());
     }
 
     @Test
     public void userCanCreateCommentOfAPublicPostWithValidData() {
 
-        UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
-
         boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
 
         CommentModel comment = WEareApi.createComment(newUser, post);
 
@@ -43,20 +34,19 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         WEareApi.deleteComment(newUser, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
     }
 
+
     @Test
     public void userCanCreateCommentOfAPrivatePostWithValidDataIfConnected() {
 
-        UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
-
-        WEareApi.connectUsers(commentUser, newUser);
+        WEareApi.connectUsers(globalUser, newUser);
 
         boolean publicVisibility = false;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
 
         CommentModel comment = WEareApi.createComment(newUser, post);
 
@@ -67,23 +57,21 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         WEareApi.deleteComment(newUser, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
     }
 
     @Test
     public void userCannotCreateCommentOfAPrivatePostWithValid_Data() {
 
-        UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
-
         boolean publicVisibility = false;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
 
         CommentModel comment = WEareApi.createComment(newUser, post);
 
         assertNull(comment, "Comment was made.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
     }
@@ -94,28 +82,27 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         CommentModel[] comments = WEareApi.findAllComments();
 
         for (CommentModel comment : comments) {
-            assertEquals(comment.getClass(), CommentModel.class, "There are no comments found");
             assertNotNull(comment.getCommentId(), "There are no comments found");
         }
     }
 
     @Test
-    public void userCanEditCommentOfAPostWith_Valid_Data() {
+    public void userCanEditCommentOfAPostWithValid_Data() {
 
         boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
-        CommentModel comment = WEareApi.createComment(commentUser, post);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
+        CommentModel comment = WEareApi.createComment(globalUser, post);
 
         String contentToBeEdited = comment.getContent();
 
-        WEareApi.editComment(commentUser, comment);
+        WEareApi.editComment(globalUser, comment);
 
-        WEareApi.assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
+        WEareApi.assertEditedComment(globalUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
 
-        WEareApi.deleteComment(commentUser, comment.getCommentId());
+        WEareApi.deleteComment(globalUser, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
     }
@@ -123,22 +110,20 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void adminUserCanEditCommentOfAPublicPostWithValidData() {
 
-        UserModel newUser = WEareApi.registerUser(ROLE_ADMIN.toString());
-
         boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
         CommentModel comment = WEareApi.createComment(newUser, post);
 
         String contentToBeEdited = comment.getContent();
 
         WEareApi.editComment(globalAdminUser, comment);
 
-        WEareApi.assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
+        WEareApi.assertEditedComment(globalUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
 
         WEareApi.deleteComment(newUser, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
     }
@@ -146,33 +131,30 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void adminUserCanEditCommentOfAPrivatePostWithValid_Data() {
 
-        UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
-
         boolean publicVisibility = false;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
-        CommentModel comment = WEareApi.createComment(commentUser, post);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
+        CommentModel comment = WEareApi.createComment(globalUser, post);
 
         String contentToBeEdited = comment.getContent();
 
-        WEareApi.editComment(adminUser, comment);
+        WEareApi.editComment(globalAdminUser, comment);
 
-        WEareApi.assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
+        WEareApi.assertEditedComment(globalUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
 
-        WEareApi.deleteComment(adminUser, comment.getCommentId());
+        WEareApi.deleteComment(globalAdminUser, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
     }
 
     @Test
     public void userCanLikeCommentOfAPublicPost() {
 
-        UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
         UserModel userToLikeComment = WEareApi.registerUser(ROLE_USER.toString());
 
         boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
 
         CommentModel commentToBeLiked = WEareApi.createComment(newUser, post);
         CommentModel likedComment = WEareApi.likeComment(userToLikeComment, commentToBeLiked.getCommentId());
@@ -184,17 +166,15 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         WEareApi.deleteComment(newUser, commentToBeLiked.getCommentId());
         assertFalse(WEareApi.commentExists(commentToBeLiked.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
     }
 
     @Test
     public void userCanDeleteCommentOfAPublicPost() {
 
-        UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
-
         boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
 
         CommentModel commentToBeDeleted = WEareApi.createComment(newUser, post);
 
@@ -203,7 +183,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         WEareApi.deleteComment(newUser, commentToBeDeletedId);
         assertFalse(WEareApi.commentExists(commentToBeDeletedId), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
     }
@@ -211,19 +191,16 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void adminUserCanDeleteCommentOfAPublicPost() {
 
-        UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
-        UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
-
         boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
 
         CommentModel commentToBeDeleted = WEareApi.createComment(newUser, post);
         int commentToBeDeletedId = commentToBeDeleted.getCommentId();
 
-        WEareApi.deleteComment(adminUser, commentToBeDeletedId);
+        WEareApi.deleteComment(globalAdminUser, commentToBeDeletedId);
         assertFalse(WEareApi.commentExists(commentToBeDeletedId), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
     }
@@ -231,22 +208,19 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void adminUserCanDeleteCommentOfAPrivatePost() {
 
-        UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
-        UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
-
-        WEareApi.connectUsers(commentUser, newUser);
+        WEareApi.connectUsers(globalUser, newUser);
 
         boolean publicVisibility = false;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
 
         CommentModel commentToBeDeleted = WEareApi.createComment(newUser, post);
 
         int commentToBeDeletedId = commentToBeDeleted.getCommentId();
 
-        WEareApi.deleteComment(adminUser, commentToBeDeletedId);
+        WEareApi.deleteComment(globalAdminUser, commentToBeDeletedId);
         assertFalse(WEareApi.commentExists(commentToBeDeletedId), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
     }
@@ -254,10 +228,8 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanFindAllCommentsOfAPost() {
 
-        UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
-
         boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
 
         int commentCount = 3;
 
@@ -265,7 +237,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
             WEareApi.createComment(newUser, post);
         }
 
-        CommentModel[] postComments = WEareApi.findAllCommentsOfAPost(commentUser, post.getPostId());
+        CommentModel[] postComments = WEareApi.findAllCommentsOfAPost(globalUser, post.getPostId());
 
         assertEquals(postComments.length, commentCount, "Wrong post comments count");
 
@@ -278,7 +250,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
             assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
         }
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
     }
@@ -286,21 +258,19 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanFindACommentById() {
 
-        UserModel newUser = WEareApi.registerUser(ROLE_USER.toString());
-
         boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(globalUser, publicVisibility);
 
         CommentModel comment = WEareApi.createComment(newUser, post);
         int commentId = comment.getCommentId();
 
-        CommentModel foundComment = WEareApi.getCommentById(commentUser, commentId);
+        CommentModel foundComment = WEareApi.getCommentById(globalUser, commentId);
         assertEquals(foundComment.getCommentId(), commentId, "Comments do not match.");
 
         WEareApi.deleteComment(newUser, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
+        WEareApi.deletePost(globalUser, post.getPostId());
         assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
 
     }

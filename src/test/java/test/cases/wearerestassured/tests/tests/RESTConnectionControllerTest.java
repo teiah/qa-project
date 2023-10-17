@@ -17,8 +17,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
 
-        RequestModel[] requests = WEareApi.getUserRequests(receiver);
-        int previousRequestsCount = requests.length;
+        int initialRequestsCount = WEareApi.getUserRequests(receiver).length;
 
         RequestModel request = WEareApi.sendRequest(sender, receiver);
 
@@ -27,7 +26,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
         assertEquals(request.getSender().getId(), sender.getId(), "Sender doesn't match the one in the request.");
         assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
-        assertEquals(afterRequestCount, previousRequestsCount + 1, "Request is not sent.");
+        assertEquals(afterRequestCount, initialRequestsCount + 1, "Request is not sent.");
 
         WEareApi.disableUser(globalAdminUser, sender.getId());
         WEareApi.disableUser(globalAdminUser, receiver.getId());

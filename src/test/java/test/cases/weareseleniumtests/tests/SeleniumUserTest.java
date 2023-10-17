@@ -37,12 +37,12 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     public void userCanLoginWithValidCredentials() {
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(username, password);
+        loginPage.loginUser(globalUserUsername, globalUserPassword);
 
         HomePage homePage = new HomePage(actions.getDriver());
         homePage.assertUserHasLoggedIn();
 
-        this.WEareApi.disableUser(globalAdminUser, user.getId());
+        this.WEareApi.disableUser(globalAdminUser, globalUser.getId());
 
         homePage.logout();
     }
