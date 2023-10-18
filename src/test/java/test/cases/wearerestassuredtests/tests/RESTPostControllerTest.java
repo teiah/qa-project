@@ -22,7 +22,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @AfterClass
-    public void tearDownPostTest() {
+    public void cleanUpPostTest() {
         WEareApi.disableUser(globalRESTAdminUser, postUser.getId());
     }
 

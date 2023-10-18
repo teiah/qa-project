@@ -18,12 +18,12 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     UserModel skillUser;
 
     @BeforeClass
-    public void setUpPostTest() {
+    public void setUpSkillTest() {
         skillUser = WEareApi.registerUser(ROLE_USER.toString());
     }
 
     @AfterClass
-    public void tearDownPostTest() {
+    public void cleanUpSkillTest() {
         WEareApi.disableUser(globalRESTAdminUser, skillUser.getId());
     }
 

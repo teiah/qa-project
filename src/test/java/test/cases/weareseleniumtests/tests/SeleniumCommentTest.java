@@ -13,7 +13,7 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     boolean publicVisibility = true;
 
     @AfterMethod
-    public void tearDownSeleniumCommentTest() {
+    public void cleanUpSeleniumCommentTest() {
         WEareApi.deletePost(globalUser, postId);
     }
 

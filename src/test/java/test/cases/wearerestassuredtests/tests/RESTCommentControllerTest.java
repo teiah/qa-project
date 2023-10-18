@@ -21,7 +21,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @AfterClass
-    public void tearDownCommentTest() {
+    public void cleanUpCommentTest() {
         WEareApi.disableUser(globalRESTAdminUser, commentUser.getId());
     }
 

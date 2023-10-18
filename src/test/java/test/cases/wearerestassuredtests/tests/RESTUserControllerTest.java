@@ -16,12 +16,12 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     UserModel user;
 
     @BeforeClass
-    public void setUpPostTest() {
+    public void setUpUserTest() {
         user = WEareApi.registerUser(ROLE_USER.toString());
     }
 
     @AfterClass
-    public void tearDownPostTest() {
+    public void cleanUpUserTest() {
         WEareApi.disableUser(globalRESTAdminUser, user.getId());
     }
 
