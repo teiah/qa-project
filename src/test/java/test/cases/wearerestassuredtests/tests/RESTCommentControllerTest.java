@@ -50,7 +50,6 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
     }
 
-
     @Test
     public void userCanCreateCommentOfAPrivatePostWithValidDataIfConnected() {
 
