@@ -190,7 +190,7 @@ public class WEareApi {
         assertEquals(editProfileResponse.getBody().jsonPath().getString("firstName"), user.getPersonalProfile().getFirstName(),
                 "User personal profile was not updated.");
 
-        LOGGER.info(String.format("First name of user %s with id %d was set.", user.getUsername(), user.getId()));
+        LOGGER.info(String.format("First name of user %s with id %d was set to %s.", user.getUsername(), user.getId(), firstName));
 
         return user.getPersonalProfile();
 
@@ -250,14 +250,12 @@ public class WEareApi {
         boolean next = true;
         String searchParam1 = "";
         String searchParam2 = firstname;
-        int size = 3;
+        int size = 1000000;
 
         String body = String.format(searchUsersBody, index, next, searchParam1, searchParam2, size);
 
         Response response = given()
                 .contentType("application/json")
-                .queryParam("searchParam1", "")
-                .queryParam("searchParam2", firstname)
                 .body(body)
                 .post(API + USERS);
 
@@ -413,7 +411,7 @@ public class WEareApi {
         boolean next = true;
         String searchParam1 = "";
         String searchParam2 = user.getPersonalProfile().getFirstName();
-        int size = 3;
+        int size = 1000000;
 
         String body = String.format(searchUsersBody, index, next, searchParam1, searchParam2, size);
 
@@ -897,7 +895,7 @@ public class WEareApi {
                 "Last names do not match.");
         assertEquals(response.getBody().jsonPath().getString("birthYear"), personalProfile.getBirthYear(),
                 "Birth years do not match.");
-        assertEquals(response.getBody().jsonPath().getString("location.city.city"), personalProfile.getLocation().getCity().toString(),
+        assertEquals(response.getBody().jsonPath().getString("location.city.city"), personalProfile.getLocation().getCity().getCity(),
                 "Cities do not match.");
         assertEquals(response.getBody().jsonPath().getString("personalReview"), personalProfile.getPersonalReview(),
                 "Personal reviews do not match.");

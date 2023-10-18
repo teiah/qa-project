@@ -42,9 +42,8 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
         HomePage homePage = new HomePage(actions.getDriver());
         homePage.assertUserHasLoggedIn();
 
-        this.WEareApi.disableUser(globalSeleniumAdminUser, globalUser.getId());
-
         homePage.logout();
+
     }
 
 }

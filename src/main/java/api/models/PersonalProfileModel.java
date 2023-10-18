@@ -96,7 +96,7 @@ public class PersonalProfileModel {
 
     @Override
     public String toString() {
-        return String.format(personalProfileBody, birthYear, firstName, id, lastName, location.getCity().toString(), personalReview, picture,
+        return String.format(personalProfileBody, birthYear, firstName, id, lastName, location.getCity(), personalReview, picture,
                 picturePrivacy, sex);
     }
 }

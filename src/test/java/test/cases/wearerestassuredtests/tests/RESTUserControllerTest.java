@@ -51,7 +51,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
         PersonalProfileModel personalProfile = WEareApi.editPersonalProfile(user);
         user.setPersonalProfile(personalProfile);
 
-        assertEquals(user.getPersonalProfile().toString(), personalProfile.toString(), "User personal profile was not updated.");
+        assertEquals(user.getPersonalProfile(), personalProfile, "User personal profile was not updated.");
 
     }
 

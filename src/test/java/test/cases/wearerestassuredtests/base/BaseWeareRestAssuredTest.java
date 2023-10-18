@@ -11,7 +11,7 @@ public class BaseWeareRestAssuredTest extends BaseTestSetup {
     protected UserModel globalRESTAdminUser;
 
     @BeforeClass
-    public void setUpSelenium() {
+    public void setUpRestAssured() {
         globalRESTAdminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
     }
 
