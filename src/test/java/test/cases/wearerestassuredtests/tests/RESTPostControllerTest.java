@@ -31,11 +31,10 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(postUser, publicVisibility);
-
-        WEareApi.assertPostCreation(post, publicVisibility);
+        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         WEareApi.deletePost(postUser, post.getPostId());
-        assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
+        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
     }
 
     @Test
@@ -43,11 +42,10 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         boolean publicVisibility = false;
         PostModel post = WEareApi.createPost(postUser, publicVisibility);
-
-        WEareApi.assertPostCreation(post, publicVisibility);
+        assertTrue(WEareApi.privatePostExists(postUser, post.getPostId()), "Post not created.");
 
         WEareApi.deletePost(postUser, post.getPostId());
-        assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
+        assertFalse(WEareApi.privatePostExists(postUser, post.getPostId()), "Post was not deleted.");
     }
 
     @Test
@@ -56,15 +54,15 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         boolean publicVisibility = true;
 
         PostModel postToBeEdited = WEareApi.createPost(postUser, publicVisibility);
+        assertTrue(WEareApi.publicPostExists(postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
 
-        WEareApi.editPost(postUser, postToBeEdited.getPostId());
-
-        WEareApi.assertEditedPost(postToBeEdited.getPostId(), postToBeEditedContent);
+        WEareApi.editPost(postUser, postToBeEdited);
+        WEareApi.assertEditedPublicPost(postToBeEdited.getPostId(), postToBeEditedContent);
 
         WEareApi.deletePost(postUser, postToBeEdited.getPostId());
-        assertFalse(WEareApi.postExists(postToBeEdited.getPostId()), "Post was not deleted.");
+        assertFalse(WEareApi.publicPostExists(postToBeEdited.getPostId()), "Post was not deleted.");
     }
 
     @Test
@@ -73,15 +71,16 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         boolean publicVisibility = false;
 
         PostModel postToBeEdited = WEareApi.createPost(postUser, publicVisibility);
+        assertTrue(WEareApi.privatePostExists(postUser, postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
 
-        WEareApi.editPost(postUser, postToBeEdited.getPostId());
-
-        WEareApi.assertEditedPost(postToBeEdited.getPostId(), postToBeEditedContent);
+        WEareApi.editPost(postUser, postToBeEdited);
+        WEareApi.assertEditedPrivatePost(postUser, postToBeEdited.getPostId(), postToBeEditedContent);
 
         WEareApi.deletePost(postUser, postToBeEdited.getPostId());
-        assertFalse(WEareApi.postExists(postToBeEdited.getPostId()), "Post was not deleted.");
+        assertFalse(WEareApi.privatePostExists(postUser, postToBeEdited.getPostId()), "Post was not deleted.");
+
     }
 
     @Test
@@ -90,15 +89,15 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         boolean publicVisibility = true;
 
         PostModel postToBeEdited = WEareApi.createPost(postUser, publicVisibility);
+        assertTrue(WEareApi.publicPostExists(postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
 
-        WEareApi.editPost(globalRESTAdminUser, postToBeEdited.getPostId());
-
-        WEareApi.assertEditedPost(postToBeEdited.getPostId(), postToBeEditedContent);
+        WEareApi.editPost(globalRESTAdminUser, postToBeEdited);
+        WEareApi.assertEditedPublicPost(postToBeEdited.getPostId(), postToBeEditedContent);
 
         WEareApi.deletePost(postUser, postToBeEdited.getPostId());
-        assertFalse(WEareApi.postExists(postToBeEdited.getPostId()), "Post was not deleted.");
+        assertFalse(WEareApi.publicPostExists(postToBeEdited.getPostId()), "Post was not deleted.");
     }
 
     @Test
@@ -107,15 +106,16 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         boolean publicVisibility = false;
 
         PostModel postToBeEdited = WEareApi.createPost(postUser, publicVisibility);
+        assertTrue(WEareApi.privatePostExists(postUser, postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
 
-        WEareApi.editPost(globalRESTAdminUser, postToBeEdited.getPostId());
-
-        WEareApi.assertEditedPost(postToBeEdited.getPostId(), postToBeEditedContent);
+        WEareApi.editPost(globalRESTAdminUser, postToBeEdited);
+        WEareApi.assertEditedPrivatePost(postUser, postToBeEdited.getPostId(), postToBeEditedContent);
 
         WEareApi.deletePost(postUser, postToBeEdited.getPostId());
-        assertFalse(WEareApi.postExists(postToBeEdited.getPostId()), "Post was not deleted.");
+        assertFalse(WEareApi.privatePostExists(postUser, postToBeEdited.getPostId()), "Post was not deleted.");
+
     }
 
     @Test
@@ -129,6 +129,13 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         for (int i = 0; i < postCount; i++) {
             PostModel post = WEareApi.createPost(postUser, publicVisibility);
+            assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+            postIds.add(post.getPostId());
+        }
+        publicVisibility = false;
+        for (int i = 0; i < postCount; i++) {
+            PostModel post = WEareApi.createPost(postUser, publicVisibility);
+            assertTrue(WEareApi.privatePostExists(postUser, post.getPostId()), "Post not created.");
             postIds.add(post.getPostId());
         }
 
@@ -138,26 +145,31 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
             if (postIds.contains(foundPost.getPostId())) {
                 assertNotNull(foundPost, "Post is null");
                 WEareApi.deletePost(postUser, foundPost.getPostId());
-                assertFalse(WEareApi.postExists(foundPost.getPostId()), "Post was not deleted.");
+                postIds.remove(foundPost.getPostId());
+                assertFalse(WEareApi.publicPostExists(foundPost.getPostId()), "Post was not deleted.");
             }
         }
+
+        assertEquals(postIds.size(), 0, "Some posts were not received");
 
     }
 
     @Test
     public void userCanLikePost() {
 
-        boolean publicVisibility = false;
+        boolean publicVisibility = true;
         PostModel postToBeLiked = WEareApi.createPost(postUser, publicVisibility);
+        assertTrue(WEareApi.publicPostExists(postToBeLiked.getPostId()), "Post not created.");
 
         PostModel likedPost = WEareApi.likePost(postUser, postToBeLiked.getPostId());
+        assertTrue(WEareApi.publicPostExists(likedPost.getPostId()), "Post not created.");
 
         int likedPostLikesToHave = postToBeLiked.getLikes().size() + 1;
         assertEquals(likedPost.getLikes().size(), likedPostLikesToHave, "Post was not liked.");
         assertEquals(postToBeLiked.getPostId(), likedPost.getPostId(), "Liked post is different.");
 
         WEareApi.deletePost(postUser, postToBeLiked.getPostId());
-        assertFalse(WEareApi.postExists(postToBeLiked.getPostId()), "Post was not deleted.");
+        assertFalse(WEareApi.publicPostExists(postToBeLiked.getPostId()), "Post was not deleted.");
 
     }
 
@@ -168,9 +180,10 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         PostModel postToBeDeleted = WEareApi.createPost(postUser, publicVisibility);
         int postId = postToBeDeleted.getPostId();
+        assertTrue(WEareApi.privatePostExists(postUser, postId), "Post not created.");
 
         WEareApi.deletePost(postUser, postId);
-        assertFalse(WEareApi.postExists(postId), "Post was not deleted.");
+        assertFalse(WEareApi.privatePostExists(postUser, postId), "Post was not deleted.");
 
     }
 
@@ -180,10 +193,10 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         boolean publicVisibility = false;
         PostModel postToBeDeleted = WEareApi.createPost(postUser, publicVisibility);
         int postId = postToBeDeleted.getPostId();
+        assertTrue(WEareApi.privatePostExists(postUser, postId), "Post not created.");
 
-        int postCount = WEareApi.findAllPosts().length;
         WEareApi.deletePost(globalRESTAdminUser, postId);
-        assertFalse(WEareApi.postExists(postId), "Post was not deleted.");
+        assertFalse(WEareApi.privatePostExists(postUser, postId), "Post was not deleted.");
 
     }
 
@@ -193,9 +206,10 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         boolean publicVisibility = true;
         PostModel postToBeDeleted = WEareApi.createPost(postUser, publicVisibility);
         int postId = postToBeDeleted.getPostId();
+        assertTrue(WEareApi.publicPostExists(postId), "Post not created.");
 
         WEareApi.deletePost(globalRESTAdminUser, postId);
-        assertFalse(WEareApi.postExists(postId), "Post was not deleted.");
+        assertFalse(WEareApi.publicPostExists(postId), "Post was not deleted.");
 
     }
 
@@ -209,12 +223,14 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         boolean publicVisibility = true;
 
         PostModel post = WEareApi.createPost(postUser, publicVisibility);
+        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         int commentCount = 3;
 
         for (int i = 0; i < commentCount; i++) {
-           CommentModel comment = WEareApi.createComment(newUser, post);
-           commentIds.add(comment.getCommentId());
+            CommentModel comment = WEareApi.createComment(newUser, post);
+            assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
+            commentIds.add(comment.getCommentId());
         }
 
         CommentModel[] postComments = WEareApi.findCommentsOfAPost(post.getPostId());
@@ -228,7 +244,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         }
 
         WEareApi.deletePost(postUser, post.getPostId());
-        assertFalse(WEareApi.postExists(post.getPostId()), "Post was not deleted.");
+        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
 
     }
 

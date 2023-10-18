@@ -33,6 +33,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
         List<Integer> skillIds = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             SkillModel skill = WEareApi.createSkill(skillUser);
+            assertTrue(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
             skillIds.add(skill.getSkillId());
         }
 
@@ -43,6 +44,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
         for (SkillModel skill : foundSkills) {
             if (skillIds.contains(skill.getSkillId())) {
                 WEareApi.deleteSkill(skill.getSkillId());
+                assertFalse(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
             }
         }
 
@@ -52,19 +54,19 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     public void userCanCreateSkill() {
 
         SkillModel skill = WEareApi.createSkill(skillUser);
-
-        assertNotNull(skill, "Skill was not created.");
+        assertTrue(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
 
         WEareApi.deleteSkill(skill.getSkillId());
+        assertFalse(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
     }
 
     @Test
     public void userCanDeleteSkill() {
 
         SkillModel skill = WEareApi.createSkill(skillUser);
+        assertTrue(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
 
         WEareApi.deleteSkill(skill.getSkillId());
-
         assertFalse(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
 
     }
@@ -73,6 +75,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     public void userCanEditSkill() {
 
         SkillModel skill = WEareApi.createSkill(skillUser);
+        assertTrue(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
 
         Response editedSkillResponse = WEareApi.editSkill(skill.getSkillId());
 
@@ -80,12 +83,14 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
         WEareApi.deleteSkill(skill.getSkillId());
+        assertFalse(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
     }
 
     @Test
     public void userCanGetSkillById() {
 
         SkillModel skill = WEareApi.createSkill(skillUser);
+        assertTrue(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
 
         SkillModel foundSkill = WEareApi.getSkillById(skill.getSkillId());
 
@@ -93,7 +98,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
         assertNotNull(foundSkill, "Skill not found.");
 
         WEareApi.deleteSkill(skill.getSkillId());
-
+        assertFalse(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
     }
 
 }

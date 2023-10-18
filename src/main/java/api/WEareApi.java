@@ -393,13 +393,14 @@ public class WEareApi {
     public PostModel[] findAllPosts() {
 
         Response response = given()
+                .queryParam("name", "adminvHQOD")
                 .get(API + POST)
                 .then()
                 .assertThat()
                 .statusCode(SC_OK)
                 .extract().response();
 
-        PostModel[] foundPosts = new Gson().fromJson(response.getBody().asString(), PostModel[].class);
+        PostModel[] foundPosts = response.as(PostModel[].class);
 
         return foundPosts;
 
@@ -459,16 +460,16 @@ public class WEareApi {
         return post;
     }
 
-    public void editPost(UserModel user, int postId) {
+    public void editPost(UserModel user, PostModel post) {
 
-        boolean visibility = true;
+        boolean visibility = post.isPublic();
 
         Response editedPostResponse = given()
                 .auth()
                 .form(user.getUsername(), user.getPassword(),
                         new FormAuthConfig(AUTHENTICATE, "username", "password"))
                 .contentType("application/json")
-                .queryParam("postId", postId)
+                .queryParam("postId", post.getPostId())
                 .body(String.format(helpers.generatePostBody(visibility)))
                 .put(API + EDIT_POST)
                 .then()
@@ -476,7 +477,11 @@ public class WEareApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        LOGGER.info(String.format("Post with id %d edited.", postId));
+        if (post.isPublic()) {
+            LOGGER.info(String.format("Public post with id %d edited.", post.getPostId()));
+        } else {
+            LOGGER.info(String.format("Private post with id %d edited.", post.getPostId()));
+        }
 
     }
 
@@ -488,6 +493,7 @@ public class WEareApi {
                 .queryParam("postId", postId)
                 .post(API + LIKE_POST);
 
+        System.out.println(response.getBody().asPrettyString());
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
@@ -512,9 +518,23 @@ public class WEareApi {
 
     }
 
-    public boolean postExists(int postId) {
+    public boolean publicPostExists(int postId) {
 
         PostModel[] posts = findAllPosts();
+
+        for (PostModel post : posts) {
+            if (post.getPostId() == postId) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    public boolean privatePostExists(UserModel user, int postId) {
+
+        PostModel[] posts = showProfilePosts(user);
 
         for (PostModel post : posts) {
             if (post.getPostId() == postId) {
@@ -926,19 +946,34 @@ public class WEareApi {
                 "User personal profile was not updated.");
     }
 
-    public void assertPostCreation(PostModel post, boolean publicVisibility) {
+    public void assertPostCreation(PostModel post) {
 
         assertNotNull(post, "Post was not created.");
         assertNotNull(post.getPostId(), "Post was not created.");
 
     }
 
-    public void assertEditedPost(int postId, String postToBeEditedContent) {
+    public void assertEditedPublicPost(int postId, String postToBeEditedContent) {
 
         PostModel[] foundPosts = findAllPosts();
 
         for (PostModel post : foundPosts) {
             if (post.getPostId() == postId) {
+                assertNotEquals(post.getContent(), postToBeEditedContent,
+                        "Post contents are equal. Post was not edited");
+                break;
+            }
+        }
+    }
+
+    public void assertEditedPrivatePost(UserModel user, int postId, String postToBeEditedContent) {
+
+        PostModel[] foundPosts = showProfilePosts(user);
+
+        for (PostModel post : foundPosts) {
+            if (post.getPostId() == postId) {
+                System.out.println(post.getPostId());
+                System.out.println(postId);
                 assertNotEquals(post.getContent(), postToBeEditedContent,
                         "Post contents are equal. Post was not edited");
                 break;

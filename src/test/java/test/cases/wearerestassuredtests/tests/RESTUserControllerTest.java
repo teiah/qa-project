@@ -81,21 +81,27 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void userCanSeeProfilePostsOfUser() {
 
-        boolean publicVisibility;
         int postsCount = 3;
         for (int i = 0; i < postsCount; i++) {
-            publicVisibility = i % 2 == 0;
-            WEareApi.createPost(user, publicVisibility);
+            boolean publicVisibility = true;
+            PostModel publicPost = WEareApi.createPost(user, publicVisibility);
+            assertTrue(WEareApi.publicPostExists(publicPost.getPostId()), "Post not created.");
+            publicVisibility = false;
+            PostModel privatePost = WEareApi.createPost(user, publicVisibility);
+            assertTrue(WEareApi.privatePostExists(user, privatePost.getPostId()), "Post not created.");
         }
 
         PostModel[] userPosts = WEareApi.showProfilePosts(user);
 
-        assertEquals(userPosts.length, postsCount, "Wrong profile posts count");
+        assertEquals(userPosts.length, 2 * postsCount, "Wrong profile posts count");
 
         for (PostModel userPost : userPosts) {
-            assertEquals(userPost.getClass(), PostModel.class, "Wrong type of post");
-            assertNotNull(userPost, "Post is null");
             WEareApi.deletePost(user, userPost.getPostId());
+            if (userPost.isPublic()) {
+                assertFalse(WEareApi.publicPostExists(userPost.getPostId()), "Post not deleted.");
+            } else {
+                assertFalse(WEareApi.privatePostExists(user, userPost.getPostId()), "Post not deleted.");
+            }
         }
 
     }
