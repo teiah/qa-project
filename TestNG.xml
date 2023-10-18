@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SeleniumTestSuite">
+    <test name="SeleniumTests">
+        <classes>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumCommentTest"/>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumConnectionTest"/>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumPostTest"/>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumUserTest"/>
+            <class name="test.cases.wearerestassuredtests.tests.RESTUserControllerTest"/>
+            <class name="test.cases.wearerestassuredtests.tests.RESTConnectionControllerTest"/>
+            <class name="test.cases.wearerestassuredtests.tests.RESTPostControllerTest"/>
+            <class name="test.cases.wearerestassuredtests.tests.RESTCommentControllerTest"/>
+            <class name="test.cases.wearerestassuredtests.tests.RESTSkillControllerTest"/>
+            <!-- Add more test classes as needed -->
+        </classes>
+    </test>
+</suite>

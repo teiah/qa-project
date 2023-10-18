@@ -1,10 +1,10 @@
-package test.cases.wearerestassured.tests.tests;
+package test.cases.wearerestassuredtests.tests;
 
 import api.models.RequestModel;
 import api.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
-import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
+import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.apache.http.HttpStatus.SC_OK;

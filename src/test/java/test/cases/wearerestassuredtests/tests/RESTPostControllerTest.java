@@ -1,10 +1,10 @@
-package test.cases.wearerestassured.tests.tests;
+package test.cases.wearerestassuredtests.tests;
 
 import api.models.CommentModel;
 import api.models.PostModel;
 import api.models.UserModel;
 import org.testng.annotations.*;
-import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
+import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -75,6 +75,7 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
         postPage.navigateToPage();
         postPage.assertPostCommentsCountUpdates("0 Comments");
 
+
     }
 
     @Test

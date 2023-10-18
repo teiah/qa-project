@@ -265,9 +265,9 @@ public class WEareApi {
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
         UserBySearchModel[] foundUsers = new Gson().fromJson(response.getBody().asString(), UserBySearchModel[].class);
-        for (UserBySearchModel serBySearchModel: foundUsers) {
-            if (serBySearchModel.getUserId() == userId) {
-                return serBySearchModel;
+        for (UserBySearchModel userBySearchModel: foundUsers) {
+            if (userBySearchModel.getUserId() == userId) {
+                return userBySearchModel;
             }
         }
 

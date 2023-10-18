@@ -1,4 +1,4 @@
-package test.cases.wearerestassured.tests.base;
+package test.cases.wearerestassuredtests.base;
 
 import api.models.UserModel;
 import org.testng.annotations.BeforeClass;

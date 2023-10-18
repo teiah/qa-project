@@ -1,4 +1,4 @@
-package test.cases.wearerestassured.tests.tests;
+package test.cases.wearerestassuredtests.tests;
 
 import api.models.CommentModel;
 import api.models.PostModel;
@@ -6,7 +6,7 @@ import api.models.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.cases.wearerestassured.tests.base.BaseWeareRestAssuredTest;
+import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.testng.Assert.*;
