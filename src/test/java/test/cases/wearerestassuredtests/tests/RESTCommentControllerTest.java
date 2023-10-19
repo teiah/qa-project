@@ -34,8 +34,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void CommentOfPublicPostCreated_When_ValidDataProvided() {
 
-        boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, true);
         assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         CommentModel comment = WEareApi.createComment(newUser, post);
@@ -57,8 +56,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         WEareApi.connectUsers(sender, receiver);
 
-        boolean publicVisibility = false;
-        PostModel post = WEareApi.createPost(sender, publicVisibility);
+        PostModel post = WEareApi.createPost(sender, false);
         assertTrue(WEareApi.privatePostExists(sender, post.getPostId()), "Post not created.");
 
         CommentModel comment = WEareApi.createComment(receiver, post);
@@ -79,8 +77,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         UserModel user = WEareApi.registerUser(ROLE_USER.toString());
 
-        boolean publicVisibility = false;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, false);
         assertTrue(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post not created.");
 
         CommentModel comment = WEareApi.createComment(user, post);
@@ -98,8 +95,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         List<Integer> commentIds = new ArrayList<>();
 
-        boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, true);
         assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         int commentsCount = 3;
@@ -126,8 +122,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void CommentOfPublicPostEdited_By_Author() {
 
-        boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, true);
         assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         CommentModel comment = WEareApi.createComment(newUser, post);
@@ -149,8 +144,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void CommentOfPublicPostEdited_By_AdminUser() {
 
-        boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, true);
         assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         CommentModel comment = WEareApi.createComment(newUser, post);
@@ -172,8 +166,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void CommentOfPrivatePostEdited_By_AdminUser() {
 
-        boolean publicVisibility = false;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, false);
         assertTrue(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post not created.");
 
         CommentModel comment = WEareApi.createComment(commentUser, post);
@@ -196,8 +189,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         UserModel userToLikeComment = WEareApi.registerUser(ROLE_USER.toString());
 
-        boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, true);
         assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         CommentModel commentToBeLiked = WEareApi.createComment(newUser, post);
@@ -221,8 +213,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void CommentOfPublicPostDeleted_By_Author() {
 
-        boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, true);
         assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         CommentModel commentToBeDeleted = WEareApi.createComment(newUser, post);
@@ -240,8 +231,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void CommentOfPublicPostDeleted_By_AdminUser() {
 
-        boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, true);
         assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         CommentModel commentToBeDeleted = WEareApi.createComment(newUser, post);
@@ -261,8 +251,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         WEareApi.connectUsers(commentUser, newUser);
 
-        boolean publicVisibility = false;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, false);
         assertTrue(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post not created.");
 
         CommentModel commentToBeDeleted = WEareApi.createComment(newUser, post);
@@ -280,8 +269,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void AllCommentsOfPostListed_When_Required_By_User() {
 
-        boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, true);
         assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         int commentCount = 3;
@@ -311,8 +299,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void CommentOfPostFoundById_When_Requested_By_User() {
 
-        boolean publicVisibility = true;
-        PostModel post = WEareApi.createPost(commentUser, publicVisibility);
+        PostModel post = WEareApi.createPost(commentUser, true);
         assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
 
         CommentModel comment = WEareApi.createComment(newUser, post);
