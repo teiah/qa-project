@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="WEare Social Network Tests">
+    <test name="WEare Social Network Selenium WebDriver Tests">
+        <classes>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumCommentTest"/>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumConnectionTest"/>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumPostTest"/>
+            <class name="test.cases.weareseleniumtests.tests.SeleniumUserTest"/>
+        </classes>
+    </test>
+    <test name="WEare Social Network REST Assured Tests">
+        <classes>
+            <class name="test.cases.wearerestassuredtests.tests.RESTUserControllerTest"/>
+            <class name="test.cases.wearerestassuredtests.tests.RESTConnectionControllerTest"/>
+            <class name="test.cases.wearerestassuredtests.tests.RESTPostControllerTest"/>
+            <class name="test.cases.wearerestassuredtests.tests.RESTCommentControllerTest"/>
+            <class name="test.cases.wearerestassuredtests.tests.RESTSkillControllerTest"/>
+        </classes>
+    </test>
+</suite>
