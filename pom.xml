@@ -24,6 +24,11 @@
                             <include>**/Suites/TestNG_REST_Assured.xml</include>
                             <include>**/Suites/TestNG_Selenium_WebDriver.xml</include>
                         </includes>
+                    <suiteXmlFiles>
+                        <xmlFile>Suites/TestNG_All.xml</xmlFile>
+                        <xmlFile>Suites/TestNG_REST_Assured.xml</xmlFile>
+                        <xmlFile>Suites/TestNG_Selenium_WebDriver.xml</xmlFile>
+                    </suiteXmlFiles>
                 </configuration>
             </plugin>
             <plugin>
@@ -43,6 +48,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>3.1.2</version>
+                <configuration>
+                    <outputName>WEare Social Network Testing Report</outputName>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>

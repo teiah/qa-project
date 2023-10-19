@@ -971,8 +971,6 @@ public class WeAreApi {
 
         for (PostModel post : foundPosts) {
             if (post.getPostId() == postId) {
-                System.out.println(post.getPostId());
-                System.out.println(postId);
                 assertNotEquals(post.getContent(), postToBeEditedContent,
                         "Post contents are equal. Post was not edited");
                 break;

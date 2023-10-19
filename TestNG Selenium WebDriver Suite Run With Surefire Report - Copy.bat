@@ -1,0 +1,1 @@
+mvn surefire-report:report -DXmlFile=TestNG_Selenium_WebDriver.xml

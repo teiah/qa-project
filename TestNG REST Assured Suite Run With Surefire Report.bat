@@ -1,0 +1,1 @@
+mvn surefire-report:report -DXmlFile=TestNG_REST_Assured.xml
