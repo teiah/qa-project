@@ -21,73 +21,73 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
     @BeforeClass
     public void setUpCommentTest() {
-        commentUser = WEareApi.registerUser(ROLE_USER.toString());
-        newUser = WEareApi.registerUser(ROLE_USER.toString());
+        commentUser = weAreApi.registerUser(ROLE_USER.toString());
+        newUser = weAreApi.registerUser(ROLE_USER.toString());
     }
 
     @AfterClass
     public void cleanUpCommentTest() {
-        WEareApi.disableUser(globalRESTAdminUser, commentUser.getId());
-        WEareApi.disableUser(globalRESTAdminUser, newUser.getId());
+        weAreApi.disableUser(globalRESTAdminUser, commentUser.getId());
+        weAreApi.disableUser(globalRESTAdminUser, newUser.getId());
     }
 
     @Test
     public void CommentOfPublicPostCreated_When_ValidDataProvided() {
 
-        PostModel post = WEareApi.createPost(commentUser, true);
-        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, true);
+        assertTrue(weAreApi.publicPostExists(post.getPostId()), "Post not created.");
 
-        CommentModel comment = WEareApi.createComment(newUser, post);
-        assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
+        CommentModel comment = weAreApi.createComment(newUser, post);
+        assertTrue(weAreApi.commentExists(comment.getCommentId()), "Comment not created.");
 
-        WEareApi.deleteComment(newUser, comment.getCommentId());
-        assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
+        weAreApi.deleteComment(newUser, comment.getCommentId());
+        assertFalse(weAreApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.publicPostExists(post.getPostId()), "Post was not deleted.");
 
     }
 
     @Test
     public void CommentOfPrivatePostCreated_When_ValidDataProvided() {
 
-        UserModel postCreator = WEareApi.registerUser(ROLE_USER.toString());
-        UserModel commentCreator = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel postCreator = weAreApi.registerUser(ROLE_USER.toString());
+        UserModel commentCreator = weAreApi.registerUser(ROLE_USER.toString());
 
-        WEareApi.connectUsers(postCreator, commentCreator);
+        weAreApi.connectUsers(postCreator, commentCreator);
 
-        PostModel post = WEareApi.createPost(postCreator, false);
-        assertTrue(WEareApi.privatePostExists(postCreator, post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(postCreator, false);
+        assertTrue(weAreApi.privatePostExists(postCreator, post.getPostId()), "Post not created.");
 
-        CommentModel comment = WEareApi.createComment(commentCreator, post);
-        assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
+        CommentModel comment = weAreApi.createComment(commentCreator, post);
+        assertTrue(weAreApi.commentExists(comment.getCommentId()), "Comment not created.");
 
-        WEareApi.deleteComment(commentCreator, comment.getCommentId());
-        assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
+        weAreApi.deleteComment(commentCreator, comment.getCommentId());
+        assertFalse(weAreApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(postCreator, post.getPostId());
-        assertFalse(WEareApi.privatePostExists(postCreator, post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(postCreator, post.getPostId());
+        assertFalse(weAreApi.privatePostExists(postCreator, post.getPostId()), "Post was not deleted.");
 
-        WEareApi.disableUser(globalRESTAdminUser, postCreator.getId());
-        WEareApi.disableUser(globalRESTAdminUser, commentCreator.getId());
+        weAreApi.disableUser(globalRESTAdminUser, postCreator.getId());
+        weAreApi.disableUser(globalRESTAdminUser, commentCreator.getId());
     }
 
     @Test
     public void CommentOfPrivatePostNotCreated_When_UsersNotConnected() {
 
-        UserModel user = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel user = weAreApi.registerUser(ROLE_USER.toString());
 
-        PostModel post = WEareApi.createPost(commentUser, false);
-        assertTrue(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, false);
+        assertTrue(weAreApi.privatePostExists(commentUser, post.getPostId()), "Post not created.");
 
-        CommentModel comment = WEareApi.createComment(user, post);
+        CommentModel comment = weAreApi.createComment(user, post);
 
         assertNull(comment, "Comment was made.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.privatePostExists(commentUser, post.getPostId()), "Post was not deleted.");
 
-        WEareApi.disableUser(globalRESTAdminUser, user.getId());
+        weAreApi.disableUser(globalRESTAdminUser, user.getId());
     }
 
     @Test
@@ -95,225 +95,225 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         List<Integer> commentIds = new ArrayList<>();
 
-        PostModel post = WEareApi.createPost(commentUser, true);
-        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, true);
+        assertTrue(weAreApi.publicPostExists(post.getPostId()), "Post not created.");
 
         int commentsCount = 3;
         for (int i = 0; i < commentsCount; i++) {
-            CommentModel comment = WEareApi.createComment(newUser, post);
-            assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
+            CommentModel comment = weAreApi.createComment(newUser, post);
+            assertTrue(weAreApi.commentExists(comment.getCommentId()), "Comment not created.");
             commentIds.add(comment.getCommentId());
         }
 
-        CommentModel[] comments = WEareApi.findAllComments();
+        CommentModel[] comments = weAreApi.findAllComments();
 
         for (CommentModel comment : comments) {
             if (commentIds.contains(comment.getCommentId())) {
-                assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
-                WEareApi.deleteComment(newUser, comment.getCommentId());
-                assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
+                assertTrue(weAreApi.commentExists(comment.getCommentId()), "Comment not created.");
+                weAreApi.deleteComment(newUser, comment.getCommentId());
+                assertFalse(weAreApi.commentExists(comment.getCommentId()), "Comment not created.");
             }
         }
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.privatePostExists(commentUser, post.getPostId()), "Post was not deleted.");
     }
 
     @Test
     public void CommentOfPublicPostEdited_By_Author() {
 
-        PostModel post = WEareApi.createPost(commentUser, true);
-        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, true);
+        assertTrue(weAreApi.publicPostExists(post.getPostId()), "Post not created.");
 
-        CommentModel comment = WEareApi.createComment(newUser, post);
-        assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
+        CommentModel comment = weAreApi.createComment(newUser, post);
+        assertTrue(weAreApi.commentExists(comment.getCommentId()), "Comment not created.");
 
         String contentToBeEdited = comment.getContent();
 
-        WEareApi.editComment(newUser, comment);
-        WEareApi.assertEditedComment(newUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
+        weAreApi.editComment(newUser, comment);
+        weAreApi.assertEditedComment(newUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
 
-        WEareApi.deleteComment(newUser, comment.getCommentId());
-        assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
+        weAreApi.deleteComment(newUser, comment.getCommentId());
+        assertFalse(weAreApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.publicPostExists(post.getPostId()), "Post was not deleted.");
 
     }
 
     @Test
     public void CommentOfPublicPostEdited_By_AdminUser() {
 
-        PostModel post = WEareApi.createPost(commentUser, true);
-        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, true);
+        assertTrue(weAreApi.publicPostExists(post.getPostId()), "Post not created.");
 
-        CommentModel comment = WEareApi.createComment(newUser, post);
-        assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
+        CommentModel comment = weAreApi.createComment(newUser, post);
+        assertTrue(weAreApi.commentExists(comment.getCommentId()), "Comment not created.");
 
         String contentToBeEdited = comment.getContent();
 
-        WEareApi.editComment(globalRESTAdminUser, comment);
-        WEareApi.assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
+        weAreApi.editComment(globalRESTAdminUser, comment);
+        weAreApi.assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
 
-        WEareApi.deleteComment(newUser, comment.getCommentId());
-        assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
+        weAreApi.deleteComment(newUser, comment.getCommentId());
+        assertFalse(weAreApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.publicPostExists(post.getPostId()), "Post was not deleted.");
 
     }
 
     @Test
     public void CommentOfPrivatePostEdited_By_AdminUser() {
 
-        PostModel post = WEareApi.createPost(commentUser, false);
-        assertTrue(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, false);
+        assertTrue(weAreApi.privatePostExists(commentUser, post.getPostId()), "Post not created.");
 
-        CommentModel comment = WEareApi.createComment(commentUser, post);
-        assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
+        CommentModel comment = weAreApi.createComment(commentUser, post);
+        assertTrue(weAreApi.commentExists(comment.getCommentId()), "Comment not created.");
 
         String contentToBeEdited = comment.getContent();
 
-        WEareApi.editComment(globalRESTAdminUser, comment);
-        WEareApi.assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
+        weAreApi.editComment(globalRESTAdminUser, comment);
+        weAreApi.assertEditedComment(commentUser, post.getPostId(), comment.getCommentId(), contentToBeEdited);
 
-        WEareApi.deleteComment(globalRESTAdminUser, comment.getCommentId());
-        assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
+        weAreApi.deleteComment(globalRESTAdminUser, comment.getCommentId());
+        assertFalse(weAreApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.privatePostExists(commentUser, post.getPostId()), "Post was not deleted.");
     }
 
     @Test
     public void CommentOfPublicPostLiked_By_User() {
 
-        UserModel userToLikeComment = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel userToLikeComment = weAreApi.registerUser(ROLE_USER.toString());
 
-        PostModel post = WEareApi.createPost(commentUser, true);
-        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, true);
+        assertTrue(weAreApi.publicPostExists(post.getPostId()), "Post not created.");
 
-        CommentModel commentToBeLiked = WEareApi.createComment(newUser, post);
-        assertTrue(WEareApi.commentExists(commentToBeLiked.getCommentId()), "Comment not created.");
+        CommentModel commentToBeLiked = weAreApi.createComment(newUser, post);
+        assertTrue(weAreApi.commentExists(commentToBeLiked.getCommentId()), "Comment not created.");
 
         int likedCommentLikesToHave = commentToBeLiked.getLikes().size();
 
-        CommentModel likedComment = WEareApi.likeComment(userToLikeComment, commentToBeLiked.getCommentId());
-        assertTrue(WEareApi.commentExists(likedComment.getCommentId()), "Comment not created.");
+        CommentModel likedComment = weAreApi.likeComment(userToLikeComment, commentToBeLiked.getCommentId());
+        assertTrue(weAreApi.commentExists(likedComment.getCommentId()), "Comment not created.");
 
         assertEquals(likedComment.getLikes().size(), likedCommentLikesToHave + 1, "Comment was not liked.");
         assertEquals(commentToBeLiked.getCommentId(), likedComment.getCommentId(), "Liked comment is different.");
 
-        WEareApi.deleteComment(newUser, commentToBeLiked.getCommentId());
-        assertFalse(WEareApi.commentExists(commentToBeLiked.getCommentId()), "Comment was not deleted.");
+        weAreApi.deleteComment(newUser, commentToBeLiked.getCommentId());
+        assertFalse(weAreApi.commentExists(commentToBeLiked.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.publicPostExists(post.getPostId()), "Post was not deleted.");
     }
 
     @Test
     public void CommentOfPublicPostDeleted_By_Author() {
 
-        PostModel post = WEareApi.createPost(commentUser, true);
-        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, true);
+        assertTrue(weAreApi.publicPostExists(post.getPostId()), "Post not created.");
 
-        CommentModel commentToBeDeleted = WEareApi.createComment(newUser, post);
+        CommentModel commentToBeDeleted = weAreApi.createComment(newUser, post);
         int commentToBeDeletedId = commentToBeDeleted.getCommentId();
-        assertTrue(WEareApi.commentExists(commentToBeDeletedId), "Comment not created.");
+        assertTrue(weAreApi.commentExists(commentToBeDeletedId), "Comment not created.");
 
-        WEareApi.deleteComment(newUser, commentToBeDeletedId);
-        assertFalse(WEareApi.commentExists(commentToBeDeletedId), "Comment was not deleted.");
+        weAreApi.deleteComment(newUser, commentToBeDeletedId);
+        assertFalse(weAreApi.commentExists(commentToBeDeletedId), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.publicPostExists(post.getPostId()), "Post was not deleted.");
 
     }
 
     @Test
     public void CommentOfPublicPostDeleted_By_AdminUser() {
 
-        PostModel post = WEareApi.createPost(commentUser, true);
-        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, true);
+        assertTrue(weAreApi.publicPostExists(post.getPostId()), "Post not created.");
 
-        CommentModel commentToBeDeleted = WEareApi.createComment(newUser, post);
+        CommentModel commentToBeDeleted = weAreApi.createComment(newUser, post);
         int commentToBeDeletedId = commentToBeDeleted.getCommentId();
-        assertTrue(WEareApi.commentExists(commentToBeDeletedId), "Comment not created.");
+        assertTrue(weAreApi.commentExists(commentToBeDeletedId), "Comment not created.");
 
-        WEareApi.deleteComment(globalRESTAdminUser, commentToBeDeletedId);
-        assertFalse(WEareApi.commentExists(commentToBeDeletedId), "Comment was not deleted.");
+        weAreApi.deleteComment(globalRESTAdminUser, commentToBeDeletedId);
+        assertFalse(weAreApi.commentExists(commentToBeDeletedId), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.publicPostExists(post.getPostId()), "Post was not deleted.");
 
     }
 
     @Test
     public void CommentOfPrivatePostDeleted_By_AdminUser() {
 
-        WEareApi.connectUsers(commentUser, newUser);
+        weAreApi.connectUsers(commentUser, newUser);
 
-        PostModel post = WEareApi.createPost(commentUser, false);
-        assertTrue(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, false);
+        assertTrue(weAreApi.privatePostExists(commentUser, post.getPostId()), "Post not created.");
 
-        CommentModel commentToBeDeleted = WEareApi.createComment(newUser, post);
+        CommentModel commentToBeDeleted = weAreApi.createComment(newUser, post);
         int commentToBeDeletedId = commentToBeDeleted.getCommentId();
-        assertTrue(WEareApi.commentExists(commentToBeDeletedId), "Comment not created.");
+        assertTrue(weAreApi.commentExists(commentToBeDeletedId), "Comment not created.");
 
-        WEareApi.deleteComment(globalRESTAdminUser, commentToBeDeletedId);
-        assertFalse(WEareApi.commentExists(commentToBeDeletedId), "Comment was not deleted.");
+        weAreApi.deleteComment(globalRESTAdminUser, commentToBeDeletedId);
+        assertFalse(weAreApi.commentExists(commentToBeDeletedId), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.privatePostExists(commentUser, post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.privatePostExists(commentUser, post.getPostId()), "Post was not deleted.");
 
     }
 
     @Test
     public void AllCommentsOfPostListed_When_Required_By_User() {
 
-        PostModel post = WEareApi.createPost(commentUser, true);
-        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, true);
+        assertTrue(weAreApi.publicPostExists(post.getPostId()), "Post not created.");
 
         int commentCount = 3;
 
         for (int i = 0; i < commentCount; i++) {
-            WEareApi.createComment(newUser, post);
+            weAreApi.createComment(newUser, post);
         }
 
-        CommentModel[] postComments = WEareApi.findAllCommentsOfAPost(commentUser, post.getPostId());
+        CommentModel[] postComments = weAreApi.findAllCommentsOfAPost(commentUser, post.getPostId());
 
         assertEquals(postComments.length, commentCount, "Wrong post comments count");
 
         for (CommentModel comment : postComments) {
-            assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
+            assertTrue(weAreApi.commentExists(comment.getCommentId()), "Comment not created.");
         }
 
         for (CommentModel comment : postComments) {
-            WEareApi.deleteComment(newUser, comment.getCommentId());
-            assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment not deleted.");
+            weAreApi.deleteComment(newUser, comment.getCommentId());
+            assertFalse(weAreApi.commentExists(comment.getCommentId()), "Comment not deleted.");
         }
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.publicPostExists(post.getPostId()), "Post was not deleted.");
 
     }
 
     @Test
     public void CommentOfPostFoundById_When_Requested_By_User() {
 
-        PostModel post = WEareApi.createPost(commentUser, true);
-        assertTrue(WEareApi.publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = weAreApi.createPost(commentUser, true);
+        assertTrue(weAreApi.publicPostExists(post.getPostId()), "Post not created.");
 
-        CommentModel comment = WEareApi.createComment(newUser, post);
+        CommentModel comment = weAreApi.createComment(newUser, post);
         int commentId = comment.getCommentId();
-        assertTrue(WEareApi.commentExists(commentId), "Comment not created.");
+        assertTrue(weAreApi.commentExists(commentId), "Comment not created.");
 
-        CommentModel foundComment = WEareApi.getCommentById(commentUser, commentId);
+        CommentModel foundComment = weAreApi.getCommentById(commentUser, commentId);
         assertEquals(foundComment.getCommentId(), commentId, "Comments do not match.");
 
-        WEareApi.deleteComment(newUser, comment.getCommentId());
-        assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
+        weAreApi.deleteComment(newUser, comment.getCommentId());
+        assertFalse(weAreApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(commentUser, post.getPostId());
-        assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
+        weAreApi.deletePost(commentUser, post.getPostId());
+        assertFalse(weAreApi.publicPostExists(post.getPostId()), "Post was not deleted.");
     }
 
 }

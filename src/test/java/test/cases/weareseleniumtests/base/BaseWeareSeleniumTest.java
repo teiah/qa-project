@@ -23,10 +23,10 @@ public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     @BeforeClass
     public void setUpSelenium() {
-        globalSeleniumAdminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
+        globalSeleniumAdminUser = weAreApi.registerUser(ROLE_ADMIN.toString());
         adminUsername = globalSeleniumAdminUser.getUsername();
         adminPassword = globalSeleniumAdminUser.getPassword();
-        globalUser = WEareApi.registerUser(ROLE_USER.toString());
+        globalUser = weAreApi.registerUser(ROLE_USER.toString());
         globalUserUsername = globalUser.getUsername();
         globalUserPassword = globalUser.getPassword();
         UserActions.loadBrowser("weare.baseUrl");
@@ -34,7 +34,7 @@ public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     @AfterClass
     public void disableGlobalUser() {
-        WEareApi.disableUser(globalSeleniumAdminUser, globalUser.getId());
+        weAreApi.disableUser(globalSeleniumAdminUser, globalUser.getId());
     }
 
     @AfterSuite

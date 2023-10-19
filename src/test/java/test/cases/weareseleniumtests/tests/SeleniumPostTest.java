@@ -1,15 +1,12 @@
 package test.cases.weareseleniumtests.tests;
 
 import api.models.PostModel;
-import api.models.UserModel;
 import com.telerikacademy.testframework.pages.weare.*;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
-
-import static com.telerikacademy.testframework.utils.UserRoles.ROLE_ADMIN;
 
 public class SeleniumPostTest extends BaseWeareSeleniumTest {
 
@@ -25,7 +22,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
         }
 
         if (postId != null) {
-            WEareApi.deletePost(globalUser, postId);
+            weAreApi.deletePost(globalUser, postId);
             postId = null;
         }
     }
@@ -60,7 +57,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void PostLiked_By_User() {
 
-        PostModel createdPost = WEareApi.createPost(globalUser, true);
+        PostModel createdPost = weAreApi.createPost(globalUser, true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -77,7 +74,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void PostEdited_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = this.WEareApi.createPost(globalUser, true);
+        PostModel createdPost = this.weAreApi.createPost(globalUser, true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -97,7 +94,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void PostDeleted_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = this.WEareApi.createPost(globalUser, true);
+        PostModel createdPost = this.weAreApi.createPost(globalUser, true);
         Integer postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());

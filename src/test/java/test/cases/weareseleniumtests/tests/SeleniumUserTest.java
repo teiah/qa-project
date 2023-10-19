@@ -37,7 +37,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
         registerPage.registerUser(username, email, password);
         registeredUserId = Integer.parseInt(registerPage.extractUserId());
 
-        UserByIdModel registeredUser = WEareApi.getUserById(username, registeredUserId).as(UserByIdModel.class);
+        UserByIdModel registeredUser = weAreApi.getUserById(username, registeredUserId).as(UserByIdModel.class);
 
         Assert.assertEquals(registeredUser.getUsername(), username);
         Assert.assertEquals(registeredUser.getEmail(), email);
@@ -47,7 +47,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     @Test
     public void UserLoggedIn_When_ValidCredentialsProvided() {
 
-        UserModel registeredUser = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel registeredUser = weAreApi.registerUser(ROLE_USER.toString());
         registeredUserId = registeredUser.getId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());

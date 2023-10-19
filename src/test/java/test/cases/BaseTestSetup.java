@@ -12,7 +12,7 @@ import static com.telerikacademy.testframework.utils.Constants.BASE_URL;
 
 public class BaseTestSetup {
 
-    protected WeAreApi WEareApi;
+    protected WeAreApi weAreApi;
     protected Helpers helpers;
 
     @BeforeClass
@@ -28,7 +28,7 @@ public class BaseTestSetup {
         TestRunner runner = (TestRunner) ctx;
         runner.setOutputDirectory("/target");
 
-        WEareApi = new WeAreApi();
+        weAreApi = new WeAreApi();
         helpers = new Helpers();
 
     }

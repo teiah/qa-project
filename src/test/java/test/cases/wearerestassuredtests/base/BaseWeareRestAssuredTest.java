@@ -12,7 +12,7 @@ public class BaseWeareRestAssuredTest extends BaseTestSetup {
 
     @BeforeClass
     public void setUpRestAssured() {
-        globalRESTAdminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
+        globalRESTAdminUser = weAreApi.registerUser(ROLE_ADMIN.toString());
     }
 
 }
