@@ -51,25 +51,25 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void CommentOfPrivatePostCreated_When_ValidDataProvided() {
 
-        UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
-        UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel postCreator = WEareApi.registerUser(ROLE_USER.toString());
+        UserModel commentCreator = WEareApi.registerUser(ROLE_USER.toString());
 
-        WEareApi.connectUsers(sender, receiver);
+        WEareApi.connectUsers(postCreator, commentCreator);
 
-        PostModel post = WEareApi.createPost(sender, false);
-        assertTrue(WEareApi.privatePostExists(sender, post.getPostId()), "Post not created.");
+        PostModel post = WEareApi.createPost(postCreator, false);
+        assertTrue(WEareApi.privatePostExists(postCreator, post.getPostId()), "Post not created.");
 
-        CommentModel comment = WEareApi.createComment(receiver, post);
+        CommentModel comment = WEareApi.createComment(commentCreator, post);
         assertTrue(WEareApi.commentExists(comment.getCommentId()), "Comment not created.");
 
-        WEareApi.deleteComment(receiver, comment.getCommentId());
+        WEareApi.deleteComment(commentCreator, comment.getCommentId());
         assertFalse(WEareApi.commentExists(comment.getCommentId()), "Comment was not deleted.");
 
-        WEareApi.deletePost(sender, post.getPostId());
-        assertFalse(WEareApi.privatePostExists(sender, post.getPostId()), "Post was not deleted.");
+        WEareApi.deletePost(postCreator, post.getPostId());
+        assertFalse(WEareApi.privatePostExists(postCreator, post.getPostId()), "Post was not deleted.");
 
-        WEareApi.disableUser(globalRESTAdminUser, sender.getId());
-        WEareApi.disableUser(globalRESTAdminUser, receiver.getId());
+        WEareApi.disableUser(globalRESTAdminUser, postCreator.getId());
+        WEareApi.disableUser(globalRESTAdminUser, commentCreator.getId());
     }
 
     @Test
@@ -314,7 +314,6 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         WEareApi.deletePost(commentUser, post.getPostId());
         assertFalse(WEareApi.publicPostExists(post.getPostId()), "Post was not deleted.");
-
     }
 
 }
