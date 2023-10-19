@@ -21,7 +21,7 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>TestNG_All.xml</suiteXmlFile>
                         <suiteXmlFile>TestNG_REST_Assured.xml</suiteXmlFile>
-                        <suiteXmlFile>TestNG_REST_Assured.xml</suiteXmlFile>
+                        <suiteXmlFile>TestNG_Selenium_WebDriver.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
