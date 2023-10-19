@@ -6,6 +6,8 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 
+import java.lang.reflect.Method;
+
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;

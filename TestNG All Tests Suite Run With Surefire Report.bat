@@ -1,1 +1,1 @@
-mvn surefire-report:report 
+mvn surefire-report:report -Dsurefire.suiteXmlFiles=TestNG_All.xml

@@ -11,7 +11,6 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -19,15 +18,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                        <includes>
-                            <include>**/Suites/TestNG_All.xml</include>
-                            <include>**/Suites/TestNG_REST_Assured.xml</include>
-                            <include>**/Suites/TestNG_Selenium_WebDriver.xml</include>
-                        </includes>
                     <suiteXmlFiles>
-                        <xmlFile>Suites/TestNG_All.xml</xmlFile>
-                        <xmlFile>Suites/TestNG_REST_Assured.xml</xmlFile>
-                        <xmlFile>Suites/TestNG_Selenium_WebDriver.xml</xmlFile>
+                        <suiteXmlFile>TestNG_All.xml</suiteXmlFile>
+                        <suiteXmlFile>TestNG_REST_Assured.xml</suiteXmlFile>
+                        <suiteXmlFile>TestNG_REST_Assured.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
@@ -167,4 +161,5 @@
         </dependency>
 
     </dependencies>
+
 </project>
