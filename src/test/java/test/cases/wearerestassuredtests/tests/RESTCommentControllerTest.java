@@ -1,6 +1,5 @@
 package test.cases.wearerestassuredtests.tests;
 
-import api.WEareApi;
 import api.models.CommentModel;
 import api.models.PostModel;
 import api.models.UserModel;

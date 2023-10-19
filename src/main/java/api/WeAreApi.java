@@ -24,10 +24,10 @@ import static org.apache.http.HttpStatus.SC_MOVED_TEMPORARILY;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;
 
-public class WEareApi {
+public class WeAreApi {
 
     private final Helpers helpers = new Helpers();
-    private static final Logger LOGGER = Logger.getLogger(WEareApi.class);
+    private static final Logger LOGGER = Logger.getLogger(WeAreApi.class);
 
     public RequestSpecification getRestAssured(String... args) {
         Gson deserializer = new Gson();
