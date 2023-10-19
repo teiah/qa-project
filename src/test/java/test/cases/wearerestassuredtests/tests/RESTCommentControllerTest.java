@@ -32,7 +32,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanCreateCommentOfAPublicPostWithValidData() {
+    public void CommentOfPublicPostCreated_When_ValidDataProvided() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
@@ -50,7 +50,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanCreateCommentOfAPrivatePostWithValidDataIfConnected() {
+    public void CommentOfPrivatePostCreated_When_ValidDataProvided() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -75,7 +75,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCannotCreateCommentOfAPrivatePostWhenNotConnected() {
+    public void CommentOfPrivatePostNotCreated_When_UsersNotConnected() {
 
         UserModel user = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -94,7 +94,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanFindAllComments() {
+    public void AllCommentsListed_When_Requested_By_User() {
 
         List<Integer> commentIds = new ArrayList<>();
 
@@ -124,7 +124,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanEditCommentOfAPostWithValid_Data() {
+    public void CommentOfPublicPostEdited_By_Author() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
@@ -147,7 +147,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserCanEditCommentOfAPublicPostWithValidData() {
+    public void CommentOfPublicPostEdited_By_AdminUser() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
@@ -170,7 +170,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserCanEditCommentOfAPrivatePostWithValidData() {
+    public void CommentOfPrivatePostEdited_By_AdminUser() {
 
         boolean publicVisibility = false;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
@@ -192,7 +192,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanLikeCommentOfAPublicPost() {
+    public void CommentOfPublicPostLiked_By_User() {
 
         UserModel userToLikeComment = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -219,7 +219,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanDeleteCommentOfAPublicPost() {
+    public void CommentOfPublicPostDeleted_By_Author() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
@@ -238,7 +238,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserCanDeleteCommentOfAPublicPost() {
+    public void CommentOfPublicPostDeleted_By_AdminUser() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
@@ -257,7 +257,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserCanDeleteCommentOfAPrivatePost() {
+    public void CommentOfPrivatePostDeleted_By_AdminUser() {
 
         WEareApi.connectUsers(commentUser, newUser);
 
@@ -278,7 +278,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanFindAllCommentsOfAPost() {
+    public void AllCommentsOfPostListed_When_Required_By_User() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);
@@ -309,7 +309,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanFindACommentById() {
+    public void CommentOfPostFoundById_When_Requested_By_User() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(commentUser, publicVisibility);

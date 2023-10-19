@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>academy.com</groupId>
-    <artifactId>test-automation-framework</artifactId>
+    <groupId>telerik.academy</groupId>
+    <artifactId>WEare-Social-Network-Testing</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -19,9 +19,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
+                        <includes>
+                            <include>**/Suites/TestNG_All.xml</include>
+                            <include>**/Suites/TestNG_REST_Assured.xml</include>
+                            <include>**/Suites/TestNG_Selenium_WebDriver.xml</include>
+                        </includes>
                 </configuration>
             </plugin>
             <plugin>
@@ -155,7 +157,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.1.2</version>
         </dependency>
-
 
     </dependencies>
 </project>

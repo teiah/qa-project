@@ -18,7 +18,7 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void userCanCreateCommentWithValidInput() {
+    public void CommentOfPublicPostCreated_When_ValidDataProvided() {
 
         PostModel createdPost = WEareApi.createPost(globalUser, publicVisibility);
         postId = createdPost.getPostId();
@@ -38,7 +38,7 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void userCanEditCommentWithValidInput() {
+    public void CommentOfPublicPostEdited_By_Author() {
 
         PostModel createdPost = WEareApi.createPost(globalUser, publicVisibility);
         postId = createdPost.getPostId();
@@ -58,7 +58,7 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void userCanDeleteOwnComment() {
+    public void CommentOfPublicPostDeleted_By_Author() {
 
         PostModel createdPost = WEareApi.createPost(globalUser, publicVisibility);
         postId = createdPost.getPostId();
@@ -79,7 +79,7 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void userCanLikeComment() {
+    public void CommentOfPublicPostLiked_By_User() {
 
         PostModel createdPost = WEareApi.createPost(globalUser, publicVisibility);
         postId = createdPost.getPostId();

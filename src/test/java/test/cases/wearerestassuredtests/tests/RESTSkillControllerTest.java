@@ -28,7 +28,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanFindAllSkills() {
+    public void AllSkillsListed_When_Requested_By_User() {
 
         List<Integer> skillIds = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -51,7 +51,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanCreateSkill() {
+    public void Skill_Created_By_User() {
 
         SkillModel skill = WEareApi.createSkill(skillUser);
         assertTrue(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
@@ -61,7 +61,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanDeleteSkill() {
+    public void Skill_Deleted_By_User() {
 
         SkillModel skill = WEareApi.createSkill(skillUser);
         assertTrue(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
@@ -72,7 +72,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanEditSkill() {
+    public void Skill_Edited_By_User() {
 
         SkillModel skill = WEareApi.createSkill(skillUser);
         assertTrue(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
@@ -87,7 +87,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanGetSkillById() {
+    public void SkillFoundById_When_Requested_By_User() {
 
         SkillModel skill = WEareApi.createSkill(skillUser);
         assertTrue(WEareApi.skillExists(skill.getSkillId()), "Skill was not deleted.");

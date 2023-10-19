@@ -7,8 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="test-automation-framework" />
+        <module name="WEare-Social-Network-Testing" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="test-automation-framework" target="1.8" />
+      <module name="WEare-API-UI" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

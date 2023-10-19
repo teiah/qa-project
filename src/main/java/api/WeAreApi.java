@@ -493,7 +493,6 @@ public class WeAreApi {
                 .queryParam("postId", postId)
                 .post(API + LIKE_POST);
 
-        System.out.println(response.getBody().asPrettyString());
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 

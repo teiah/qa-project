@@ -12,7 +12,7 @@ import static org.testng.Assert.*;
 public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
-    public void userCanSendRequestToAnotherUser() {
+    public void ConnectionRequestSent_By_User() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -33,7 +33,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanApproveRequestFromAnotherUser() {
+    public void ConnectionRequestApproved_By_User() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -63,7 +63,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanDisconnectFromAnotherUser() {
+    public void ConnectionCutOff_From_ConnectedUser() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -84,7 +84,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanReceiveUserRequest() {
+    public void RequestReceived_By_User() {
 
         UserModel sender = WEareApi.registerUser(ROLE_USER.toString());
         UserModel receiver = WEareApi.registerUser(ROLE_USER.toString());
@@ -106,4 +106,5 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         WEareApi.disableUser(globalRESTAdminUser, sender.getId());
         WEareApi.disableUser(globalRESTAdminUser, receiver.getId());
     }
+
 }

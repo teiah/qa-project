@@ -79,7 +79,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void UserListProfilePosts_When_Requested() {
+    public void UserPostsListed_When_Requested() {
 
         int postsCount = 3;
         for (int i = 0; i < postsCount; i++) {
@@ -107,7 +107,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void AdminUserFoundAnotherUserById_When_ValidDataProvided() {
+    public void UserFoundById_When_Requested_By_AdminUser() {
 
         Response returnedUser = WEareApi.getUserById(globalRESTAdminUser.getUsername(), user.getId());
 
@@ -118,7 +118,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void UserFoundAnotherUserById_When_ValidDataProvided() {
+    public void UserFoundById_When_Requested_By_AnotherUser() {
 
         UserModel userToFind = WEareApi.registerUser(ROLE_USER.toString());
 

@@ -26,7 +26,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void userCanRegisterWithValidCredentials() {
+    public void UserRegistered_When_ValidDataProvided() {
 
         // Generate a random username and password
         String username = helpers.generateUsernameAsImplemented(ROLE_USER.toString());
@@ -45,7 +45,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void userCanLoginWithValidCredentials() {
+    public void UserLoggedIn_When_ValidCredentialsProvided() {
 
         UserModel registeredUser = WEareApi.registerUser(ROLE_USER.toString());
         registeredUserId = registeredUser.getId();
