@@ -10,7 +10,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
 
     @Test
     // only text, default visibility private, no image
-    public void userCanCreatePostWithValidInput() {
+    public void PostCreated_When_ValidDataProvided() {
 
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -28,7 +28,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void userCanLikePost() {
+    public void PostLiked_By_User() {
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(globalUser, publicVisibility);
@@ -46,7 +46,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void adminUserCanEditAnotherUsersPost() {
+    public void PostEdited_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(globalUser, publicVisibility);
@@ -67,7 +67,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     }
 
     @Test
-    public void adminUserCanDeleteAnotherUsersPost() {
+    public void PostDeleted_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = true;
         PostModel createdPost = this.WEareApi.createPost(globalUser, publicVisibility);

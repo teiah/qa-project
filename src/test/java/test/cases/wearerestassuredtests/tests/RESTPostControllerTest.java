@@ -27,7 +27,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanCreatePublicPostWithValidData() {
+    public void PublicPostCreated_When_ValidDataProvided() {
 
         boolean publicVisibility = true;
         PostModel post = WEareApi.createPost(postUser, publicVisibility);
@@ -38,7 +38,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanCreatePrivatePostWithValidData() {
+    public void PrivatePostCreated_When_ValidDataProvided() {
 
         boolean publicVisibility = false;
         PostModel post = WEareApi.createPost(postUser, publicVisibility);
@@ -49,7 +49,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanEditOwnPublicPostWithValidData() {
+    public void PublicPostEdited_By_Author() {
 
         boolean publicVisibility = true;
 
@@ -66,7 +66,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanEditOwnPrivatePostWithValidData() {
+    public void PrivatePostEdited_By_Author() {
 
         boolean publicVisibility = false;
 
@@ -84,7 +84,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserCanEditPublicPostOfAnotherUserWithValidData() {
+    public void PublicPostEdited_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = true;
 
@@ -101,7 +101,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserCanEditPrivatePostOfAnotherUserWithValidData() {
+    public void PrivatePostEdited_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = false;
 
@@ -119,7 +119,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanFindAllPosts() {
+    public void AllPostsListed_When_Requested_By_User() {
 
         List<Integer> postIds = new ArrayList<>();
 
@@ -155,7 +155,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanLikePost() {
+    public void PostLiked_By_User() {
 
         boolean publicVisibility = true;
         PostModel postToBeLiked = WEareApi.createPost(postUser, publicVisibility);
@@ -174,7 +174,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanDeletePost() {
+    public void PrivatePostDeleted_By_Author() {
 
         boolean publicVisibility = false;
 
@@ -188,7 +188,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserCanDeletePrivatePostOfAnotherUser() {
+    public void PrivatePostDeleted_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = false;
         PostModel postToBeDeleted = WEareApi.createPost(postUser, publicVisibility);
@@ -201,7 +201,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserCanDeletePublicPostOfAnotherUser() {
+    public void PublicPostDeleted_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = true;
         PostModel postToBeDeleted = WEareApi.createPost(postUser, publicVisibility);
@@ -214,7 +214,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanFindAllCommentsOfAPost() {
+    public void PostCommentsListed_When_Requested_By_User() {
 
         List<Integer> commentIds = new ArrayList<>();
 
