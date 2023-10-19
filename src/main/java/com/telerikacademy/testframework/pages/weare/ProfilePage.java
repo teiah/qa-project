@@ -14,6 +14,12 @@ public class ProfilePage extends BaseWearePage {
         actions.assertElementPresent("weare.profilePage.sentRequestMessage");
     }
 
+    public void disconnect() {
+        actions.waitForElementVisible("weare.profilePage.disconnectButton");
+        actions.clickElement("weare.profilePage.disconnectButton");
+        actions.assertElementPresent("weare.profilePage.connectButton");
+    }
+
     public void seeRequests() {
         actions.waitForElementClickable("weare.profilePage.newFriendRequestsButton");
         actions.clickElement("weare.profilePage.newFriendRequestsButton");

@@ -99,6 +99,8 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
         receiverProfilePage.navigateToPage();
         receiverProfilePage.assertPageNavigated();
 
+        receiverProfilePage.disconnect();
+
         WEareApi.disableUser(globalSeleniumAdminUser, sender.getId());
         WEareApi.disableUser(globalSeleniumAdminUser, receiver.getId());
     }
