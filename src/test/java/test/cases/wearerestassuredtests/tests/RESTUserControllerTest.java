@@ -26,7 +26,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanRegisterWithValidCredentials() {
+    public void UserRegistered_When_ValidCredentialsProvided() {
 
         UserModel userModel = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -35,7 +35,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanRegisterAsAdminWithValidCredentials() {
+    public void AdminUserRegistered_When_ValidCredentialsProvided() {
 
         UserModel adminUser = WEareApi.registerUser(ROLE_ADMIN.toString());
 
@@ -46,7 +46,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanEditPersonalProfileWithValidData() {
+    public void UserPersonalProfileEdited_When_ValidDataProvided() {
 
         PersonalProfileModel personalProfile = WEareApi.editPersonalProfile(user);
         user.setPersonalProfile(personalProfile);
@@ -56,7 +56,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanEditExpertiseProfileWithValid_Data() {
+    public void UserExpertiseProfileEdited_When_ValidDataProvided() {
 
         ExpertiseProfileModel expertiseProfile = WEareApi.editExpertiseProfile(user);
         user.setExpertiseProfile(expertiseProfile);
@@ -67,7 +67,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanGetUsersBySearchParameters() {
+    public void UserFound_When_SearchParametersProvided() {
 
         String firstname = user.getPersonalProfile().getFirstName();
 
@@ -79,7 +79,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanSeeProfilePostsOfUser() {
+    public void UserListProfilePosts_When_Requested() {
 
         int postsCount = 3;
         for (int i = 0; i < postsCount; i++) {
@@ -107,18 +107,33 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userCanFindUserByID() {
+    public void AdminUserFoundAnotherUserById_When_ValidDataProvided() {
 
-        Response returnedUser = WEareApi.getUserById(user.getUsername(), user.getId());
+        Response returnedUser = WEareApi.getUserById(globalRESTAdminUser.getUsername(), user.getId());
 
-        String userId = String.valueOf(returnedUser.getBody().jsonPath().getString("id"));
+        int userId = Integer.parseInt(returnedUser.getBody().jsonPath().getString("id"));
 
-        Assert.assertEquals(Integer.parseInt(userId), user.getId(), "Ids do not match.");
+        Assert.assertEquals(userId, user.getId(), "Ids do not match.");
 
     }
 
     @Test
-    public void adminUserCanDisableAnotherUser() {
+    public void UserFoundAnotherUserById_When_ValidDataProvided() {
+
+        UserModel userToFind = WEareApi.registerUser(ROLE_USER.toString());
+
+        Response returnedUser = WEareApi.getUserById(user.getUsername(), userToFind.getId());
+
+        int userId = Integer.parseInt(returnedUser.getBody().jsonPath().getString("id"));
+
+        Assert.assertEquals(userId, userToFind.getId(), "Ids do not match.");
+
+        WEareApi.disableUser(globalRESTAdminUser, userToFind.getId());
+
+    }
+
+    @Test
+    public void UserDisabled_By_AdminUser() {
 
         UserModel userToBeDisabled = WEareApi.registerUser(ROLE_USER.toString());
 
@@ -136,7 +151,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserCanEnableAnotherUser() {
+    public void UserEnabled_By_AdminUser() {
 
         UserModel userToBeEnabled = WEareApi.registerUser(ROLE_USER.toString());
 
