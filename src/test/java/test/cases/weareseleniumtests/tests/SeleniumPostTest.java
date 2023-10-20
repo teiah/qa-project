@@ -1,12 +1,14 @@
 package test.cases.weareseleniumtests.tests;
 
-import api.models.PostModel;
-import com.telerikacademy.testframework.pages.weare.*;
+import models.wearemodels.PostModel;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
+import pages.wearepages.*;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
+
+import static models.wearemodels.UserModel.generatePostContent;
 
 public class SeleniumPostTest extends BaseWeareSeleniumTest {
 
@@ -22,7 +24,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
         }
 
         if (postId != null) {
-            weAreApi.deletePost(globalUser, postId);
+            globalUser.deletePost(postId);
             postId = null;
         }
     }
@@ -35,7 +37,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 
-        String postMessage = helpers.generatePostContent();
+        String postMessage = generatePostContent();
 
         CreatePostPage createPostPage = new CreatePostPage(actions.getDriver());
         createPostPage.navigateToPage();
@@ -57,7 +59,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void PostLiked_By_User() {
 
-        PostModel createdPost = weAreApi.createPost(globalUser, true);
+        PostModel createdPost = globalUser.createPost(true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -74,7 +76,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void PostEdited_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = this.weAreApi.createPost(globalUser, true);
+        PostModel createdPost = globalUser.createPost(true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -82,7 +84,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
 
         EditPostPage editPostPage = new EditPostPage(actions.getDriver(), postId);
         editPostPage.navigateToPage();
-        String message = helpers.generatePostContent();
+        String message = generatePostContent();
         editPostPage.editPostVisibility();
         editPostPage.editPostMessage(message);
         editPostPage.savePostChanges();
@@ -94,7 +96,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void PostDeleted_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = this.weAreApi.createPost(globalUser, true);
+        PostModel createdPost = globalUser.createPost(true);
         Integer postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());

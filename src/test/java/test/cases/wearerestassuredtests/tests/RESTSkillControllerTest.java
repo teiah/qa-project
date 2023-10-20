@@ -1,7 +1,7 @@
 package test.cases.wearerestassuredtests.tests;
 
-import api.models.SkillModel;
-import api.models.UserModel;
+import models.wearemodels.SkillModel;
+import models.wearemodels.UserModel;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
 import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
@@ -9,22 +9,23 @@ import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 import java.util.ArrayList;
 import java.util.List;
 
+import static models.BaseModel.*;
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;
 
 public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
 
-    UserModel skillUser;
+    UserModel skillUser = new UserModel();
 
     @BeforeClass
     public void setUpSkillTest() {
-        skillUser = weAreApi.registerUser(ROLE_USER.toString());
+        skillUser.register(ROLE_USER.toString());
     }
 
     @AfterClass
     public void cleanUpSkillTest() {
-        weAreApi.disableUser(globalRESTAdminUser, skillUser.getId());
+        globalRESTAdminUser.disableUser(skillUser.getId());
     }
 
     @Test
@@ -32,19 +33,19 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
 
         List<Integer> skillIds = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            SkillModel skill = weAreApi.createSkill(skillUser);
-            assertTrue(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+            SkillModel skill = skillUser.createSkill();
+            assertTrue(skillExists(skill.getSkillId()), "Skill was not deleted.");
             skillIds.add(skill.getSkillId());
         }
 
-        SkillModel[] foundSkills = weAreApi.getAllSkills();
+        SkillModel[] foundSkills = getAllSkills();
 
         assertTrue(foundSkills.length > 0, "There are no skills found.");
 
         for (SkillModel skill : foundSkills) {
             if (skillIds.contains(skill.getSkillId())) {
-                weAreApi.deleteSkill(skill.getSkillId());
-                assertFalse(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+                skillUser.deleteSkill(skill.getSkillId());
+                assertFalse(skillExists(skill.getSkillId()), "Skill was not deleted.");
             }
         }
 
@@ -53,52 +54,52 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void Skill_Created_By_User() {
 
-        SkillModel skill = weAreApi.createSkill(skillUser);
-        assertTrue(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+        SkillModel skill = skillUser.createSkill();
+        assertTrue(skillExists(skill.getSkillId()), "Skill was not deleted.");
 
-        weAreApi.deleteSkill(skill.getSkillId());
-        assertFalse(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+        skillUser.deleteSkill(skill.getSkillId());
+        assertFalse(skillExists(skill.getSkillId()), "Skill was not deleted.");
     }
 
     @Test
     public void Skill_Deleted_By_User() {
 
-        SkillModel skill = weAreApi.createSkill(skillUser);
-        assertTrue(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+        SkillModel skill = skillUser.createSkill();
+        assertTrue(skillExists(skill.getSkillId()), "Skill was not deleted.");
 
-        weAreApi.deleteSkill(skill.getSkillId());
-        assertFalse(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+        skillUser.deleteSkill(skill.getSkillId());
+        assertFalse(skillExists(skill.getSkillId()), "Skill was not deleted.");
 
     }
 
     @Test
     public void Skill_Edited_By_User() {
 
-        SkillModel skill = weAreApi.createSkill(skillUser);
-        assertTrue(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+        SkillModel skill = skillUser.createSkill();
+        assertTrue(skillExists(skill.getSkillId()), "Skill was not deleted.");
 
-        Response editedSkillResponse = weAreApi.editSkill(skill.getSkillId());
+        Response editedSkillResponse = skillUser.editSkill(skill.getSkillId());
 
         int statusCode = editedSkillResponse.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        weAreApi.deleteSkill(skill.getSkillId());
-        assertFalse(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+        skillUser.deleteSkill(skill.getSkillId());
+        assertFalse(skillExists(skill.getSkillId()), "Skill was not deleted.");
     }
 
     @Test
     public void SkillFoundById_When_Requested_By_User() {
 
-        SkillModel skill = weAreApi.createSkill(skillUser);
-        assertTrue(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+        SkillModel skill = skillUser.createSkill();
+        assertTrue(skillExists(skill.getSkillId()), "Skill was not deleted.");
 
-        SkillModel foundSkill = weAreApi.getSkillById(skill.getSkillId());
+        SkillModel foundSkill = skillUser.getSkillById(skill.getSkillId());
 
         assertEquals(foundSkill.getSkillId(), skill.getSkillId(), "Ids do not match.");
         assertNotNull(foundSkill, "Skill not found.");
 
-        weAreApi.deleteSkill(skill.getSkillId());
-        assertFalse(weAreApi.skillExists(skill.getSkillId()), "Skill was not deleted.");
+        skillUser.deleteSkill(skill.getSkillId());
+        assertFalse(skillExists(skill.getSkillId()), "Skill was not deleted.");
     }
 
 }

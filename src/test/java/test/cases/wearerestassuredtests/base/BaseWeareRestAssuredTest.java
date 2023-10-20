@@ -1,6 +1,6 @@
 package test.cases.wearerestassuredtests.base;
 
-import api.models.UserModel;
+import models.wearemodels.UserModel;
 import org.testng.annotations.BeforeClass;
 import test.cases.BaseTestSetup;
 
@@ -12,7 +12,8 @@ public class BaseWeareRestAssuredTest extends BaseTestSetup {
 
     @BeforeClass
     public void setUpRestAssured() {
-        globalRESTAdminUser = weAreApi.registerUser(ROLE_ADMIN.toString());
+        globalRESTAdminUser = new UserModel();
+        globalRESTAdminUser.register(ROLE_ADMIN.toString());
     }
 
 }

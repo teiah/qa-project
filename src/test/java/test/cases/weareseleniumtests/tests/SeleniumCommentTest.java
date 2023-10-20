@@ -1,10 +1,11 @@
 package test.cases.weareseleniumtests.tests;
 
-import api.models.CommentModel;
-import api.models.PostModel;
-import com.telerikacademy.testframework.pages.weare.*;
+import models.wearemodels.CommentModel;
+import models.wearemodels.PostModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
+import pages.wearepages.LoginPage;
+import pages.wearepages.PostPage;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
 
@@ -14,19 +15,19 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
 
     @AfterMethod
     public void cleanUpSeleniumCommentTest() {
-        weAreApi.deletePost(globalUser, postId);
+        globalUser.deletePost(postId);
     }
 
     @Test
     public void CommentOfPublicPostCreated_When_ValidDataProvided() {
 
-        PostModel createdPost = weAreApi.createPost(globalUser, publicVisibility);
+        PostModel createdPost = globalUser.createPost(publicVisibility);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 
-        String commentMessage = helpers.generateCommentContent();
+        String commentMessage = globalUser.generateCommentContent();
 
         PostPage postPage = new PostPage(actions.getDriver(), postId);
         postPage.navigateToPage();
@@ -40,13 +41,13 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void CommentOfPublicPostEdited_By_Author() {
 
-        PostModel createdPost = weAreApi.createPost(globalUser, publicVisibility);
+        PostModel createdPost = globalUser.createPost(publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = weAreApi.createComment(globalUser, createdPost);
+        CommentModel createdComment = globalUser.createComment(createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 
-        String editedCommentMessage = helpers.generateCommentContent();
+        String editedCommentMessage = globalUser.generateCommentContent();
 
         PostPage postPage = new PostPage(actions.getDriver(), postId);
         postPage.navigateToPage();
@@ -60,9 +61,9 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void CommentOfPublicPostDeleted_By_Author() {
 
-        PostModel createdPost = weAreApi.createPost(globalUser, publicVisibility);
+        PostModel createdPost = globalUser.createPost(publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = weAreApi.createComment(globalUser, createdPost);
+        CommentModel createdComment = globalUser.createComment(createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 
@@ -81,9 +82,9 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void CommentOfPublicPostLiked_By_User() {
 
-        PostModel createdPost = weAreApi.createPost(globalUser, publicVisibility);
+        PostModel createdPost = globalUser.createPost(publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = weAreApi.createComment(globalUser, createdPost);
+        CommentModel createdComment = globalUser.createComment(createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 

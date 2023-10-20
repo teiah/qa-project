@@ -1,15 +1,16 @@
 package test.cases.weareseleniumtests.tests;
 
-import api.models.UserByIdModel;
-import api.models.UserModel;
-import com.telerikacademy.testframework.pages.weare.HomePage;
-import com.telerikacademy.testframework.pages.weare.LoginPage;
-import com.telerikacademy.testframework.pages.weare.RegisterPage;
+import models.wearemodels.UserByIdModel;
+import models.wearemodels.UserModel;
+import pages.wearepages.HomePage;
+import pages.wearepages.LoginPage;
+import pages.wearepages.RegisterPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
+import static models.wearemodels.UserModel.getUserById;
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 
 public class SeleniumUserTest extends BaseWeareSeleniumTest {
@@ -29,15 +30,15 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     public void UserRegistered_When_ValidDataProvided() {
 
         // Generate a random username and password
-        String username = helpers.generateUsernameAsImplemented(ROLE_USER.toString());
-        String password = helpers.generatePassword();
-        String email = helpers.generateEmail();
+        String username = globalUser.generateUsernameAsImplemented(ROLE_USER.toString());
+        String password = globalUser.generatePassword();
+        String email = globalUser.generateEmail();
 
         RegisterPage registerPage = new RegisterPage(actions.getDriver());
         registerPage.registerUser(username, email, password);
         registeredUserId = Integer.parseInt(registerPage.extractUserId());
 
-        UserByIdModel registeredUser = weAreApi.getUserById(username, registeredUserId).as(UserByIdModel.class);
+        UserByIdModel registeredUser = getUserById(username, registeredUserId).as(UserByIdModel.class);
 
         Assert.assertEquals(registeredUser.getUsername(), username);
         Assert.assertEquals(registeredUser.getEmail(), email);
@@ -47,7 +48,8 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     @Test
     public void UserLoggedIn_When_ValidCredentialsProvided() {
 
-        UserModel registeredUser = weAreApi.registerUser(ROLE_USER.toString());
+        UserModel registeredUser = new UserModel();
+        registeredUser.register(ROLE_USER.toString());
         registeredUserId = registeredUser.getId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());

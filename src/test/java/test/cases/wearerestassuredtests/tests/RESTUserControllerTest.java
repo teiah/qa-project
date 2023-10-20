@@ -1,34 +1,39 @@
 package test.cases.wearerestassuredtests.tests;
 
-import api.models.*;
 import io.restassured.response.Response;
+import models.wearemodels.PersonalProfileModel;
+import models.wearemodels.PostModel;
+import models.wearemodels.UserBySearchModel;
+import models.wearemodels.UserModel;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 
+import static models.BaseModel.*;
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static org.testng.Assert.*;
 
 public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
-    UserModel user;
+    UserModel user = new UserModel();
 
     @BeforeClass
     public void setUpUserTest() {
-        user = weAreApi.registerUser(ROLE_USER.toString());
+        user.register(ROLE_USER.toString());
     }
 
     @AfterClass
     public void cleanUpUserTest() {
-        weAreApi.disableUser(globalRESTAdminUser, user.getId());
+        globalRESTAdminUser.disableUser(user.getId());
     }
 
     @Test
     public void UserRegistered_When_ValidCredentialsProvided() {
 
-        UserModel userModel = weAreApi.registerUser(ROLE_USER.toString());
+        UserModel userModel = new UserModel();
+        userModel.register(ROLE_USER.toString());
 
         assertEquals(userModel.getAuthorities().size(), 1, "User is not registered as \"USER\".");
 
@@ -37,7 +42,8 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void AdminUserRegistered_When_ValidCredentialsProvided() {
 
-        UserModel adminUser = weAreApi.registerUser(ROLE_ADMIN.toString());
+        UserModel adminUser = new UserModel();
+        adminUser.register(ROLE_ADMIN.toString());
 
         assertEquals(adminUser.getUsername(), adminUser.getUsername(), "User was not registered");
         assertEquals(adminUser.getPassword(), adminUser.getPassword(), "User was not registered");
@@ -48,22 +54,22 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void UserPersonalProfileEdited_When_ValidDataProvided() {
 
-        PersonalProfileModel personalProfile = weAreApi.editPersonalProfile(user);
-        user.setPersonalProfile(personalProfile);
+        PersonalProfileModel personalProfileBeforeUpdate = user.getPersonalProfile();
 
-        assertEquals(user.getPersonalProfile(), personalProfile, "User personal profile was not updated.");
+        user.editPersonalProfile(user.getId(), user.getUsername(), user.getPassword());
 
+        user.getPersonalProfile().assertUpdatePersonalProfile(personalProfileBeforeUpdate);
     }
 
     @Test
     public void UserExpertiseProfileEdited_When_ValidDataProvided() {
 
-        ExpertiseProfileModel expertiseProfile = weAreApi.editExpertiseProfile(user);
-        user.setExpertiseProfile(expertiseProfile);
+        String expertiseProfile = user.getExpertiseProfile().toString();
 
-        assertEquals(user.getExpertiseProfile(), expertiseProfile,
+        user.editExpertiseProfile();
+
+        assertNotEquals(user.getExpertiseProfile().toString(), expertiseProfile,
                 "User expertise profile was not updated.");
-
     }
 
     @Test
@@ -71,8 +77,9 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
         String firstname = user.getPersonalProfile().getFirstName();
 
-        UserBySearchModel userAfterSearch = weAreApi.searchUser(user.getId(), firstname);
+        UserBySearchModel userAfterSearch = searchUser(user.getId(), firstname);
 
+        assert userAfterSearch != null;
         assertEquals(userAfterSearch.getUsername(), user.getUsername(), "User was not found");
         assertEquals(userAfterSearch.getUserId(), user.getId(), "User was not found");
 
@@ -84,23 +91,23 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
         int postsCount = 3;
         for (int i = 0; i < postsCount; i++) {
             boolean publicVisibility = true;
-            PostModel publicPost = weAreApi.createPost(user, publicVisibility);
-            assertTrue(weAreApi.publicPostExists(publicPost.getPostId()), "Post not created.");
+            PostModel publicPost = user.createPost(publicVisibility);
+            assertTrue(publicPostExists(publicPost.getPostId()), "Post not created.");
             publicVisibility = false;
-            PostModel privatePost = weAreApi.createPost(user, publicVisibility);
-            assertTrue(weAreApi.privatePostExists(user, privatePost.getPostId()), "Post not created.");
+            PostModel privatePost = user.createPost(publicVisibility);
+            assertTrue(privatePostExists(user, privatePost.getPostId()), "Post not created.");
         }
 
-        PostModel[] userPosts = weAreApi.showProfilePosts(user);
+        PostModel[] userPosts = user.showProfilePosts();
 
         assertEquals(userPosts.length, 2 * postsCount, "Wrong profile posts count");
 
         for (PostModel userPost : userPosts) {
-            weAreApi.deletePost(user, userPost.getPostId());
+            user.deletePost(userPost.getPostId());
             if (userPost.isPublic()) {
-                assertFalse(weAreApi.publicPostExists(userPost.getPostId()), "Post not deleted.");
+                assertFalse(publicPostExists(userPost.getPostId()), "Post not deleted.");
             } else {
-                assertFalse(weAreApi.privatePostExists(user, userPost.getPostId()), "Post not deleted.");
+                assertFalse(privatePostExists(user, userPost.getPostId()), "Post not deleted.");
             }
         }
 
@@ -109,7 +116,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void UserFoundById_When_Requested_By_AdminUser() {
 
-        Response returnedUser = weAreApi.getUserById(globalRESTAdminUser.getUsername(), user.getId());
+        Response returnedUser = getUserById(globalRESTAdminUser.getUsername(), user.getId());
 
         int userId = Integer.parseInt(returnedUser.getBody().jsonPath().getString("id"));
 
@@ -120,30 +127,32 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void UserFoundById_When_Requested_By_AnotherUser() {
 
-        UserModel userToFind = weAreApi.registerUser(ROLE_USER.toString());
+        UserModel userToFind = new UserModel();
+        userToFind.register(ROLE_USER.toString());
 
-        Response returnedUser = weAreApi.getUserById(user.getUsername(), userToFind.getId());
+        Response returnedUser = getUserById(user.getUsername(), userToFind.getId());
 
         int userId = Integer.parseInt(returnedUser.getBody().jsonPath().getString("id"));
 
         Assert.assertEquals(userId, userToFind.getId(), "Ids do not match.");
 
-        weAreApi.disableUser(globalRESTAdminUser, userToFind.getId());
+        globalRESTAdminUser.disableUser(userToFind.getId());
 
     }
 
     @Test
     public void UserDisabled_By_AdminUser() {
 
-        UserModel userToBeDisabled = weAreApi.registerUser(ROLE_USER.toString());
+        UserModel userToBeDisabled = new UserModel();
+        userToBeDisabled.register(ROLE_USER.toString());
 
         String firstname = userToBeDisabled.getPersonalProfile().getFirstName();
 
         assertTrue(userToBeDisabled.isEnabled(), "User is not enabled");
 
-        weAreApi.disableUser(globalRESTAdminUser, userToBeDisabled.getId());
+        globalRESTAdminUser.disableUser(userToBeDisabled.getId());
 
-        UserBySearchModel returnedDisabledUser = weAreApi.searchUser(userToBeDisabled.getId(), firstname);
+        UserBySearchModel returnedDisabledUser = searchUser(userToBeDisabled.getId(), firstname);
 
         assertEquals(returnedDisabledUser.getUserId(), userToBeDisabled.getId(), "Users do not match.");
 
@@ -153,26 +162,28 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void UserEnabled_By_AdminUser() {
 
-        UserModel userToBeEnabled = weAreApi.registerUser(ROLE_USER.toString());
+        UserModel userToBeEnabled = new UserModel();
+        userToBeEnabled.register(ROLE_USER.toString());
 
         String firstname = userToBeEnabled.getPersonalProfile().getFirstName();
 
-        weAreApi.disableUser(globalRESTAdminUser, userToBeEnabled.getId());
+        globalRESTAdminUser.disableUser(userToBeEnabled.getId());
 
-        UserBySearchModel returnedDisabledUser = weAreApi.searchUser(userToBeEnabled.getId(), firstname);
+        UserBySearchModel returnedDisabledUser = searchUser(userToBeEnabled.getId(), firstname);
 
         assertEquals(returnedDisabledUser.getUserId(), userToBeEnabled.getId(), "Users do not match.");
 
         assertFalse(returnedDisabledUser.isEnabled(), "User is not disabled");
 
-        weAreApi.enableUser(globalRESTAdminUser, userToBeEnabled);
+        globalRESTAdminUser.enableUser(userToBeEnabled);
 
-        UserBySearchModel returnedEnabledUser = weAreApi.searchUser(userToBeEnabled.getId(), firstname);
+        UserBySearchModel returnedEnabledUser = searchUser(userToBeEnabled.getId(), firstname);
+        assert returnedEnabledUser != null;
         assertEquals(returnedEnabledUser.getUserId(), userToBeEnabled.getId(), "User ids do not match.");
 
         assertTrue(returnedEnabledUser.isEnabled(), "User wss not enabled");
 
-        weAreApi.disableUser(globalRESTAdminUser, userToBeEnabled.getId());
+        globalRESTAdminUser.disableUser(userToBeEnabled.getId());
     }
 
     // Delete User is not implemented and cannot be tested
