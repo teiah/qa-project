@@ -1,6 +1,6 @@
 package test.cases.wearerestassuredtests.base;
 
-import models.wearemodels.UserModel;
+import models.models.UserModel;
 import org.testng.annotations.BeforeClass;
 import test.cases.BaseTestSetup;
 

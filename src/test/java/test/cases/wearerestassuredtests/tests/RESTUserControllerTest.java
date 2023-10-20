@@ -1,17 +1,17 @@
 package test.cases.wearerestassuredtests.tests;
 
 import io.restassured.response.Response;
-import models.wearemodels.PersonalProfileModel;
-import models.wearemodels.PostModel;
-import models.wearemodels.UserBySearchModel;
-import models.wearemodels.UserModel;
+import models.models.PersonalProfileModel;
+import models.models.PostModel;
+import models.models.UserBySearchModel;
+import models.models.UserModel;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 
-import static models.BaseModel.*;
+import static models.basemodel.BaseModel.*;
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static org.testng.Assert.*;
 

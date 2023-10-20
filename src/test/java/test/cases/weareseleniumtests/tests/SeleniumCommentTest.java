@@ -1,11 +1,11 @@
 package test.cases.weareseleniumtests.tests;
 
-import models.wearemodels.CommentModel;
-import models.wearemodels.PostModel;
+import models.models.CommentModel;
+import models.models.PostModel;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-import pages.wearepages.LoginPage;
-import pages.wearepages.PostPage;
+import pages.weare.LoginPage;
+import pages.weare.PostPage;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
 

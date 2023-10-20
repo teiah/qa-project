@@ -1,10 +1,10 @@
 package test.cases.weareseleniumtests.tests;
 
-import models.wearemodels.RequestModel;
-import models.wearemodels.UserModel;
-import pages.wearepages.LoginPage;
-import pages.wearepages.ProfilePage;
-import pages.wearepages.RequestsListPage;
+import models.models.RequestModel;
+import models.models.UserModel;
+import pages.weare.LoginPage;
+import pages.weare.ProfilePage;
+import pages.weare.RequestsListPage;
 import com.telerikacademy.testframework.utils.Utils;
 import org.testng.Assert;
 import org.testng.annotations.Test;

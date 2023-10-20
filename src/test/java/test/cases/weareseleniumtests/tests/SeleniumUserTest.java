@@ -1,16 +1,16 @@
 package test.cases.weareseleniumtests.tests;
 
-import models.wearemodels.UserByIdModel;
-import models.wearemodels.UserModel;
-import pages.wearepages.HomePage;
-import pages.wearepages.LoginPage;
-import pages.wearepages.RegisterPage;
+import models.models.UserByIdModel;
+import models.models.UserModel;
+import pages.weare.HomePage;
+import pages.weare.LoginPage;
+import pages.weare.RegisterPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
-import static models.wearemodels.UserModel.getUserById;
+import static models.models.UserModel.getUserById;
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 
 public class SeleniumUserTest extends BaseWeareSeleniumTest {

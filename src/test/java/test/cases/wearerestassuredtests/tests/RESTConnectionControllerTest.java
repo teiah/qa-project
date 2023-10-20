@@ -1,7 +1,7 @@
 package test.cases.wearerestassuredtests.tests;
 
-import models.wearemodels.RequestModel;
-import models.wearemodels.UserModel;
+import models.models.RequestModel;
+import models.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;

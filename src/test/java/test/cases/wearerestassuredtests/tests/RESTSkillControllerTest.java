@@ -1,7 +1,7 @@
 package test.cases.wearerestassuredtests.tests;
 
-import models.wearemodels.SkillModel;
-import models.wearemodels.UserModel;
+import models.models.SkillModel;
+import models.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
 import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
@@ -9,7 +9,7 @@ import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static models.BaseModel.*;
+import static models.basemodel.BaseModel.*;
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;

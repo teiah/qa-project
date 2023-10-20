@@ -1,14 +1,14 @@
 package test.cases.weareseleniumtests.tests;
 
-import models.wearemodels.PostModel;
+import models.models.PostModel;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-import pages.wearepages.*;
+import pages.weare.*;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
-import static models.wearemodels.UserModel.generatePostContent;
+import static models.models.UserModel.generatePostContent;
 
 public class SeleniumPostTest extends BaseWeareSeleniumTest {
 

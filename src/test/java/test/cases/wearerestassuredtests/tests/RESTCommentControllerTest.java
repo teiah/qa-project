@@ -1,8 +1,8 @@
 package test.cases.wearerestassuredtests.tests;
 
-import models.wearemodels.CommentModel;
-import models.wearemodels.PostModel;
-import models.wearemodels.UserModel;
+import models.models.CommentModel;
+import models.models.PostModel;
+import models.models.UserModel;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -11,7 +11,7 @@ import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static models.BaseModel.*;
+import static models.basemodel.BaseModel.*;
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.testng.Assert.*;
 

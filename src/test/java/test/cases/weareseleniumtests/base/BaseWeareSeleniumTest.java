@@ -1,6 +1,6 @@
 package test.cases.weareseleniumtests.base;
 
-import models.wearemodels.UserModel;
+import models.models.UserModel;
 import com.telerikacademy.testframework.UserActions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
