@@ -158,9 +158,7 @@ public class WeAreApi {
         int statusCode = editProfileResponse.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        Response userByIdResponse = getUserById(user.getUsername(), user.getId());
-
-        assertEditPersonalProfile(userByIdResponse, personalProfileModel);
+        assertEditPersonalProfile(editProfileResponse, personalProfileModel);
         user.setPersonalProfile(editProfileResponse.as(PersonalProfileModel.class));
         LOGGER.info(String.format("Personal profile of user %s with id %d was updated", user.getUsername(), user.getId()));
 
@@ -910,7 +908,7 @@ public class WeAreApi {
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
         assertEquals(response.getBody().jsonPath().getString("firstName"), personalProfile.getFirstName(),
                 "First names do not match.");
-        assertEquals(response.getBody().jsonPath().getString("lastNAme"), personalProfile.getLastName(),
+        assertEquals(response.getBody().jsonPath().getString("lastName"), personalProfile.getLastName(),
                 "Last names do not match.");
         assertEquals(response.getBody().jsonPath().getString("birthYear"), personalProfile.getBirthYear(),
                 "Birth years do not match.");
