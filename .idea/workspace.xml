@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="02622708-42b9-40ba-8a09-ba1aae850292" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/telerikacademy/testframework/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/telerikacademy/testframework/utils/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/base/BaseWeareRestAssuredTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/base/BaseWeareRestAssuredTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTCommentControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTCommentControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTConnectionControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTConnectionControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTPostControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTPostControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTSkillControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTSkillControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTUserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTUserControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/base/BaseWeareSeleniumTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/base/BaseWeareSeleniumTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumCommentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumCommentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumConnectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumConnectionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumPostTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumPostTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumUserTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2X2pRwgx7zHKg8wubmRA2iPi4FO" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="&lt;default&gt;" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="WEare-Social-Network-Testing" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="PACKAGE" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="TestNG.&lt;default&gt;" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="02622708-42b9-40ba-8a09-ba1aae850292" name="Changes" comment="" />
+      <created>1697837024439</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1697837024439</updated>
+      <workItem from="1697837025887" duration="86000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
