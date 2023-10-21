@@ -31,8 +31,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
         assertEquals(afterRequestCount, initialRequestsCount + 1, "Request is not sent.");
 
-        globalRESTAdminUser.disableUser(sender.getId());
-        globalRESTAdminUser.disableUser(receiver.getId());
+        globalRestApiAdminUser.disableUser(sender.getId());
+        globalRestApiAdminUser.disableUser(receiver.getId());
     }
 
     @Test
@@ -63,8 +63,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
         assertEquals(requestsAfterApproveCount, previousRequestsCount, "Request is not approved.");
 
-        globalRESTAdminUser.disableUser(sender.getId());
-        globalRESTAdminUser.disableUser(receiver.getId());
+        globalRestApiAdminUser.disableUser(sender.getId());
+        globalRestApiAdminUser.disableUser(receiver.getId());
     }
 
     @Test
@@ -84,8 +84,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         assertEquals(disconnectRequestResponse.body().asString(), String.format("%s disconnected from %s",
                 receiver.getUsername(), sender.getUsername()), "Disconnection was not done");
 
-        globalRESTAdminUser.disableUser(sender.getId());
-        globalRESTAdminUser.disableUser(receiver.getId());
+        globalRestApiAdminUser.disableUser(sender.getId());
+        globalRestApiAdminUser.disableUser(receiver.getId());
     }
 
     @Test
@@ -110,8 +110,8 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
             assertNotNull(request, "Request is null");
         }
 
-        globalRESTAdminUser.disableUser(sender.getId());
-        globalRESTAdminUser.disableUser(receiver.getId());
+        globalRestApiAdminUser.disableUser(sender.getId());
+        globalRestApiAdminUser.disableUser(receiver.getId());
     }
 
 }

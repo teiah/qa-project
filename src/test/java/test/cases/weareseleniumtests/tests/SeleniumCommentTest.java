@@ -15,19 +15,19 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
 
     @AfterMethod
     public void cleanUpSeleniumCommentTest() {
-        globalUser.deletePost(postId);
+        globalSeleniumUser.deletePost(postId);
     }
 
     @Test
     public void CommentOfPublicPostCreated_When_ValidDataProvided() {
 
-        PostModel createdPost = globalUser.createPost(publicVisibility);
+        PostModel createdPost = globalSeleniumUser.createPost(publicVisibility);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 
-        String commentMessage = globalUser.generateCommentContent();
+        String commentMessage = globalSeleniumUser.generateCommentContent();
 
         PostPage postPage = new PostPage(actions.getDriver(), postId);
         postPage.navigateToPage();
@@ -41,13 +41,13 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void CommentOfPublicPostEdited_By_Author() {
 
-        PostModel createdPost = globalUser.createPost(publicVisibility);
+        PostModel createdPost = globalSeleniumUser.createPost(publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = globalUser.createComment(createdPost);
+        CommentModel createdComment = globalSeleniumUser.createComment(createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 
-        String editedCommentMessage = globalUser.generateCommentContent();
+        String editedCommentMessage = globalSeleniumUser.generateCommentContent();
 
         PostPage postPage = new PostPage(actions.getDriver(), postId);
         postPage.navigateToPage();
@@ -61,9 +61,9 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void CommentOfPublicPostDeleted_By_Author() {
 
-        PostModel createdPost = globalUser.createPost(publicVisibility);
+        PostModel createdPost = globalSeleniumUser.createPost(publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = globalUser.createComment(createdPost);
+        CommentModel createdComment = globalSeleniumUser.createComment(createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 
@@ -82,9 +82,9 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void CommentOfPublicPostLiked_By_User() {
 
-        PostModel createdPost = globalUser.createPost(publicVisibility);
+        PostModel createdPost = globalSeleniumUser.createPost(publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = globalUser.createComment(createdPost);
+        CommentModel createdComment = globalSeleniumUser.createComment(createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 

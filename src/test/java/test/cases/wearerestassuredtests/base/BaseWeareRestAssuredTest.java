@@ -2,18 +2,20 @@ package test.cases.wearerestassuredtests.base;
 
 import models.models.UserModel;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import test.cases.BaseTestSetup;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_ADMIN;
 
 public class BaseWeareRestAssuredTest extends BaseTestSetup {
 
-    protected UserModel globalRESTAdminUser;
+    protected UserModel globalRestApiAdminUser = new UserModel();
+    protected UserModel globalRestApiUser = new UserModel();
 
     @BeforeClass
     public void setUpRestAssured() {
-        globalRESTAdminUser = new UserModel();
-        globalRESTAdminUser.register(ROLE_ADMIN.toString());
+        globalRestApiAdminUser.register(ROLE_ADMIN.toString());
+        globalRestApiUser.register(ROLE_ADMIN.toString());
     }
 
 }

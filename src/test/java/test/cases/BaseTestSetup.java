@@ -5,6 +5,7 @@ import io.restassured.config.EncoderConfig;
 import org.testng.ITestContext;
 import org.testng.TestRunner;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 
 import static com.telerikacademy.testframework.utils.Constants.BASE_URL;
 

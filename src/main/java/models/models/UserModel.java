@@ -526,19 +526,19 @@ public class UserModel extends BaseModel {
 
     }
 
-    public CommentModel likeComment(int commentId) {
-
+    public void likeComment(CommentModel comment) {
+        int previousLikes = this.getCommentById(comment.getCommentId()).getLikes().size();
         Response response = given()
                 .auth()
                 .form(this.getUsername(), this.getPassword(),
                         new FormAuthConfig(AUTHENTICATE, "username", "password"))
-                .queryParam("commentId", commentId)
+                .queryParam("commentId", comment.getCommentId())
                 .post(API + LIKE_COMMENT);
 
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        return response.as(CommentModel.class);
+        assertEquals(this.getCommentById(comment.getCommentId()).getLikes().size(), previousLikes + 1, "Comment not liked.");
 
     }
 

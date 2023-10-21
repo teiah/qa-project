@@ -12,7 +12,6 @@ import static models.models.UserModel.generatePostContent;
 
 public class SeleniumPostTest extends BaseWeareSeleniumTest {
 
-    // Post to be cleaned after each test
     private Integer postId;
 
     @AfterMethod
@@ -24,7 +23,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
         }
 
         if (postId != null) {
-            globalUser.deletePost(postId);
+            globalSeleniumUser.deletePost(postId);
             postId = null;
         }
     }
@@ -59,7 +58,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void PostLiked_By_User() {
 
-        PostModel createdPost = globalUser.createPost(true);
+        PostModel createdPost = globalSeleniumUser.createPost(true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -76,7 +75,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void PostEdited_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = globalUser.createPost(true);
+        PostModel createdPost = globalSeleniumUser.createPost(true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -96,7 +95,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void PostDeleted_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = globalUser.createPost(true);
+        PostModel createdPost = globalSeleniumUser.createPost(true);
         Integer postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());

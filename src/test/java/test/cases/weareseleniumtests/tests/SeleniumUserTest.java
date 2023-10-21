@@ -30,9 +30,9 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     public void UserRegistered_When_ValidDataProvided() {
 
         // Generate a random username and password
-        String username = globalUser.generateUsernameAsImplemented(ROLE_USER.toString());
-        String password = globalUser.generatePassword();
-        String email = globalUser.generateEmail();
+        String username = globalSeleniumUser.generateUsernameAsImplemented(ROLE_USER.toString());
+        String password = globalSeleniumUser.generatePassword();
+        String email = globalSeleniumUser.generateEmail();
 
         RegisterPage registerPage = new RegisterPage(actions.getDriver());
         registerPage.registerUser(username, email, password);

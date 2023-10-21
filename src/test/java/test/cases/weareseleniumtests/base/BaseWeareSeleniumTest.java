@@ -14,7 +14,7 @@ import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     protected UserActions actions = new UserActions();
-    protected UserModel globalUser;
+    protected UserModel globalSeleniumUser;
     protected UserModel globalSeleniumAdminUser;
     protected String globalUserUsername;
     protected String globalUserPassword;
@@ -27,16 +27,16 @@ public class BaseWeareSeleniumTest extends BaseTestSetup {
         globalSeleniumAdminUser.register(ROLE_ADMIN.toString());
         adminUsername = globalSeleniumAdminUser.getUsername();
         adminPassword = globalSeleniumAdminUser.getPassword();
-        globalUser = new UserModel();
-        globalUser.register(ROLE_USER.toString());
-        globalUserUsername = globalUser.getUsername();
-        globalUserPassword = globalUser.getPassword();
+        globalSeleniumUser = new UserModel();
+        globalSeleniumUser.register(ROLE_USER.toString());
+        globalUserUsername = globalSeleniumUser.getUsername();
+        globalUserPassword = globalSeleniumUser.getPassword();
         UserActions.loadBrowser("weare.baseUrl");
     }
 
     @AfterClass
     public void disableGlobalUser() {
-        globalSeleniumAdminUser.disableUser(globalUser.getId());
+        globalSeleniumAdminUser.disableUser(globalSeleniumUser.getId());
     }
 
     @AfterSuite

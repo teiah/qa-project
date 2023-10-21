@@ -188,12 +188,6 @@ public class BaseModel {
 
     }
 
-    public void connectUsers(UserModel sender, UserModel receiver) {
-
-        receiver.approveRequest(sender.sendRequest(receiver));
-
-    }
-
     public static boolean commentExists(int commentId) {
 
         CommentModel[] comments = findAllComments();
