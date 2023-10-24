@@ -4,12 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02622708-42b9-40ba-8a09-ba1aae850292" name="Changes" comment="Methods distributed to models instead of WeAreClass with all methods">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+    <list default="true" id="02622708-42b9-40ba-8a09-ba1aae850292" name="Changes" comment="Optimizing code">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/telerikacademy/testframework/utils/Helpers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/BaseWeAreApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/CommentApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/PostApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/RequestApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/SkillApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/UserApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/basemodel/BaseModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/PersonalProfileModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/UserModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/basemodel/BaseModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/basemodel/BaseModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/UserModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/models/UserModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/BaseTestSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/BaseTestSetup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/basemodel/BaseModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/CategoryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/CategoryModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/CityModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/CityModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/CommentModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/CommentModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/CountryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/CountryModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/ExpertiseProfileModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/ExpertiseProfileModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/GrantedAuthorityModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/GrantedAuthorityModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/LocationModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/LocationModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/PersonalProfileModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/PostModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/PostModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/RequestModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/RequestModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/RoleModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/RoleModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/SkillModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/SkillModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/UserByIdModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/UserByIdModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/UserBySearchModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/UserBySearchModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/UserModel.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/base/BaseWeareRestAssuredTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/base/BaseWeareRestAssuredTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTCommentControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTCommentControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTConnectionControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTConnectionControllerTest.java" afterDir="false" />
@@ -18,6 +40,7 @@
       <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTUserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTUserControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/base/BaseWeareSeleniumTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/base/BaseWeareSeleniumTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumCommentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumCommentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumConnectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumConnectionTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumPostTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumPostTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumUserTest.java" afterDir="false" />
     </list>
@@ -25,6 +48,13 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -41,6 +71,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "extract.method.default.visibility": "private",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,52 +84,18 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="TestNG.test.cases.weareseleniumtests">
-    <configuration name="RESTSkillControllerTest" type="TestNG" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="TestNG.&lt;default&gt;">
+    <configuration name="SeleniumConnectionTest.ConnectionCutOff_From_ConnectedUser (1)" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WEare-Social-Network-Testing" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.cases.wearerestassuredtests.tests.*" />
+          <option name="PATTERN" value="test.cases.weareseleniumtests.tests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="test.cases.wearerestassuredtests.tests" />
-      <option name="MAIN_CLASS_NAME" value="test.cases.wearerestassuredtests.tests.RESTSkillControllerTest" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RESTUserControllerTest" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="WEare-Social-Network-Testing" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="test.cases.wearerestassuredtests.tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="test.cases.wearerestassuredtests.tests" />
-      <option name="MAIN_CLASS_NAME" value="test.cases.wearerestassuredtests.tests.RESTUserControllerTest" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RESTUserControllerTest.UserFoundById_When_Requested_By_AnotherUser" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="WEare-Social-Network-Testing" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="test.cases.wearerestassuredtests.tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="test.cases.wearerestassuredtests.tests" />
-      <option name="MAIN_CLASS_NAME" value="test.cases.wearerestassuredtests.tests.RESTUserControllerTest" />
-      <option name="METHOD_NAME" value="UserFoundById_When_Requested_By_AnotherUser" />
+      <option name="PACKAGE_NAME" value="test.cases.weareseleniumtests.tests" />
+      <option name="MAIN_CLASS_NAME" value="test.cases.weareseleniumtests.tests.SeleniumConnectionTest" />
+      <option name="METHOD_NAME" value="ConnectionCutOff_From_ConnectedUser" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -106,15 +103,45 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="test.cases.wearerestassuredtests" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="SeleniumConnectionTest.ConnectionCutOff_From_ConnectedUser" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WEare-Social-Network-Testing" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.cases.wearerestassuredtests.*" />
+          <option name="PATTERN" value="test.cases.weareseleniumtests.tests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="test.cases.wearerestassuredtests" />
+      <option name="PACKAGE_NAME" value="test.cases.weareseleniumtests.tests" />
+      <option name="MAIN_CLASS_NAME" value="test.cases.weareseleniumtests.tests.SeleniumConnectionTest" />
+      <option name="METHOD_NAME" value="ConnectionCutOff_From_ConnectedUser" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SeleniumConnectionTest.ConnectionRequestApproved_By_User" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="WEare-Social-Network-Testing" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.cases.weareseleniumtests.tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="test.cases.weareseleniumtests.tests" />
+      <option name="MAIN_CLASS_NAME" value="test.cases.weareseleniumtests.tests.SeleniumConnectionTest" />
+      <option name="METHOD_NAME" value="ConnectionRequestApproved_By_User" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="&lt;default&gt;" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="WEare-Social-Network-Testing" />
+      <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="PACKAGE" />
       <properties />
       <listeners />
@@ -122,15 +149,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="test.cases.weareseleniumtests" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="test.cases.weareseleniumtests.tests" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="WEare-Social-Network-Testing" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.cases.weareseleniumtests.*" />
+          <option name="PATTERN" value="test.cases.weareseleniumtests.tests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="test.cases.weareseleniumtests" />
+      <option name="PACKAGE_NAME" value="test.cases.weareseleniumtests.tests" />
       <option name="TEST_OBJECT" value="PACKAGE" />
       <properties />
       <listeners />
@@ -140,11 +167,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="TestNG.test.cases.weareseleniumtests" />
-        <item itemvalue="TestNG.test.cases.wearerestassuredtests" />
-        <item itemvalue="TestNG.RESTUserControllerTest" />
-        <item itemvalue="TestNG.RESTUserControllerTest.UserFoundById_When_Requested_By_AnotherUser" />
-        <item itemvalue="TestNG.RESTSkillControllerTest" />
+        <item itemvalue="TestNG.&lt;default&gt;" />
+        <item itemvalue="TestNG.test.cases.weareseleniumtests.tests" />
+        <item itemvalue="TestNG.SeleniumConnectionTest.ConnectionCutOff_From_ConnectedUser (1)" />
+        <item itemvalue="TestNG.SeleniumConnectionTest.ConnectionRequestApproved_By_User" />
+        <item itemvalue="TestNG.SeleniumConnectionTest.ConnectionCutOff_From_ConnectedUser" />
       </list>
     </recent_temporary>
   </component>
@@ -158,7 +185,10 @@
       <updated>1697837024439</updated>
       <workItem from="1697837025887" duration="86000" />
       <workItem from="1697837120296" duration="493000" />
-      <workItem from="1697900856416" duration="4849000" />
+      <workItem from="1697900856416" duration="5540000" />
+      <workItem from="1697984940212" duration="6339000" />
+      <workItem from="1698056779955" duration="2281000" />
+      <workItem from="1698139008143" duration="22862000" />
     </task>
     <task id="LOCAL-00001" summary="Methods distributed to models instead of WeAreClass with all methods">
       <option name="closed" value="true" />
@@ -176,14 +206,34 @@
       <option name="project" value="LOCAL" />
       <updated>1697837348047</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Optimizing code">
+      <option name="closed" value="true" />
+      <created>1697905847455</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697905847455</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Methods distributed to models instead of WeAreClass with all methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="Methods distributed to models instead of WeAreClass with all methods" />
+    <MESSAGE value="Optimizing code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Optimizing code" />
   </component>
 </project>

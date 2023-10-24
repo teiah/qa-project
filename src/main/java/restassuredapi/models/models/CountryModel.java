@@ -1,6 +1,6 @@
-package models.models;
+package restassuredapi.models.models;
 
-import models.basemodel.BaseModel;
+import restassuredapi.models.basemodel.BaseModel;
 
 public class CountryModel extends BaseModel {
     private Integer id;

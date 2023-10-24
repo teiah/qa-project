@@ -1,13 +1,15 @@
 package test.cases.weareseleniumtests.tests;
 
-import models.models.RequestModel;
-import models.models.UserModel;
+import org.testng.annotations.*;
 import pages.weare.LoginPage;
 import pages.weare.ProfilePage;
 import pages.weare.RequestsListPage;
 import com.telerikacademy.testframework.utils.Utils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import restassuredapi.RequestApi;
+import restassuredapi.UserApi;
+import restassuredapi.models.models.*;
 import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
@@ -16,18 +18,30 @@ import static org.testng.Assert.assertTrue;
 
 public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
+    UserModel receiver = new UserModel();
+
+    @BeforeClass
+    public void setUpCommentTest() {
+        UserApi.register(receiver, ROLE_USER.toString());
+    }
+
+    @AfterClass
+    public void cleanUpCommentTest() {
+        UserApi.disableUser(globalSeleniumAdminUser, receiver);
+    }
+
     @Test
-    public void ConnectionRequestSent_By_User() {
+    public void connectionRequestSent_By_User() {
 
-        UserModel sender = new UserModel();
-        sender.register(ROLE_USER.toString());
-        UserModel receiver = new UserModel();
-        receiver.register(ROLE_USER.toString());
+        int initialRequestsCount = 0;
+        String[] fields = RequestApi.getUserReceivedRequests(receiver);
 
-        int initialRequestsCount = receiver.getUserRequests().length;
+        if (fields != null) {
+            initialRequestsCount = fields.length;
+        }
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(sender.getUsername(), sender.getPassword());
+        loginPage.loginUser(globalSeleniumUser.getUsername(), globalSeleniumUser.getPassword());
 
         ProfilePage receiverProfilePage = new ProfilePage(actions.getDriver(), receiver.getId());
         receiverProfilePage.navigateToPage();
@@ -35,29 +49,26 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         receiverProfilePage.sendRequest();
 
-        int currentRequestsCount = receiver.getUserRequests().length;
+        RequestModel[] requestsAfter = RequestApi.getUserRequests(receiver);
+        int afterRequestCount = requestsAfter.length;
 
-        Assert.assertEquals(currentRequestsCount, initialRequestsCount + 1, "Request not received");
+        Assert.assertEquals(afterRequestCount, initialRequestsCount + 1, "Request not received");
 
-        globalSeleniumAdminUser.disableUser(sender.getId());
-        globalSeleniumAdminUser.disableUser(receiver.getId());
+        RequestModel[] receiverRequests = RequestApi.getUserRequests(receiver);
+        RequestApi.approveRequest(receiver, receiverRequests[receiverRequests.length - 1]);
+        RequestApi.disconnect(globalSeleniumUser, receiver);
     }
 
     @Test
-    public void ConnectionRequestApproved_By_User() {
+    public void connectionRequestApproved_By_User() {
 
-        UserModel sender = new UserModel();
-        sender.register(ROLE_USER.toString());
-        UserModel receiver = new UserModel();
-        receiver.register(ROLE_USER.toString());
+        int initialRequestsCount = RequestApi.getUserRequests(receiver).length;
 
-        int initialRequestsCount = receiver.getUserRequests().length;
+        RequestModel request = RequestApi.sendRequest(globalSeleniumUser, receiver);
 
-        RequestModel request = sender.sendRequest(receiver);
+        int afterRequestCount = RequestApi.getUserRequests(receiver).length;
 
-        int afterRequestCount = receiver.getUserRequests().length;
-
-        assertEquals(request.getSender().getId(), sender.getId(), "Sender doesn't match the one in the request.");
+        assertEquals(request.getSender().getId(), globalSeleniumUser.getId(), "Sender doesn't match the one in the request.");
         assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
         assertEquals(afterRequestCount, initialRequestsCount + 1, "Request is not sent.");
 
@@ -73,33 +84,27 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
         RequestsListPage requestsListPage = new RequestsListPage(actions.getDriver(),
                 "weare.requestsListPagePage", receiver.getId());
 
-        requestsListPage.approveRequest(sender.getPersonalProfile().getFirstName());
+        requestsListPage.approveRequest(globalSeleniumUser.getPersonalProfile().getFirstName());
 
-        int currentRequestsCount = receiver.getUserRequests().length;
+        int currentRequestsCount = RequestApi.getUserRequests(receiver).length;
 
         Assert.assertEquals(currentRequestsCount, afterRequestCount - 1, "Request not approved");
 
         requestsListPage.logout();
 
-        globalSeleniumAdminUser.disableUser(sender.getId());
-        globalSeleniumAdminUser.disableUser(receiver.getId());
+        RequestApi.disconnect(globalSeleniumUser, receiver);
 
     }
 
     @Test
-    public void ConnectionCutOff_From_ConnectedUser() {
+    public void connectionCutOff_From_ConnectedUser() {
 
-        UserModel sender = new UserModel();
-        sender.register(ROLE_USER.toString());
-        UserModel receiver = new UserModel();
-        receiver.register(ROLE_USER.toString());
+        RequestModel sendRequest = RequestApi.sendRequest(globalSeleniumUser, receiver);
 
-        RequestModel sendRequest = sender.sendRequest(receiver);
-
-        receiver.approveRequest(sendRequest);
+        RequestApi.approveRequest(receiver, sendRequest);
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
-        loginPage.loginUser(sender.getUsername(), sender.getPassword());
+        loginPage.loginUser(globalSeleniumUser.getUsername(), globalSeleniumUser.getPassword());
 
         ProfilePage receiverProfilePage = new ProfilePage(actions.getDriver(), receiver.getId());
         receiverProfilePage.navigateToPage();
@@ -107,25 +112,18 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         receiverProfilePage.disconnect();
 
-        globalSeleniumAdminUser.disableUser(sender.getId());
-        globalSeleniumAdminUser.disableUser(receiver.getId());
     }
 
     @Test
-    public void RequestReceived_By_User() {
+    public void requestReceived_By_User() {
 
-        UserModel sender = new UserModel();
-        sender.register(ROLE_USER.toString());
-        UserModel receiver = new UserModel();
-        receiver.register(ROLE_USER.toString());
+        int initialRequestsCount = RequestApi.getUserRequests(receiver).length;
 
-        int initialRequestsCount = receiver.getUserRequests().length;
+        RequestModel request = RequestApi.sendRequest(globalSeleniumUser, receiver);
 
-        RequestModel request = sender.sendRequest(receiver);
+        int afterRequestCount = RequestApi.getUserRequests(receiver).length;
 
-        int afterRequestCount = receiver.getUserRequests().length;
-
-        assertEquals(request.getSender().getId(), sender.getId(), "Sender doesn't match the one in the request.");
+        assertEquals(request.getSender().getId(), globalSeleniumUser.getId(), "Sender doesn't match the one in the request.");
         assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
         assertEquals(afterRequestCount, initialRequestsCount + 1, "Request is not sent.");
 
@@ -143,16 +141,16 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         Assert.assertEquals(afterRequestCount, initialRequestsCount + 1, "Request not approved");
         assertTrue(actions.isElementVisible(Utils.getUIMappingByKey("weare.requestsListPage.requestSenderInfo"),
-                sender.getPersonalProfile().getFirstName()));
+                globalSeleniumUser.getPersonalProfile().getFirstName()));
         assertTrue(actions.isElementPresent(Utils.getUIMappingByKey("weare.requestsListPage.requestSenderInfo"),
-                sender.getPersonalProfile().getFirstName()));
+                globalSeleniumUser.getPersonalProfile().getFirstName()));
         assertTrue(actions.isElementClickable(Utils.getUIMappingByKey("weare.requestsListPage.requestSenderInfo"),
-                sender.getPersonalProfile().getFirstName()));
+                globalSeleniumUser.getPersonalProfile().getFirstName()));
 
         requestsListPage.logout();
 
-        globalSeleniumAdminUser.disableUser(sender.getId());
-        globalSeleniumAdminUser.disableUser(receiver.getId());
+        RequestApi.approveRequest(receiver, request);
+        RequestApi.disconnect(globalSeleniumUser, receiver);
 
     }
 

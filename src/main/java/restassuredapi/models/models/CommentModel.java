@@ -1,6 +1,6 @@
-package models.models;
+package restassuredapi.models.models;
 
-import models.basemodel.BaseModel;
+import restassuredapi.models.basemodel.BaseModel;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,9 +1,9 @@
-package models.models;
+package restassuredapi.models.models;
 
-import models.basemodel.BaseModel;
+import restassuredapi.models.basemodel.BaseModel;
 
 public class CityModel extends BaseModel {
-    private String city;
+    private String city = "";
     private CountryModel country = new CountryModel();
     private Integer id;
 

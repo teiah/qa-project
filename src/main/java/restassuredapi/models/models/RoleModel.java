@@ -1,9 +1,6 @@
-package models.models;
-
-import models.basemodel.BaseModel;
+package restassuredapi.models.models;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 public class RoleModel extends GrantedAuthorityModel {

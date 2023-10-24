@@ -1,6 +1,6 @@
-package models.models;
+package restassuredapi.models.models;
 
-import models.basemodel.BaseModel;
+import restassuredapi.models.basemodel.BaseModel;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;

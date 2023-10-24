@@ -1,117 +1,111 @@
 package test.cases.wearerestassuredtests.tests;
 
-import models.models.RequestModel;
-import models.models.UserModel;
+import restassuredapi.models.models.RequestModel;
+import restassuredapi.models.models.UserModel;
 import io.restassured.response.Response;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import restassuredapi.RequestApi;
+import restassuredapi.UserApi;
 import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
-import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.*;
 
 public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
-    @Test
-    public void ConnectionRequestSent_By_User() {
+    UserModel receiver = new UserModel();
 
-        UserModel sender = new UserModel();
-        sender.register(ROLE_USER.toString());
-        UserModel receiver = new UserModel();
-        receiver.register(ROLE_USER.toString());
+    @BeforeClass
+    public void setUpCommentTest() {
+        UserApi.register(receiver, ROLE_USER.toString());
+    }
 
-        int initialRequestsCount = receiver.getUserRequests().length;
-
-        RequestModel request = sender.sendRequest(receiver);
-
-        RequestModel[] requestsAfter = receiver.getUserRequests();
-        int afterRequestCount = requestsAfter.length;
-
-        assertEquals(request.getSender().getId(), sender.getId(), "Sender doesn't match the one in the request.");
-        assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
-        assertEquals(afterRequestCount, initialRequestsCount + 1, "Request is not sent.");
-
-        globalRestApiAdminUser.disableUser(sender.getId());
-        globalRestApiAdminUser.disableUser(receiver.getId());
+    @AfterClass
+    public void cleanUpCommentTest() {
+        UserApi.disableUser(globalRestApiAdminUser, receiver);
     }
 
     @Test
-    public void ConnectionRequestApproved_By_User() {
+    public void connectionRequestSent_By_User() {
 
-        UserModel sender = new UserModel();
-        sender.register(ROLE_USER.toString());
-        UserModel receiver = new UserModel();
-        receiver.register(ROLE_USER.toString());
+        int initialRequestsCount = 0;
+        String[] fields = RequestApi.getUserReceivedRequests(receiver);
 
-        RequestModel[] requests = receiver.getUserRequests();
+        if (fields != null) {
+            initialRequestsCount = fields.length;
+        }
+
+        RequestModel request = RequestApi.sendRequest(globalRestApiUser, receiver);
+
+        RequestModel[] requestsAfter = RequestApi.getUserRequests(receiver);
+        int afterRequestCount = requestsAfter.length;
+
+        assertEquals(request.getSender().getId(), globalRestApiUser.getId(), "Sender doesn't match the one in the request.");
+        assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
+        assertEquals(afterRequestCount, initialRequestsCount + 1, "Request is not sent.");
+
+        RequestApi.approveRequest(receiver, request);
+        RequestApi.disconnect(globalRestApiUser, receiver);
+    }
+
+    @Test
+    public void connectionRequestApproved_By_User() {
+
+        RequestModel[] requests = RequestApi.getUserRequests(receiver);
         int previousRequestsCount = requests.length;
 
-        RequestModel sentRequest = sender.sendRequest(receiver);
+        RequestModel sentRequest = RequestApi.sendRequest(globalRestApiUser, receiver);
 
-        RequestModel[] requestsAfter = receiver.getUserRequests();
+        RequestModel[] requestsAfter = RequestApi.getUserRequests(receiver);
         int afterRequestCount = requestsAfter.length;
 
         assertEquals(afterRequestCount, previousRequestsCount + 1, "Request is not sent.");
 
-        Response approveRequestResponse = receiver.approveRequest(sentRequest);
+        Response approveRequestResponse = RequestApi.approveRequest(receiver, sentRequest);
 
         assertEquals(approveRequestResponse.body().asString(), String.format("%s approved request of %s",
-                receiver.getUsername(), sender.getUsername()), "Request is not approved.");
+                receiver.getUsername(), globalRestApiUser.getUsername()), "Request is not approved.");
 
-        RequestModel[] requestsAfterApprove = receiver.getUserRequests();
+        RequestModel[] requestsAfterApprove = RequestApi.getUserRequests(receiver);
         int requestsAfterApproveCount = requestsAfterApprove.length;
 
         assertEquals(requestsAfterApproveCount, previousRequestsCount, "Request is not approved.");
 
-        globalRestApiAdminUser.disableUser(sender.getId());
-        globalRestApiAdminUser.disableUser(receiver.getId());
+        RequestApi.disconnect(globalRestApiUser, receiver);
     }
 
     @Test
-    public void ConnectionCutOff_From_ConnectedUser() {
+    public void connectionCutOff_From_ConnectedUser() {
 
-        UserModel sender = new UserModel();
-        sender.register(ROLE_USER.toString());
-        UserModel receiver = new UserModel();
-        receiver.register(ROLE_USER.toString());
+        RequestApi.connect(globalRestApiUser, receiver);
 
-        sender.connectTo(receiver);
+        RequestApi.disconnect(globalRestApiUser, receiver);
 
-        Response disconnectRequestResponse = sender.disconnectFromUser(receiver);
-
-        int statusCode = disconnectRequestResponse.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-        assertEquals(disconnectRequestResponse.body().asString(), String.format("%s disconnected from %s",
-                receiver.getUsername(), sender.getUsername()), "Disconnection was not done");
-
-        globalRestApiAdminUser.disableUser(sender.getId());
-        globalRestApiAdminUser.disableUser(receiver.getId());
     }
 
     @Test
-    public void RequestReceived_By_User() {
+    public void requestReceived_By_User() {
 
-        UserModel sender = new UserModel();
-        sender.register(ROLE_USER.toString());
-        UserModel receiver = new UserModel();
-        receiver.register(ROLE_USER.toString());
-
-        RequestModel[] requests = receiver.getUserRequests();
+        RequestModel[] requests = RequestApi.getUserRequests(receiver);
         int previousRequestCount = requests.length;
 
-        sender.sendRequest(receiver);
+        RequestModel request = RequestApi.sendRequest(globalRestApiUser, receiver);
 
-        RequestModel[] requestsAfter = receiver.getUserRequests();
+        RequestModel[] requestsAfter = RequestApi.getUserRequests(receiver);
         int afterRequestCount = requestsAfter.length;
 
         assertEquals(afterRequestCount, previousRequestCount + 1, "Request is not approved.");
         assertTrue(requestsAfter.length > 0, "There are no requests");
-        for (RequestModel request : requestsAfter) {
-            assertNotNull(request, "Request is null");
+
+        for (RequestModel requestAfter : requestsAfter) {
+            assertNotNull(requestAfter, "Request is null");
         }
 
-        globalRestApiAdminUser.disableUser(sender.getId());
-        globalRestApiAdminUser.disableUser(receiver.getId());
+        RequestApi.approveRequest(receiver, request);
+        RequestApi.disconnect(globalRestApiUser, receiver);
+
     }
 
 }

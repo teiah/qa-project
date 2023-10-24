@@ -1,21 +1,19 @@
 package test.cases.weareseleniumtests.base;
 
-import models.models.UserModel;
+import restassuredapi.models.models.UserModel;
 import com.telerikacademy.testframework.UserActions;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.*;
+import restassuredapi.UserApi;
 import test.cases.BaseTestSetup;
 
-import static com.telerikacademy.testframework.utils.UserRoles.ROLE_ADMIN;
-import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
+import static com.telerikacademy.testframework.utils.UserRoles.*;
 
 
 public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     protected UserActions actions = new UserActions();
-    protected UserModel globalSeleniumUser;
-    protected UserModel globalSeleniumAdminUser;
+    protected UserModel globalSeleniumUser = new UserModel();
+    protected UserModel globalSeleniumAdminUser = new UserModel();
     protected String globalUserUsername;
     protected String globalUserPassword;
     protected String adminUsername;
@@ -23,12 +21,10 @@ public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     @BeforeClass
     public void setUpSelenium() {
-        globalSeleniumAdminUser = new UserModel();
-        globalSeleniumAdminUser.register(ROLE_ADMIN.toString());
+        UserApi.register(globalSeleniumAdminUser, ROLE_ADMIN.toString());
         adminUsername = globalSeleniumAdminUser.getUsername();
         adminPassword = globalSeleniumAdminUser.getPassword();
-        globalSeleniumUser = new UserModel();
-        globalSeleniumUser.register(ROLE_USER.toString());
+        UserApi.register(globalSeleniumUser, ROLE_USER.toString());
         globalUserUsername = globalSeleniumUser.getUsername();
         globalUserPassword = globalSeleniumUser.getPassword();
         UserActions.loadBrowser("weare.baseUrl");
@@ -36,7 +32,7 @@ public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     @AfterClass
     public void disableGlobalUser() {
-        globalSeleniumAdminUser.disableUser(globalSeleniumUser.getId());
+        UserApi.disableUser(globalSeleniumAdminUser, globalSeleniumUser);
     }
 
     @AfterSuite

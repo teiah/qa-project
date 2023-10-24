@@ -1,114 +1,117 @@
 package test.cases.wearerestassuredtests.tests;
 
-import models.models.CommentModel;
-import models.models.PostModel;
-import models.models.UserModel;
+import restassuredapi.models.models.CommentModel;
+import restassuredapi.models.models.PostModel;
+import restassuredapi.models.models.UserModel;
 import org.testng.annotations.*;
+import restassuredapi.CommentApi;
+import restassuredapi.PostApi;
+import restassuredapi.UserApi;
 import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static models.basemodel.BaseModel.*;
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static org.testng.Assert.*;
 
 public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
-    public void PublicPostCreated_When_ValidDataProvided() {
+    public void publicPostCreated_When_ValidDataProvided() {
 
         boolean publicVisibility = true;
-        PostModel post = globalRestApiUser.createPost(publicVisibility);
-        assertTrue(publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = PostApi.createPost(globalRestApiUser, publicVisibility);
 
-        globalRestApiUser.deletePost(post.getPostId());
-        assertFalse(publicPostExists(post.getPostId()), "Post was not deleted.");
+        assertTrue(PostApi.publicPostExists(post.getPostId()), "Post not created.");
+
+        PostApi.deletePost(globalRestApiUser, post.getPostId());
+        assertFalse(PostApi.publicPostExists(post.getPostId()), "Post was not deleted.");
     }
 
     @Test
-    public void PrivatePostCreated_When_ValidDataProvided() {
+    public void privatePostCreated_When_ValidDataProvided() {
 
         boolean publicVisibility = false;
-        PostModel post = globalRestApiUser.createPost(publicVisibility);
-        assertTrue(privatePostExists(globalRestApiUser, post.getPostId()), "Post not created.");
+        PostModel post = PostApi.createPost(globalRestApiUser, publicVisibility);
+        assertTrue(PostApi.privatePostExists(globalRestApiUser, post.getPostId()), "Post not created.");
 
-        globalRestApiUser.deletePost(post.getPostId());
-        assertFalse(privatePostExists(globalRestApiUser, post.getPostId()), "Post was not deleted.");
+        PostApi.deletePost(globalRestApiUser, post.getPostId());
+        assertFalse(PostApi.privatePostExists(globalRestApiUser, post.getPostId()), "Post was not deleted.");
     }
 
     @Test
-    public void PublicPostEdited_By_Author() {
-
-        boolean publicVisibility = true;
-
-        PostModel postToBeEdited = globalRestApiUser.createPost(publicVisibility);
-        assertTrue(publicPostExists(postToBeEdited.getPostId()), "Post not created.");
-
-        String postToBeEditedContent = postToBeEdited.getContent();
-
-        globalRestApiUser.editPost(postToBeEdited);
-        globalRestApiUser.assertEditedPublicPost(postToBeEdited.getPostId(), postToBeEditedContent);
-
-        globalRestApiUser.deletePost(postToBeEdited.getPostId());
-        assertFalse(publicPostExists(postToBeEdited.getPostId()), "Post was not deleted.");
-    }
-
-    @Test
-    public void PrivatePostEdited_By_Author() {
-
-        boolean publicVisibility = false;
-
-        PostModel postToBeEdited = globalRestApiUser.createPost(publicVisibility);
-        assertTrue(privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post not created.");
-
-        String postToBeEditedContent = postToBeEdited.getContent();
-
-        globalRestApiUser.editPost(postToBeEdited);
-        globalRestApiUser.assertEditedPrivatePost(globalRestApiUser, postToBeEdited.getPostId(), postToBeEditedContent);
-
-        globalRestApiUser.deletePost(postToBeEdited.getPostId());
-        assertFalse(privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post was not deleted.");
-
-    }
-
-    @Test
-    public void PublicPostEdited_By_AdminUser_When_NotAuthor() {
+    public void publicPostEdited_By_Author() {
 
         boolean publicVisibility = true;
 
-        PostModel postToBeEdited = globalRestApiUser.createPost(publicVisibility);
-        assertTrue(publicPostExists(postToBeEdited.getPostId()), "Post not created.");
+        PostModel postToBeEdited = PostApi.createPost(globalRestApiUser, publicVisibility);
+        assertTrue(PostApi.publicPostExists(postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
 
-        globalRestApiAdminUser.editPost(postToBeEdited);
-        globalRestApiAdminUser.assertEditedPublicPost(postToBeEdited.getPostId(), postToBeEditedContent);
+        PostApi.editPost(globalRestApiUser, postToBeEdited);
+        PostApi.assertEditedPublicPost(postToBeEdited.getPostId(), postToBeEditedContent);
 
-        globalRestApiUser.deletePost(postToBeEdited.getPostId());
-        assertFalse(publicPostExists(postToBeEdited.getPostId()), "Post was not deleted.");
+        PostApi.deletePost(globalRestApiUser, postToBeEdited.getPostId());
+        assertFalse(PostApi.publicPostExists(postToBeEdited.getPostId()), "Post was not deleted.");
     }
 
     @Test
-    public void PrivatePostEdited_By_AdminUser_When_NotAuthor() {
+    public void privatePostEdited_By_Author() {
 
         boolean publicVisibility = false;
 
-        PostModel postToBeEdited = globalRestApiUser.createPost(publicVisibility);
-        assertTrue(privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post not created.");
+        PostModel postToBeEdited = PostApi.createPost(globalRestApiUser, publicVisibility);
+        assertTrue(PostApi.privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
 
-        globalRestApiAdminUser.editPost(postToBeEdited);
-        globalRestApiAdminUser.assertEditedPrivatePost(globalRestApiUser, postToBeEdited.getPostId(), postToBeEditedContent);
+        PostApi.editPost(globalRestApiUser, postToBeEdited);
+        PostApi.assertEditedPrivatePost(globalRestApiUser, postToBeEdited.getPostId(), postToBeEditedContent);
 
-        globalRestApiUser.deletePost(postToBeEdited.getPostId());
-        assertFalse(privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post was not deleted.");
+        PostApi.deletePost(globalRestApiUser, postToBeEdited.getPostId());
+        assertFalse(PostApi.privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post was not deleted.");
 
     }
 
     @Test
-    public void AllPostsListed_When_Requested_By_User() {
+    public void publicPostEdited_By_AdminUser_When_NotAuthor() {
+
+        boolean publicVisibility = true;
+
+        PostModel postToBeEdited = PostApi.createPost(globalRestApiUser, publicVisibility);
+        assertTrue(PostApi.publicPostExists(postToBeEdited.getPostId()), "Post not created.");
+
+        String postToBeEditedContent = postToBeEdited.getContent();
+
+        PostApi.editPost(globalRestApiAdminUser, postToBeEdited);
+        PostApi.assertEditedPublicPost(postToBeEdited.getPostId(), postToBeEditedContent);
+
+        PostApi.deletePost(globalRestApiUser, postToBeEdited.getPostId());
+        assertFalse(PostApi.publicPostExists(postToBeEdited.getPostId()), "Post was not deleted.");
+    }
+
+    @Test
+    public void privatePostEdited_By_AdminUser_When_NotAuthor() {
+
+        boolean publicVisibility = false;
+
+        PostModel postToBeEdited = PostApi.createPost(globalRestApiUser, publicVisibility);
+        assertTrue(PostApi.privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post not created.");
+
+        String postToBeEditedContent = postToBeEdited.getContent();
+
+        PostApi.editPost(globalRestApiAdminUser, postToBeEdited);
+        PostApi.assertEditedPrivatePost(globalRestApiUser, postToBeEdited.getPostId(), postToBeEditedContent);
+
+        PostApi.deletePost(globalRestApiUser, postToBeEdited.getPostId());
+        assertFalse(PostApi.privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post was not deleted.");
+
+    }
+
+    @Test
+    public void allPostsListed_When_Requested_By_User() {
 
         List<Integer> postIds = new ArrayList<>();
 
@@ -117,25 +120,25 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         int postCount = 5;
 
         for (int i = 0; i < postCount; i++) {
-            PostModel post = globalRestApiUser.createPost(publicVisibility);
-            assertTrue(publicPostExists(post.getPostId()), "Post not created.");
+            PostModel post = PostApi.createPost(globalRestApiUser, publicVisibility);
+            assertTrue(PostApi.publicPostExists(post.getPostId()), "Post not created.");
             postIds.add(post.getPostId());
         }
         publicVisibility = false;
         for (int i = 0; i < postCount; i++) {
-            PostModel post = globalRestApiUser.createPost(publicVisibility);
-            assertTrue(privatePostExists(globalRestApiUser, post.getPostId()), "Post not created.");
+            PostModel post = PostApi.createPost(globalRestApiUser, publicVisibility);
+            assertTrue(PostApi.privatePostExists(globalRestApiUser, post.getPostId()), "Post not created.");
             postIds.add(post.getPostId());
         }
 
-        PostModel[] foundPosts = findAllPosts();
+        PostModel[] foundPosts = PostApi.findAllPosts();
 
         for (PostModel foundPost : foundPosts) {
             if (postIds.contains(foundPost.getPostId())) {
                 assertNotNull(foundPost, "Post is null");
-                globalRestApiUser.deletePost(foundPost.getPostId());
+                PostApi.deletePost(globalRestApiUser, foundPost.getPostId());
                 postIds.remove(foundPost.getPostId());
-                assertFalse(publicPostExists(foundPost.getPostId()), "Post was not deleted.");
+                assertFalse(PostApi.publicPostExists(foundPost.getPostId()), "Post was not deleted.");
             }
         }
 
@@ -144,101 +147,101 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void PostLiked_By_User() {
+    public void postLiked_By_User() {
 
         boolean publicVisibility = true;
-        PostModel postToBeLiked = globalRestApiUser.createPost(publicVisibility);
-        assertTrue(publicPostExists(postToBeLiked.getPostId()), "Post not created.");
+        PostModel postToBeLiked = PostApi.createPost(globalRestApiUser, publicVisibility);
+        assertTrue(PostApi.publicPostExists(postToBeLiked.getPostId()), "Post not created.");
 
 
         int likedPostLikesToHave = postToBeLiked.getLikes().size() + 1;
 
-        globalRestApiUser.likePost(postToBeLiked);
+        PostApi.likePost(globalRestApiUser, postToBeLiked);
 
         assertEquals(postToBeLiked.getLikes().size(), likedPostLikesToHave, "Post was not liked.");
 
-        globalRestApiUser.deletePost(postToBeLiked.getPostId());
-        assertFalse(publicPostExists(postToBeLiked.getPostId()), "Post was not deleted.");
+        PostApi.deletePost(globalRestApiUser, postToBeLiked.getPostId());
+        assertFalse(PostApi.publicPostExists(postToBeLiked.getPostId()), "Post was not deleted.");
 
     }
 
     @Test
-    public void PrivatePostDeleted_By_Author() {
+    public void privatePostDeleted_By_Author() {
 
         boolean publicVisibility = false;
 
-        PostModel postToBeDeleted = globalRestApiUser.createPost(publicVisibility);
+        PostModel postToBeDeleted = PostApi.createPost(globalRestApiUser, publicVisibility);
         int postId = postToBeDeleted.getPostId();
-        assertTrue(privatePostExists(globalRestApiUser, postId), "Post not created.");
+        assertTrue(PostApi.privatePostExists(globalRestApiUser, postId), "Post not created.");
 
-        globalRestApiUser.deletePost(postId);
-        assertFalse(privatePostExists(globalRestApiUser, postId), "Post was not deleted.");
+        PostApi.deletePost(globalRestApiUser, postId);
+        assertFalse(PostApi.privatePostExists(globalRestApiUser, postId), "Post was not deleted.");
 
     }
 
     @Test
-    public void PrivatePostDeleted_By_AdminUser_When_NotAuthor() {
+    public void privatePostDeleted_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = false;
-        PostModel postToBeDeleted = globalRestApiUser.createPost(publicVisibility);
+        PostModel postToBeDeleted = PostApi.createPost(globalRestApiUser, publicVisibility);
         int postId = postToBeDeleted.getPostId();
-        assertTrue(privatePostExists(globalRestApiUser, postId), "Post not created.");
+        assertTrue(PostApi.privatePostExists(globalRestApiUser, postId), "Post not created.");
 
-        globalRestApiAdminUser.deletePost(postId);
-        assertFalse(privatePostExists(globalRestApiUser, postId), "Post was not deleted.");
+        PostApi.deletePost(globalRestApiAdminUser, postId);
+        assertFalse(PostApi.privatePostExists(globalRestApiUser, postId), "Post was not deleted.");
 
     }
 
     @Test
-    public void PublicPostDeleted_By_AdminUser_When_NotAuthor() {
+    public void publicPostDeleted_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = true;
-        PostModel postToBeDeleted = globalRestApiUser.createPost(publicVisibility);
+        PostModel postToBeDeleted = PostApi.createPost(globalRestApiUser, publicVisibility);
         int postId = postToBeDeleted.getPostId();
-        assertTrue(publicPostExists(postId), "Post not created.");
+        assertTrue(PostApi.publicPostExists(postId), "Post not created.");
 
-        globalRestApiAdminUser.deletePost(postId);
-        assertFalse(publicPostExists(postId), "Post was not deleted.");
+        PostApi.deletePost(globalRestApiAdminUser, postId);
+        assertFalse(PostApi.publicPostExists(postId), "Post was not deleted.");
 
     }
 
     @Test
-    public void PostCommentsListed_When_Requested_By_User() {
+    public void postCommentsListed_When_Requested_By_User() {
 
         List<Integer> commentIds = new ArrayList<>();
 
         UserModel newUser = new UserModel();
-        newUser.register(ROLE_USER.toString());
+        UserApi.register(newUser, ROLE_USER.toString());
 
         boolean publicVisibility = true;
 
-        PostModel post = globalRestApiUser.createPost(publicVisibility);
-        assertTrue(publicPostExists(post.getPostId()), "Post not created.");
+        PostModel post = PostApi.createPost(globalRestApiUser, publicVisibility);
+        assertTrue(PostApi.publicPostExists(post.getPostId()), "Post not created.");
 
         int commentCount = 3;
 
         for (int i = 0; i < commentCount; i++) {
-            CommentModel comment = newUser.createComment(post);
-            assertTrue(commentExists(comment.getCommentId()), "Comment not created.");
+            CommentModel comment = CommentApi.createComment(newUser, post);
+            assertTrue(CommentApi.commentExists(comment.getCommentId()), "Comment not created.");
             commentIds.add(comment.getCommentId());
         }
 
-        CommentModel[] postComments = post.findCommentsOfAPost();
+        CommentModel[] postComments = PostApi.findCommentsOfAPost(post);
 
         assertEquals(postComments.length, commentCount, "Wrong post comments count");
 
         for (CommentModel comment : postComments) {
             if (commentIds.contains(comment.getCommentId())) {
                 assertNotNull(comment, "Comment is null");
-                newUser.deleteComment(comment.getCommentId());
-                assertFalse(commentExists(comment.getCommentId()), "Post was not deleted.");
+                CommentApi.deleteComment(newUser, comment.getCommentId());
+                assertFalse(CommentApi.commentExists(comment.getCommentId()), "Post was not deleted.");
             }
         }
 
-        globalRestApiUser.deletePost(post.getPostId());
-        assertFalse(publicPostExists(post.getPostId()), "Post was not deleted.");
+        PostApi.deletePost(globalRestApiUser, post.getPostId());
+        assertFalse(PostApi.publicPostExists(post.getPostId()), "Post was not deleted.");
 
-        globalRestApiAdminUser.disableUser(newUser.getId());
+        UserApi.disableUser(globalRestApiAdminUser, newUser);
     }
 
 }
