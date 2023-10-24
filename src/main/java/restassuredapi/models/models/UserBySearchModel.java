@@ -6,13 +6,7 @@ import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 
 public class UserBySearchModel extends BaseModel {
-    public static final String searchUsersBody = "{\n" +
-            "  \"index\": %s,\n" +
-            "  \"next\": %s,\n" +
-            "  \"searchParam1\": \"%s\",\n" +
-            "  \"searchParam2\": \"%s\",\n" +
-            "  \"size\": %s\n" +
-            "}";
+
     private int userId;
     private String username;
     private ExpertiseProfileModel expertiseProfile = new ExpertiseProfileModel();

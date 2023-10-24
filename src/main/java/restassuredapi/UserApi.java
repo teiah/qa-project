@@ -13,7 +13,6 @@ import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static io.restassured.RestAssured.given;
-import static restassuredapi.models.models.UserBySearchModel.searchUsersBody;
 import static org.apache.http.HttpStatus.*;
 import static org.testng.Assert.*;
 
@@ -30,6 +29,13 @@ public class UserApi extends BaseWeAreApi {
             "  \"email\": \"" + "%s" + "\",\n" +
             "  \"password\": \"" + "%s" + "\",\n" +
             "  \"username\": \"" + "%s" + "\"\n" +
+            "}";
+    static final String searchUsersBody = "{\n" +
+            "  \"index\": %s,\n" +
+            "  \"next\": %s,\n" +
+            "  \"searchParam1\": \"%s\",\n" +
+            "  \"searchParam2\": \"%s\",\n" +
+            "  \"size\": %s\n" +
             "}";
     private static final String personalProfileBodyFirstName = "{\n" +
             "\"firstName\": \"%s\",\n" +

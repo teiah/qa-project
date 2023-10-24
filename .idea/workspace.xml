@@ -5,44 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="02622708-42b9-40ba-8a09-ba1aae850292" name="Changes" comment="Optimizing code">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/telerikacademy/testframework/utils/Helpers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/BaseWeAreApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/CommentApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/PostApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/RequestApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/SkillApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/UserApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/basemodel/BaseModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/PersonalProfileModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/UserModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/basemodel/BaseModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/CategoryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/CategoryModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/CityModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/CityModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/CommentModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/CommentModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/CountryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/CountryModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/ExpertiseProfileModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/ExpertiseProfileModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/GrantedAuthorityModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/GrantedAuthorityModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/LocationModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/LocationModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/PersonalProfileModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/PostModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/PostModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/RequestModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/RequestModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/RoleModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/RoleModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/SkillModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/SkillModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/UserByIdModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/UserByIdModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/UserBySearchModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/UserBySearchModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/models/UserModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/base/BaseWeareRestAssuredTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/base/BaseWeareRestAssuredTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTCommentControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTCommentControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTConnectionControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTConnectionControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTPostControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTPostControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTSkillControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTSkillControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTUserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/wearerestassuredtests/tests/RESTUserControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/base/BaseWeareSeleniumTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/base/BaseWeareSeleniumTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumCommentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumCommentTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumConnectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumConnectionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumPostTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumPostTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/test/cases/weareseleniumtests/tests/SeleniumUserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restassuredapi/PostApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/PostApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restassuredapi/UserApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/UserApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/UserBySearchModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restassuredapi/models/models/UserBySearchModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +42,9 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -189,6 +158,7 @@
       <workItem from="1697984940212" duration="6339000" />
       <workItem from="1698056779955" duration="2281000" />
       <workItem from="1698139008143" duration="22862000" />
+      <workItem from="1698163886679" duration="410000" />
     </task>
     <task id="LOCAL-00001" summary="Methods distributed to models instead of WeAreClass with all methods">
       <option name="closed" value="true" />

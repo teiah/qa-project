@@ -11,10 +11,10 @@ import restassuredapi.models.models.UserModel;
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
 import static io.restassured.RestAssured.given;
-import static restassuredapi.models.models.UserBySearchModel.searchUsersBody;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
+import static restassuredapi.UserApi.searchUsersBody;
 
 public class PostApi extends BaseWeAreApi {
 
