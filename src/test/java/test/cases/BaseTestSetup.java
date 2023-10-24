@@ -2,8 +2,7 @@ package test.cases;
 
 import io.restassured.RestAssured;
 import io.restassured.config.EncoderConfig;
-import org.testng.ITestContext;
-import org.testng.TestRunner;
+import org.testng.*;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
