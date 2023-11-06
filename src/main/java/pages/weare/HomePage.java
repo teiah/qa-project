@@ -1,8 +1,9 @@
 package pages.weare;
 
 import org.openqa.selenium.WebDriver;
+import pages.BasePage;
 
-public class HomePage extends BaseWearePage{
+public class HomePage extends BasePage {
     public HomePage(WebDriver driver) {
         super(driver, "weare.baseUrl");
     }

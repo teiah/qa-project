@@ -1,8 +1,9 @@
 package pages.weare;
 
 import org.openqa.selenium.WebDriver;
+import pages.BasePage;
 
-public class RequestsListPage extends BaseWearePage{
+public class RequestsListPage extends BasePage {
     public RequestsListPage(WebDriver driver, String pageUrlKey, Object... arguments) {
         super(driver, pageUrlKey, arguments);
     }

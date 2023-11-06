@@ -1,8 +1,9 @@
 package pages.weare;
 
 import org.openqa.selenium.*;
+import pages.BasePage;
 
-public class DeletePostPage extends BaseWearePage {
+public class DeletePostPage extends BasePage {
 
     public DeletePostPage(WebDriver driver, Integer postId) {
         super(driver, "weare.deletePostPage", postId);

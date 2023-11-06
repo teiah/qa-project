@@ -1,8 +1,9 @@
 package pages.weare;
 
 import org.openqa.selenium.WebDriver;
+import pages.BasePage;
 
-public class EditPostPage extends BaseWearePage {
+public class EditPostPage extends BasePage {
 
     public EditPostPage(WebDriver driver, Integer postId) {
         super(driver, "weare.editPostPage", postId);

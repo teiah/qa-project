@@ -1,13 +1,14 @@
 package pages.weare;
 
 import org.openqa.selenium.WebDriver;
+import pages.BasePage;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.telerikacademy.testframework.utils.Utils.getUIMappingByKey;
 
-public class RegisterPage extends BaseWearePage {
+public class RegisterPage extends BasePage {
     public RegisterPage(WebDriver driver) {
         super(driver, "weare.registerPage");
     }

@@ -1,9 +1,10 @@
 package pages.weare;
 
 import org.openqa.selenium.WebDriver;
+import pages.BasePage;
 
 
-public class CreatePostPage extends BaseWearePage {
+public class CreatePostPage extends BasePage {
     public CreatePostPage(WebDriver driver) {
         super(driver, "weare.createPostPage");
     }

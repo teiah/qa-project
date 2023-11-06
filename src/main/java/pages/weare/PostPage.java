@@ -3,10 +3,11 @@ package pages.weare;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import pages.BasePage;
 
 import static com.telerikacademy.testframework.utils.Utils.getUIMappingByKey;
 
-public class PostPage extends BaseWearePage {
+public class PostPage extends BasePage {
 
     public PostPage(WebDriver driver, Integer postId) {
         super(driver, "weare.postPage", postId);
