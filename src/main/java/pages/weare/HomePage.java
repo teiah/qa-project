@@ -7,6 +7,7 @@ public class HomePage extends BasePage {
     public HomePage(WebDriver driver) {
         super(driver, "weare.baseUrl");
     }
+
     public void assertUserHasLoggedIn() {
         if (!isLoggedIn()) {
             throw new AssertionError("Error: User has not successfully logged in. Logout button is not present.");
@@ -16,6 +17,7 @@ public class HomePage extends BasePage {
     public boolean isLoggedIn() {
         return actions.isElementPresent("weare.homePage.logoutButton");
     }
+
     public void logout() {
         actions.waitForElementClickable("weare.homePage.logoutButton");
         actions.clickElement("weare.homePage.logoutButton");

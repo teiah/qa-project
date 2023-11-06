@@ -7,6 +7,7 @@ public class LoginPage extends BasePage {
     public LoginPage(WebDriver driver) {
         super(driver, "weare.loginPage");
     }
+
     public void loginUser(String username, String password) {
         navigateToPage();
         assertPageNavigated();
