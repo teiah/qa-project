@@ -25,22 +25,13 @@ public class CustomWebDriverManager {
         }
 
         private WebDriver setupBrowser() {
-            String osName = System.getProperty("os.name").toLowerCase();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--remote-allow-origins=*");
 
-            if (osName.contains("mac")) {
-                System.setProperty("webdriver.chrome.driver", "/Applications/chromedriver-mac-arm64/chromedriver");
-                WebDriver driver = new ChromeDriver(options);
-                driver.manage().window().maximize();
-                this.driver = driver;
-                return driver;
-            } else {
-                WebDriver driver = new ChromeDriver(options);
-                driver.manage().window().maximize();
-                this.driver = driver;
-                return driver;
-            }
+            WebDriver driver = new ChromeDriver(options);
+            driver.manage().window().maximize();
+            this.driver = driver;
+            return driver;
         }
     }
 }
