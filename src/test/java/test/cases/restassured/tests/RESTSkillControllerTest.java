@@ -1,10 +1,10 @@
-package test.cases.wearerestassuredtests.tests;
+package test.cases.restassured.tests;
 
 import restassuredapi.models.models.SkillModel;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
 import restassuredapi.SkillApi;
-import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
+import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;
 import java.util.List;

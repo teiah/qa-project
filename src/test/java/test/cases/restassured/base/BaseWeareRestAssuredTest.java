@@ -1,4 +1,4 @@
-package test.cases.wearerestassuredtests.base;
+package test.cases.restassured.base;
 
 import restassuredapi.models.models.UserModel;
 import org.testng.annotations.*;

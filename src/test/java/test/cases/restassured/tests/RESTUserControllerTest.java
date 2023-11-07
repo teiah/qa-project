@@ -1,4 +1,4 @@
-package test.cases.wearerestassuredtests.tests;
+package test.cases.restassured.tests;
 
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.response.Response;
@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import restassuredapi.PostApi;
 import restassuredapi.UserApi;
 import restassuredapi.models.models.*;
-import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
+import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static org.testng.Assert.*;

@@ -1,4 +1,4 @@
-package test.cases.wearerestassuredtests.tests;
+package test.cases.restassured.tests;
 
 import restassuredapi.models.models.CommentModel;
 import restassuredapi.models.models.PostModel;
@@ -7,7 +7,7 @@ import org.testng.annotations.*;
 import restassuredapi.CommentApi;
 import restassuredapi.PostApi;
 import restassuredapi.UserApi;
-import test.cases.wearerestassuredtests.base.BaseWeareRestAssuredTest;
+import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;
 import java.util.List;
