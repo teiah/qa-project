@@ -1,4 +1,4 @@
-package test.cases.weareseleniumtests.tests;
+package test.cases.selenium.tests;
 
 import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.Assert;
@@ -7,7 +7,7 @@ import org.testng.annotations.*;
 import pages.weare.*;
 import restassuredapi.PostApi;
 import restassuredapi.models.models.PostModel;
-import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
+import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 public class SeleniumPostTest extends BaseWeareSeleniumTest {
 

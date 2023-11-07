@@ -1,4 +1,4 @@
-package test.cases.weareseleniumtests.tests;
+package test.cases.selenium.tests;
 
 import com.telerikacademy.testframework.utils.Helpers;
 import restassuredapi.models.models.UserByIdModel;
@@ -9,7 +9,7 @@ import pages.weare.HomePage;
 import pages.weare.LoginPage;
 import pages.weare.RegisterPage;
 import restassuredapi.UserApi;
-import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
+import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 

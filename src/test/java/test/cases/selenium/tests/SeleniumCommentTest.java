@@ -1,4 +1,4 @@
-package test.cases.weareseleniumtests.tests;
+package test.cases.selenium.tests;
 
 import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
@@ -7,7 +7,7 @@ import pages.weare.PostPage;
 import restassuredapi.CommentApi;
 import restassuredapi.PostApi;
 import restassuredapi.models.models.*;
-import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
+import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     Integer postId;

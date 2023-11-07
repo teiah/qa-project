@@ -1,4 +1,4 @@
-package test.cases.weareseleniumtests.tests;
+package test.cases.selenium.tests;
 
 import org.testng.annotations.*;
 import pages.weare.LoginPage;
@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import restassuredapi.RequestApi;
 import restassuredapi.UserApi;
 import restassuredapi.models.models.*;
-import test.cases.weareseleniumtests.base.BaseWeareSeleniumTest;
+import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
 import static org.testng.Assert.assertEquals;

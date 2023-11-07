@@ -1,4 +1,4 @@
-package test.cases.weareseleniumtests.base;
+package test.cases.selenium.base;
 
 import restassuredapi.models.models.UserModel;
 import com.telerikacademy.testframework.UserActions;
