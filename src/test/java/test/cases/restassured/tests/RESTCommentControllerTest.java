@@ -1,13 +1,13 @@
 package test.cases.restassured.tests;
 
-import restassuredapi.models.models.CommentModel;
-import restassuredapi.models.models.PostModel;
-import restassuredapi.models.models.UserModel;
+import api.models.models.CommentModel;
+import api.models.models.PostModel;
+import api.models.models.UserModel;
 import org.testng.annotations.*;
-import restassuredapi.Comment;
-import restassuredapi.Post;
-import restassuredapi.Request;
-import restassuredapi.User;
+import api.Comment;
+import api.Post;
+import api.Request;
+import api.User;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;

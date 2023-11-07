@@ -5,8 +5,8 @@ import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.weare.*;
-import restassuredapi.Post;
-import restassuredapi.models.models.PostModel;
+import api.Post;
+import api.models.models.PostModel;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 public class SeleniumPostTest extends BaseWeareSeleniumTest {

@@ -1,6 +1,6 @@
-package restassuredapi.models.models;
+package api.models.models;
 
-import restassuredapi.models.basemodel.BaseModel;
+import api.models.basemodel.BaseModel;
 
 public class CategoryModel extends BaseModel {
     private Integer id;

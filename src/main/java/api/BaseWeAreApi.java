@@ -1,6 +1,6 @@
-package restassuredapi;
+package api;
 
-import restassuredapi.models.basemodel.BaseModel;
+import api.models.basemodel.BaseModel;
 import org.testng.log4testng.Logger;
 
 public class BaseWeAreApi {

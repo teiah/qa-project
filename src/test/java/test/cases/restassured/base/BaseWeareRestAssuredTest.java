@@ -1,8 +1,8 @@
 package test.cases.restassured.base;
 
-import restassuredapi.models.models.UserModel;
+import api.models.models.UserModel;
 import org.testng.annotations.*;
-import restassuredapi.User;
+import api.User;
 import test.cases.BaseTestSetup;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;

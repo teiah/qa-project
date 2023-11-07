@@ -4,9 +4,9 @@ import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
 import pages.weare.LoginPage;
 import pages.weare.PostPage;
-import restassuredapi.Comment;
-import restassuredapi.Post;
-import restassuredapi.models.models.*;
+import api.Comment;
+import api.Post;
+import api.models.models.*;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 public class SeleniumCommentTest extends BaseWeareSeleniumTest {

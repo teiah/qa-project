@@ -1,6 +1,6 @@
-package restassuredapi.models.models;
+package api.models.models;
 
-import restassuredapi.models.basemodel.BaseModel;
+import api.models.basemodel.BaseModel;
 
 public class LocationModel extends BaseModel {
     private CityModel city = new CityModel();

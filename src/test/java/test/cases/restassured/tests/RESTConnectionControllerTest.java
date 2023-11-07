@@ -1,13 +1,13 @@
 package test.cases.restassured.tests;
 
-import restassuredapi.models.models.RequestModel;
-import restassuredapi.models.models.UserModel;
+import api.models.models.RequestModel;
+import api.models.models.UserModel;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import restassuredapi.Request;
-import restassuredapi.User;
+import api.Request;
+import api.User;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;

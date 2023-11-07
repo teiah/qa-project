@@ -1,12 +1,12 @@
-package restassuredapi;
+package api;
 
 import com.google.gson.Gson;
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
-import restassuredapi.models.models.CommentModel;
-import restassuredapi.models.models.PostModel;
-import restassuredapi.models.models.UserModel;
+import api.models.models.CommentModel;
+import api.models.models.PostModel;
+import api.models.models.UserModel;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;

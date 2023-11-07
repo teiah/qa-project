@@ -7,9 +7,9 @@ import pages.weare.RequestsListPage;
 import com.telerikacademy.testframework.utils.Utils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import restassuredapi.Request;
-import restassuredapi.User;
-import restassuredapi.models.models.*;
+import api.Request;
+import api.User;
+import api.models.models.*;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;

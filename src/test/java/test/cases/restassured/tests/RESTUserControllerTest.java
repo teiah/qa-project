@@ -4,15 +4,15 @@ import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import restassuredapi.Post;
-import restassuredapi.User;
-import restassuredapi.models.models.*;
+import api.Post;
+import api.User;
+import api.models.models.*;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;
 import static org.testng.Assert.*;
-import static restassuredapi.User.getUserById;
-import static restassuredapi.User.searchUser;
+import static api.User.getUserById;
+import static api.User.searchUser;
 
 public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 

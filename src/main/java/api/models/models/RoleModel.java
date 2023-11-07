@@ -1,4 +1,4 @@
-package restassuredapi.models.models;
+package api.models.models;
 
 import java.util.ArrayList;
 import java.util.List;

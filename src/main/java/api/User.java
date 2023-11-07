@@ -1,10 +1,10 @@
-package restassuredapi;
+package api;
 
 import com.google.gson.Gson;
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
-import restassuredapi.models.models.*;
+import api.models.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
