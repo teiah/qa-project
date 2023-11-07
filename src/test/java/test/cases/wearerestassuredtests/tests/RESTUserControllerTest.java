@@ -17,7 +17,7 @@ import static restassuredapi.UserApi.searchUser;
 public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
-    public void userRegistered_When_ValidCredentialsProvided() {
+    public void shouldCreateUser() {
 
         String password = Helpers.generatePassword();
         String email = Helpers.generateEmail();
@@ -32,7 +32,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void adminUserRegistered_When_ValidCredentialsProvided() {
+    public void shouldCreateAdmin() {
 
         String password = Helpers.generatePassword();
         String email = Helpers.generateEmail();
@@ -49,7 +49,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userPersonalProfileEdited_When_ValidDataProvided() {
+    public void shouldEditPersonalProfile() {
 
         PersonalProfileModel personalProfile = new PersonalProfileModel();
         personalProfile.setBirthYear(Helpers.generateBirthdayDate());
@@ -73,7 +73,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userExpertiseProfileEdited_When_ValidDataProvided() {
+    public void shouldEditExpertiseProfile() {
 
         ExpertiseProfileModel expertiseProfile = new ExpertiseProfileModel();
         double availability = 8;
@@ -110,7 +110,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userFound_When_SearchParametersProvided() {
+    public void shouldRetrieveUsersByExpertiseAndName() {
 
         String firstname = globalRestApiUser.getPersonalProfile().getFirstName();
 
@@ -123,7 +123,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userPostsListed_When_Requested() {
+    public void shouldRetrieveUserPosts() {
 
         int postsCount = 3;
         for (int i = 0; i < postsCount; i++) {
@@ -151,7 +151,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userFoundById_When_Requested_By_AdminUser() {
+    public void shouldRetrieveUserByIdAsAdmin() {
 
         Response returnedUser = getUserById(globalRestApiAdminUser.getUsername(), globalRestApiUser.getId());
 
@@ -162,7 +162,7 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     }
 
     @Test
-    public void userFoundById_When_Requested_By_AnotherUser() {
+    public void shouldRetrieveUserByIdAsUser() {
 
         UserModel userToFind = new UserModel();
         UserApi.register(userToFind, ROLE_USER.toString());
