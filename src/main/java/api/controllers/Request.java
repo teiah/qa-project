@@ -1,4 +1,4 @@
-package api;
+package api.controllers;
 
 import com.google.gson.Gson;
 import io.restassured.authentication.FormAuthConfig;

@@ -6,8 +6,8 @@ import io.restassured.response.Response;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import api.Request;
-import api.User;
+import api.controllers.Request;
+import api.controllers.User;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;

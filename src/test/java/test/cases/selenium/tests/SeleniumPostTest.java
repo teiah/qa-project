@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.weare.*;
-import api.Post;
+import api.controllers.Post;
 import api.models.models.PostModel;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 

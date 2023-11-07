@@ -1,4 +1,4 @@
-package api;
+package api.controllers;
 
 import api.models.basemodel.BaseModel;
 import org.testng.log4testng.Logger;

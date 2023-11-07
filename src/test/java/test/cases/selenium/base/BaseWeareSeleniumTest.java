@@ -3,7 +3,7 @@ package test.cases.selenium.base;
 import api.models.models.UserModel;
 import com.telerikacademy.testframework.UserActions;
 import org.testng.annotations.*;
-import api.User;
+import api.controllers.User;
 import test.cases.BaseTestSetup;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;

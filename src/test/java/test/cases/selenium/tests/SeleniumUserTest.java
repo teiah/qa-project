@@ -8,7 +8,7 @@ import org.testng.annotations.*;
 import pages.weare.HomePage;
 import pages.weare.LoginPage;
 import pages.weare.RegisterPage;
-import api.User;
+import api.controllers.User;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;

@@ -3,7 +3,7 @@ package test.cases.restassured.tests;
 import api.models.models.SkillModel;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
-import api.Skill;
+import api.controllers.Skill;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package api;
+package api.controllers;
 
 import com.google.gson.Gson;
 import com.telerikacademy.testframework.utils.Helpers;
@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
-import static api.User.searchUsersBody;
+import static api.controllers.User.searchUsersBody;
 
 public class Post extends BaseWeAreApi {
 

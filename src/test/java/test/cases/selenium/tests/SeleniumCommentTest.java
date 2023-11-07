@@ -4,8 +4,8 @@ import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
 import pages.weare.LoginPage;
 import pages.weare.PostPage;
-import api.Comment;
-import api.Post;
+import api.controllers.Comment;
+import api.controllers.Post;
 import api.models.models.*;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 

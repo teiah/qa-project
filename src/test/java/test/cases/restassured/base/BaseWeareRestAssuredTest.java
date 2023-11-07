@@ -2,7 +2,7 @@ package test.cases.restassured.base;
 
 import api.models.models.UserModel;
 import org.testng.annotations.*;
-import api.User;
+import api.controllers.User;
 import test.cases.BaseTestSetup;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;

@@ -7,8 +7,8 @@ import pages.weare.RequestsListPage;
 import com.telerikacademy.testframework.utils.Utils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import api.Request;
-import api.User;
+import api.controllers.Request;
+import api.controllers.User;
 import api.models.models.*;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 

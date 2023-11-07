@@ -4,9 +4,9 @@ import api.models.models.CommentModel;
 import api.models.models.PostModel;
 import api.models.models.UserModel;
 import org.testng.annotations.*;
-import api.Comment;
-import api.Post;
-import api.User;
+import api.controllers.Comment;
+import api.controllers.Post;
+import api.controllers.User;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;
