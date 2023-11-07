@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.weare.*;
-import restassuredapi.PostApi;
+import restassuredapi.Post;
 import restassuredapi.models.models.PostModel;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 
@@ -22,7 +22,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
         }
 
         if (postId != null) {
-            PostApi.deletePost(globalSeleniumUser, postId);
+            Post.deletePost(globalSeleniumUser, postId);
             postId = null;
         }
     }
@@ -56,7 +56,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void postLiked_By_User() {
 
-        PostModel createdPost = PostApi.createPost(globalSeleniumUser, true);
+        PostModel createdPost = Post.createPost(globalSeleniumUser, true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -73,7 +73,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void postEdited_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = PostApi.createPost(globalSeleniumUser, true);
+        PostModel createdPost = Post.createPost(globalSeleniumUser, true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -93,7 +93,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void postDeleted_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = PostApi.createPost(globalSeleniumUser, true);
+        PostModel createdPost = Post.createPost(globalSeleniumUser, true);
         Integer postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());

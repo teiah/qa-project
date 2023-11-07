@@ -3,7 +3,7 @@ package test.cases.selenium.base;
 import restassuredapi.models.models.UserModel;
 import com.telerikacademy.testframework.UserActions;
 import org.testng.annotations.*;
-import restassuredapi.UserApi;
+import restassuredapi.User;
 import test.cases.BaseTestSetup;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;
@@ -21,10 +21,10 @@ public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     @BeforeClass
     public void setUpSelenium() {
-        UserApi.register(globalSeleniumAdminUser, ROLE_ADMIN.toString());
+        User.register(globalSeleniumAdminUser, ROLE_ADMIN.toString());
         adminUsername = globalSeleniumAdminUser.getUsername();
         adminPassword = globalSeleniumAdminUser.getPassword();
-        UserApi.register(globalSeleniumUser, ROLE_USER.toString());
+        User.register(globalSeleniumUser, ROLE_USER.toString());
         globalUserUsername = globalSeleniumUser.getUsername();
         globalUserPassword = globalSeleniumUser.getPassword();
         UserActions.loadBrowser("weare.baseUrl");
@@ -32,7 +32,7 @@ public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     @AfterClass
     public void disableGlobalUser() {
-        UserApi.disableUser(globalSeleniumAdminUser, globalSeleniumUser);
+        User.disableUser(globalSeleniumAdminUser, globalSeleniumUser);
     }
 
     @AfterSuite

@@ -2,7 +2,7 @@ package test.cases.restassured.base;
 
 import restassuredapi.models.models.UserModel;
 import org.testng.annotations.*;
-import restassuredapi.UserApi;
+import restassuredapi.User;
 import test.cases.BaseTestSetup;
 
 import static com.telerikacademy.testframework.utils.UserRoles.*;
@@ -14,13 +14,13 @@ public class BaseWeareRestAssuredTest extends BaseTestSetup {
 
     @BeforeClass
     public void setUpRestAssured() {
-        UserApi.register(globalRestApiAdminUser, ROLE_ADMIN.toString());
-        UserApi.register(globalRestApiUser, ROLE_USER.toString());
+        User.register(globalRestApiAdminUser, ROLE_ADMIN.toString());
+        User.register(globalRestApiUser, ROLE_USER.toString());
     }
 
     @AfterClass
     public void disableGlobalUser() {
-        UserApi.disableUser(globalRestApiAdminUser, globalRestApiUser);
+        User.disableUser(globalRestApiAdminUser, globalRestApiUser);
     }
 
 }
