@@ -7,8 +7,8 @@ import pages.weare.RequestsListPage;
 import com.telerikacademy.testframework.utils.Utils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import api.controllers.Request;
-import api.controllers.User;
+import api.controllers.ConnectionController;
+import api.controllers.UserController;
 import api.models.models.*;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 
@@ -22,19 +22,19 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
     @BeforeClass
     public void setUpCommentTest() {
-        User.register(receiver, ROLE_USER.toString());
+        UserController.register(receiver, ROLE_USER.toString());
     }
 
     @AfterClass
     public void cleanUpCommentTest() {
-        User.disableUser(globalSeleniumAdminUser, receiver);
+        UserController.disableUser(globalSeleniumAdminUser, receiver);
     }
 
     @Test
     public void connectionRequestSent_By_User() {
 
         int initialRequestsCount = 0;
-        String[] fields = Request.getUserReceivedRequests(receiver);
+        String[] fields = ConnectionController.getUserReceivedRequests(receiver);
 
         if (fields != null) {
             initialRequestsCount = fields.length;
@@ -49,24 +49,24 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         receiverProfilePage.sendRequest();
 
-        RequestModel[] requestsAfter = Request.getUserRequests(receiver);
+        RequestModel[] requestsAfter = ConnectionController.getUserRequests(receiver);
         int afterRequestCount = requestsAfter.length;
 
         Assert.assertEquals(afterRequestCount, initialRequestsCount + 1, "Request not received");
 
-        RequestModel[] receiverRequests = Request.getUserRequests(receiver);
-        Request.approveRequest(receiver, receiverRequests[receiverRequests.length - 1]);
-        Request.disconnect(globalSeleniumUser, receiver);
+        RequestModel[] receiverRequests = ConnectionController.getUserRequests(receiver);
+        ConnectionController.approveRequest(receiver, receiverRequests[receiverRequests.length - 1]);
+        ConnectionController.disconnect(globalSeleniumUser, receiver);
     }
 
     @Test
     public void connectionRequestApproved_By_User() {
 
-        int initialRequestsCount = Request.getUserRequests(receiver).length;
+        int initialRequestsCount = ConnectionController.getUserRequests(receiver).length;
 
-        RequestModel request = Request.sendRequest(globalSeleniumUser, receiver);
+        RequestModel request = ConnectionController.sendRequest(globalSeleniumUser, receiver);
 
-        int afterRequestCount = Request.getUserRequests(receiver).length;
+        int afterRequestCount = ConnectionController.getUserRequests(receiver).length;
 
         assertEquals(request.getSender().getId(), globalSeleniumUser.getId(), "Sender doesn't match the one in the request.");
         assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
@@ -86,22 +86,22 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         requestsListPage.approveRequest(globalSeleniumUser.getPersonalProfile().getFirstName());
 
-        int currentRequestsCount = Request.getUserRequests(receiver).length;
+        int currentRequestsCount = ConnectionController.getUserRequests(receiver).length;
 
         Assert.assertEquals(currentRequestsCount, afterRequestCount - 1, "Request not approved");
 
         requestsListPage.logout();
 
-        Request.disconnect(globalSeleniumUser, receiver);
+        ConnectionController.disconnect(globalSeleniumUser, receiver);
 
     }
 
     @Test
     public void connectionCutOff_From_ConnectedUser() {
 
-        RequestModel sendRequest = Request.sendRequest(globalSeleniumUser, receiver);
+        RequestModel sendRequest = ConnectionController.sendRequest(globalSeleniumUser, receiver);
 
-        Request.approveRequest(receiver, sendRequest);
+        ConnectionController.approveRequest(receiver, sendRequest);
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalSeleniumUser.getUsername(), globalSeleniumUser.getPassword());
@@ -117,11 +117,11 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
     @Test
     public void requestReceived_By_User() {
 
-        int initialRequestsCount = Request.getUserRequests(receiver).length;
+        int initialRequestsCount = ConnectionController.getUserRequests(receiver).length;
 
-        RequestModel request = Request.sendRequest(globalSeleniumUser, receiver);
+        RequestModel request = ConnectionController.sendRequest(globalSeleniumUser, receiver);
 
-        int afterRequestCount = Request.getUserRequests(receiver).length;
+        int afterRequestCount = ConnectionController.getUserRequests(receiver).length;
 
         assertEquals(request.getSender().getId(), globalSeleniumUser.getId(), "Sender doesn't match the one in the request.");
         assertEquals(request.getReceiver().getId(), receiver.getId(), "Receiver doesn't match the one in the request.");
@@ -149,8 +149,8 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         requestsListPage.logout();
 
-        Request.approveRequest(receiver, request);
-        Request.disconnect(globalSeleniumUser, receiver);
+        ConnectionController.approveRequest(receiver, request);
+        ConnectionController.disconnect(globalSeleniumUser, receiver);
 
     }
 

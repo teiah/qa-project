@@ -15,7 +15,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 
-public class Comment extends BaseWeAreApi {
+public class CommentController extends BaseWeAreApi {
 
     public static final String commentBody = "{\n" +
             "  \"commentId\": 0,\n" +
@@ -113,7 +113,7 @@ public class Comment extends BaseWeAreApi {
     }
 
     public static void likeComment(UserModel user, CommentModel comment) {
-        int previousLikes = Comment.getCommentById(user, comment.getCommentId()).getLikes().size();
+        int previousLikes = CommentController.getCommentById(user, comment.getCommentId()).getLikes().size();
         Response response = given()
                 .auth()
                 .form(user.getUsername(), user.getPassword(),
@@ -124,7 +124,7 @@ public class Comment extends BaseWeAreApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        assertEquals(Comment.getCommentById(user, comment.getCommentId()).getLikes().size(), previousLikes + 1, "Comment not liked.");
+        assertEquals(CommentController.getCommentById(user, comment.getCommentId()).getLikes().size(), previousLikes + 1, "Comment not liked.");
 
     }
 
@@ -162,7 +162,7 @@ public class Comment extends BaseWeAreApi {
 
     public static void assertEditedComment(UserModel user, PostModel post, int commentId, String contentToBeEdited) {
 
-        CommentModel[] postComments = Post.findAllCommentsOfAPost(user, post);
+        CommentModel[] postComments = PostController.findAllCommentsOfAPost(user, post);
 
         for (CommentModel postComment : postComments) {
             if (postComment.getCommentId() == commentId) {

@@ -16,7 +16,7 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;
 import static org.testng.Assert.*;
 
-public class User extends BaseWeAreApi {
+public class UserController extends BaseWeAreApi {
     private static final String userBody = "{\n" +
             "  \"authorities\": [\n" +
             "    %s\n" +
@@ -134,7 +134,7 @@ public class User extends BaseWeAreApi {
         UserByIdModel userByIdModel = getUserById(user.getUsername(), user.getId()).as(UserByIdModel.class);
         user.setEmail(userByIdModel.getEmail());
         String firstName = Helpers.generateFirstName();
-        User.setPersonalProfileFirstName(user, firstName);
+        UserController.setPersonalProfileFirstName(user, firstName);
         UserBySearchModel userBySearchModel = searchUser(user.getId(), user.getPersonalProfile().getFirstName());
         assert userBySearchModel != null;
         user.setExpertiseProfile(userBySearchModel.getExpertiseProfile());

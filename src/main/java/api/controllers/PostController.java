@@ -14,9 +14,9 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
-import static api.controllers.User.searchUsersBody;
+import static api.controllers.UserController.searchUsersBody;
 
-public class Post extends BaseWeAreApi {
+public class PostController extends BaseWeAreApi {
 
     private static final String postBody = "{\n" +
             "  \"content\": \"" + "%s" + "\",\n" +

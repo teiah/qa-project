@@ -8,7 +8,7 @@ import org.testng.annotations.*;
 import pages.weare.HomePage;
 import pages.weare.LoginPage;
 import pages.weare.RegisterPage;
-import api.controllers.User;
+import api.controllers.UserController;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 import static com.telerikacademy.testframework.utils.UserRoles.ROLE_USER;
@@ -38,7 +38,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
         registerPage.registerUser(username, email, password);
         registeredUserId = Integer.parseInt(registerPage.extractUserId());
 
-        UserByIdModel registeredUser = User.getUserById(username, registeredUserId).as(UserByIdModel.class);
+        UserByIdModel registeredUser = UserController.getUserById(username, registeredUserId).as(UserByIdModel.class);
 
         Assert.assertEquals(registeredUser.getUsername(), username);
         Assert.assertEquals(registeredUser.getEmail(), email);
@@ -49,7 +49,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     public void userLoggedIn_When_ValidCredentialsProvided() {
 
         UserModel registeredUser = new UserModel();
-        User.register(registeredUser, ROLE_USER.toString());
+        UserController.register(registeredUser, ROLE_USER.toString());
         registeredUserId = registeredUser.getId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());

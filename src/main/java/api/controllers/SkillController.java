@@ -13,7 +13,7 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertEquals;
 
-public class Skill extends BaseWeAreApi{
+public class SkillController extends BaseWeAreApi{
 
     public static final String skillBody = "{\n" +
             "  \"category\": {\n" +
