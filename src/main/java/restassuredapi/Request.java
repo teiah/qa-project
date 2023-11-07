@@ -12,7 +12,7 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertEquals;
 
-public class RequestApi extends BaseWeAreApi {
+public class Request extends BaseWeAreApi {
 
     public static final String sendRequestBody = "{\n" +
             "  \"id\": %s,\n" +
