@@ -5,11 +5,16 @@ import com.mifmif.common.regex.Generex;
 
 import java.text.SimpleDateFormat;
 
-import static com.telerikacademy.testframework.utils.UserRoles.ROLE_ADMIN;
+import static com.telerikacademy.testframework.utils.Authority.ROLE_ADMIN;
 
 public class Helpers {
 
     private static Faker faker = new Faker();
+
+    public static int generateCategoryId() {
+        Faker faker = new Faker();
+        return faker.number().numberBetween(100, 157);
+    }
 
     public static String generateUsernameAsImplemented(String authority) {
 
