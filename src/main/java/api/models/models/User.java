@@ -1,19 +1,15 @@
 package api.models.models;
 
-import api.models.basemodel.BaseModel;
+import com.telerikacademy.testframework.utils.Authority;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.testng.Assert.assertNotEquals;
 import static io.restassured.RestAssured.given;
 
-public class User extends BaseModel {
+public class User {
 
-    private List<Authority> authorities = new ArrayList<>();
-    private boolean accountNonExpired = true;
-    private boolean accountNonLocked = true;
-    private boolean credentialsNonExpired = true;
+    private List<Authority> authorities;
     private String email;
     private boolean enabled = true;
     private ExpertiseProfile expertiseProfile = new ExpertiseProfile();
@@ -22,24 +18,25 @@ public class User extends BaseModel {
     private int userId;
     private String username;
 
-    public User() {
+    private int categoryId;
+
+    public User(int categoryId, String username, List<Authority> authorities, String email, String password, String confirmPassword) {
+        this.categoryId = categoryId;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
+        confirmPassword = password;
     }
 
     public List<Authority> getAuthorities() {
-        return this.authorities;
+        return authorities;
     }
 
-    public boolean isAccountNonExpired() {
-        return accountNonExpired;
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
 
-    public boolean isAccountNonLocked() {
-        return accountNonLocked;
-    }
-
-    public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
-    }
 
     public String getEmail() {
         return email;
@@ -73,28 +70,9 @@ public class User extends BaseModel {
         return username;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
-    public void setAccountNonExpired(boolean accountNonExpired) {
-        this.accountNonExpired = accountNonExpired;
-    }
-
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        this.accountNonLocked = accountNonLocked;
-    }
-
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public void setExpertiseProfile(ExpertiseProfile expertiseProfile) {

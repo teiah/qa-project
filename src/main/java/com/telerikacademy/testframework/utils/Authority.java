@@ -1,6 +1,6 @@
 package com.telerikacademy.testframework.utils;
 
-public enum UserRoles {
+public enum Authority {
     ROLE_ADMIN, ROLE_USER;
 
     private static final String ROLE_ERROR = "Role can be \"ROLE_ADMIN\" or \"ROLE_USER\".";
