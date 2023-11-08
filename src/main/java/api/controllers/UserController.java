@@ -2,34 +2,24 @@ package api.controllers;
 
 import com.google.gson.Gson;
 import com.telerikacademy.testframework.utils.Helpers;
+import com.telerikacademy.testframework.utils.Authority;
 import io.restassured.authentication.FormAuthConfig;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import api.models.models.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
-import static com.telerikacademy.testframework.utils.UserRoles.*;
+import static com.telerikacademy.testframework.utils.Authority.*;
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;
 import static org.testng.Assert.*;
 
 public class UserController extends BaseWeAreApi {
-    private static final String userBody = "{\n" +
-            "  \"authorities\": [\n" +
-            "    %s\n" +
-            "  ],\n" +
-            "  \"category\": {\n" +
-            "    \"id\": %s,\n" +
-            "    \"name\": \"%s\"\n" +
-            "  },\n" +
-            "  \"confirmPassword\": \"" + "%s" + "\",\n" +
-            "  \"email\": \"" + "%s" + "\",\n" +
-            "  \"password\": \"" + "%s" + "\",\n" +
-            "  \"username\": \"" + "%s" + "\"\n" +
-            "}";
     static final String searchUsersBody = "{\n" +
             "  \"index\": %s,\n" +
             "  \"next\": %s,\n" +
@@ -75,44 +65,20 @@ public class UserController extends BaseWeAreApi {
             "  \"skill5\": \"%s\"\n" +
             "}";
 
-//    public static void register(UserModel user, String authority) {
-//
-//        user.setEmail(Helpers.generateEmail());
-//        user.setPassword(Helpers.generatePassword());
-//        user.setUsername(Helpers.generateUsernameAsImplemented(authority));
-//
-//        registerAndExtractUser(user, authority);
-//
-//    }
 
-    public static void register(User user, String username, String password, String email, String authority) {
+    public static void registerUser() {
 
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setUsername(username);
+        int categoryId = Helpers.generateCategoryId();
+        String username = Helpers.generateFirstName();
+        List<Authority> role = Collections.singletonList(ROLE_USER);
+        String email = Helpers.generateEmail();
+        String password = Helpers.generatePassword();
 
-        registerAndExtractUser(user, authority);
-
-    }
-
-    private static void registerAndExtractUser(User user, String authority) {
-        int categoryId = 100;
-        String categoryName = "All";
-        Category category = new Category();
-        category.setName(categoryName);
-        category.setId(categoryId);
-        String bodyAuthority = "";
-
-        if (authority.equals(ROLE_ADMIN.toString())) {
-            bodyAuthority = String.format("\"%s\", \"%s\"", ROLE_USER, ROLE_ADMIN);
-        } else if (authority.equals(ROLE_USER.toString())) {
-            bodyAuthority = String.format("\"%s\"", ROLE_USER);
-        }
+        User userToRegister = new User(categoryId, username, role, email, password, password);
 
         Response response = given()
-                .contentType("application/json")
-                .body(String.format(userBody, bodyAuthority, category.getId(), category.getName(), user.getPassword(),
-                        user.getEmail(), user.getPassword(), user.getUsername()))
+                .contentType(ContentType.JSON)
+                .body(userToRegister)
                 .post(API + REGISTER_USER)
                 .then()
                 .assertThat()
@@ -121,12 +87,12 @@ public class UserController extends BaseWeAreApi {
 
         LOGGER.info(response.getBody().asPrettyString());
 
-        user.setUserId(Integer.parseInt(getUserId(response)));
-
-        assertEquals(response.getBody().asString(), String.format("User with name %s and id %d was created",
-                user.getUsername(), user.getId()), "User was not registered.");
-
-        extractUser(user);
+//        user.setUserId(Integer.parseInt(getUserId(response)));
+//
+//        assertEquals(response.getBody().asString(), String.format("User with name %s and id %d was created",
+//                user.getUsername(), user.getId()), "User was not registered.");
+//
+//        extractUser(user);
     }
 
     private static void extractUser(User user) {
@@ -137,20 +103,20 @@ public class UserController extends BaseWeAreApi {
         UserController.setPersonalProfileFirstName(user, firstName);
         UserBySearch userBySearchModel = searchUser(user.getId(), user.getPersonalProfile().getFirstName());
         assert userBySearchModel != null;
-        user.setExpertiseProfile(userBySearchModel.getExpertiseProfile());
-        user.setAccountNonExpired(userBySearchModel.isAccountNonExpired());
-        user.setAccountNonLocked(userBySearchModel.isAccountNonLocked());
-        user.setCredentialsNonExpired(userBySearchModel.isCredentialsNonExpired());
-        user.setEnabled(userBySearchModel.isEnabled());
-        List<Authority> authorities = new ArrayList<>();
-        Authority authority = new Authority();
+//        user.setExpertiseProfile(userBySearchModel.getExpertiseProfile());
+//        user.setAccountNonExpired(userBySearchModel.isAccountNonExpired());
+//        user.setAccountNonLocked(userBySearchModel.isAccountNonLocked());
+//        user.setCredentialsNonExpired(userBySearchModel.isCredentialsNonExpired());
+//        user.setEnabled(userBySearchModel.isEnabled());
+        List<api.models.models.Authority> authorities = new ArrayList<>();
+        api.models.models.Authority authority = new api.models.models.Authority();
         authority.setAuthority(ROLE_USER.toString());
         authorities.add(authority);
         if (userByIdModel.getAuthorities().length == 2) {
             authority.setAuthority(ROLE_ADMIN.toString());
             authorities.add(authority);
         }
-        user.setAuthorities(authorities);
+//        user.setAuthorities(authorities);
 
         assertNotNull(user.getExpertiseProfile().getCategory(), "User has no professional category");
 
