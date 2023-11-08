@@ -1,5 +1,6 @@
 package test.cases.selenium.tests;
 
+import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
 import pages.weare.LoginPage;
 import pages.weare.ProfilePage;
@@ -22,7 +23,12 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
     @BeforeClass
     public void setUpCommentTest() {
-        UserController.register(receiver, ROLE_USER.toString());
+        String password = Helpers.generatePassword();
+        String email = Helpers.generateEmail();
+        String authority = ROLE_USER.toString();
+        String username = Helpers.generateUsernameAsImplemented(authority);
+
+        UserController.register(receiver, username, password, email, authority);
     }
 
     @AfterClass

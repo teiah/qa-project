@@ -2,6 +2,7 @@ package test.cases.selenium.base;
 
 import api.models.models.UserModel;
 import com.telerikacademy.testframework.UserActions;
+import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
 import api.controllers.UserController;
 import test.cases.BaseTestSetup;
@@ -21,10 +22,15 @@ public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     @BeforeClass
     public void setUpSelenium() {
-        UserController.register(globalSeleniumAdminUser, ROLE_ADMIN.toString());
+        String password = Helpers.generatePassword();
+        String email = Helpers.generateEmail();
+        String authority = ROLE_ADMIN.toString();
+        String username = Helpers.generateUsernameAsImplemented(authority);
+
+        UserController.register(globalSeleniumAdminUser, username, password, email, authority);
         adminUsername = globalSeleniumAdminUser.getUsername();
         adminPassword = globalSeleniumAdminUser.getPassword();
-        UserController.register(globalSeleniumUser, ROLE_USER.toString());
+        UserController.register(globalSeleniumUser, username, password, email, authority);
         globalUserUsername = globalSeleniumUser.getUsername();
         globalUserPassword = globalSeleniumUser.getPassword();
         UserActions.loadBrowser("weare.baseUrl");

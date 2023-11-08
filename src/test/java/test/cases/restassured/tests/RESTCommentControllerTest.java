@@ -1,13 +1,11 @@
 package test.cases.restassured.tests;
 
+import api.controllers.*;
 import api.models.models.CommentModel;
 import api.models.models.PostModel;
 import api.models.models.UserModel;
+import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
-import api.controllers.CommentController;
-import api.controllers.PostController;
-import api.controllers.ConnectionController;
-import api.controllers.UserController;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
     @BeforeClass
     public void setUpCommentTest() {
-        UserController.register(newUser, ROLE_USER.toString());
+        UserController.register(newUser, newUser.getUsername(), newUser.getPassword(), newUser.getEmail(), String.valueOf(newUser.getAuthorities().get(0)));
         publicPost = PostController.createPost(globalRestApiUser, true);
         assertTrue(PostController.publicPostExists(publicPost.getPostId()), "Post not created.");
         privatePost = PostController.createPost(globalRestApiUser, false);
@@ -155,7 +153,12 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     public void commentOfPublicPostLiked_By_User() {
 
         UserModel userToLikeComment = new UserModel();
-        UserController.register(userToLikeComment, ROLE_USER.toString());
+        String password = Helpers.generatePassword();
+        String email = Helpers.generateEmail();
+        String authority = ROLE_USER.toString();
+        String username = Helpers.generateUsernameAsImplemented(authority);
+
+        UserController.register(userToLikeComment, username, password, email, authority);
 
         CommentModel commentToBeLiked = CommentController.createComment(newUser, publicPost);
         assert commentToBeLiked != null;

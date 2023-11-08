@@ -75,15 +75,15 @@ public class UserController extends BaseWeAreApi {
             "  \"skill5\": \"%s\"\n" +
             "}";
 
-    public static void register(UserModel user, String authority) {
-
-        user.setEmail(Helpers.generateEmail());
-        user.setPassword(Helpers.generatePassword());
-        user.setUsername(Helpers.generateUsernameAsImplemented(authority));
-
-        registerAndExtractUser(user, authority);
-
-    }
+//    public static void register(UserModel user, String authority) {
+//
+//        user.setEmail(Helpers.generateEmail());
+//        user.setPassword(Helpers.generatePassword());
+//        user.setUsername(Helpers.generateUsernameAsImplemented(authority));
+//
+//        registerAndExtractUser(user, authority);
+//
+//    }
 
     public static void register(UserModel user, String username, String password, String email, String authority) {
 

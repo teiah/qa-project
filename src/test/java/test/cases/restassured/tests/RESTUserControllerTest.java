@@ -165,7 +165,12 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     public void shouldRetrieveUserByIdAsUser() {
 
         UserModel userToFind = new UserModel();
-        UserController.register(userToFind, ROLE_USER.toString());
+        String password = Helpers.generatePassword();
+        String email = Helpers.generateEmail();
+        String authority = ROLE_USER.toString();
+        String username = Helpers.generateUsernameAsImplemented(authority);
+
+        UserController.register(userToFind, username, password, email, authority);
 
         Response returnedUser = getUserById(userToFind.getUsername(), userToFind.getId());
 
@@ -181,7 +186,12 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     public void userDisabled_By_AdminUser() {
 
         UserModel userToBeDisabled = new UserModel();
-        UserController.register(userToBeDisabled, ROLE_USER.toString());
+        String password = Helpers.generatePassword();
+        String email = Helpers.generateEmail();
+        String authority = ROLE_USER.toString();
+        String username = Helpers.generateUsernameAsImplemented(authority);
+
+        UserController.register(userToBeDisabled, username, password, email, authority);
 
         String firstname = userToBeDisabled.getPersonalProfile().getFirstName();
 
@@ -201,7 +211,12 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     public void userEnabled_By_AdminUser() {
 
         UserModel userToBeEnabled = new UserModel();
-        UserController.register(userToBeEnabled, ROLE_USER.toString());
+        String password = Helpers.generatePassword();
+        String email = Helpers.generateEmail();
+        String authority = ROLE_USER.toString();
+        String username = Helpers.generateUsernameAsImplemented(authority);
+
+        UserController.register(userToBeEnabled, username, password, email, authority);
 
         String firstname = userToBeEnabled.getPersonalProfile().getFirstName();
 

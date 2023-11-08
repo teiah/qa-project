@@ -2,6 +2,7 @@ package test.cases.restassured.tests;
 
 import api.models.models.RequestModel;
 import api.models.models.UserModel;
+import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -19,7 +20,12 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
     @BeforeClass
     public void setUpCommentTest() {
-        UserController.register(receiver, ROLE_USER.toString());
+        String password = Helpers.generatePassword();
+        String email = Helpers.generateEmail();
+        String authority = ROLE_USER.toString();
+        String username = Helpers.generateUsernameAsImplemented(authority);
+
+        UserController.register(receiver, username, password, email, authority);
     }
 
     @AfterClass

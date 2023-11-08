@@ -3,6 +3,7 @@ package test.cases.restassured.tests;
 import api.models.models.CommentModel;
 import api.models.models.PostModel;
 import api.models.models.UserModel;
+import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
 import api.controllers.CommentController;
 import api.controllers.PostController;
@@ -211,7 +212,12 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         List<Integer> commentIds = new ArrayList<>();
 
         UserModel newUser = new UserModel();
-        UserController.register(newUser, ROLE_USER.toString());
+        String password = Helpers.generatePassword();
+        String email = Helpers.generateEmail();
+        String authority = ROLE_USER.toString();
+        String username = Helpers.generateUsernameAsImplemented(authority);
+
+        UserController.register(newUser, username, password, email, authority);
 
         boolean publicVisibility = true;
 

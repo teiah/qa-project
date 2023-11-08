@@ -1,6 +1,8 @@
 package test.cases.restassured.base;
 
+import api.controllers.RegistrationController;
 import api.models.models.UserModel;
+import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
 import api.controllers.UserController;
 import test.cases.BaseTestSetup;
@@ -14,8 +16,17 @@ public class BaseWeareRestAssuredTest extends BaseTestSetup {
 
     @BeforeClass
     public void setUpRestAssured() {
-        UserController.register(globalRestApiAdminUser, ROLE_ADMIN.toString());
-        UserController.register(globalRestApiUser, ROLE_USER.toString());
+
+        String password = Helpers.generatePassword();
+        String email = Helpers.generateEmail();
+        String authority = ROLE_ADMIN.toString();
+        String username = Helpers.generateUsernameAsImplemented(authority);
+
+        UserModel user = new UserModel();
+        UserController.register(user, username, password, email, authority);
+
+        UserController.register(globalRestApiAdminUser, username, password, email, authority);
+        UserController.register(globalRestApiUser, username, password, email, ROLE_ADMIN.toString());
     }
 
     @AfterClass
