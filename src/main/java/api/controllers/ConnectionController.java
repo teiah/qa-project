@@ -3,8 +3,8 @@ package api.controllers;
 import com.google.gson.Gson;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
-import api.models.models.RequestModel;
-import api.models.models.UserModel;
+import api.models.models.Request;
+import api.models.models.User;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
@@ -19,7 +19,7 @@ public class ConnectionController extends BaseWeAreApi {
             "  \"username\": \"%s\"\n" +
             "}";
 
-    public static RequestModel sendRequest(UserModel sender, UserModel receiver) {
+    public static Request sendRequest(User sender, User receiver) {
 
         Response response = given()
                 .auth()
@@ -36,7 +36,7 @@ public class ConnectionController extends BaseWeAreApi {
         assertEquals(response.body().asString(), String.format("%s send friend request to %s",
                 sender.getUsername(), receiver.getUsername()), "Connection request was not send");
 
-        RequestModel request = new RequestModel();
+        Request request = new Request();
         request.setSender(sender);
         request.setReceiver(receiver);
         String[] fields = getUserReceivedRequests(receiver);
@@ -47,7 +47,7 @@ public class ConnectionController extends BaseWeAreApi {
 
     }
 
-    public static RequestModel[] getUserRequests(UserModel user) {
+    public static Request[] getUserRequests(User user) {
         Response response = given()
                 .auth()
                 .form(user.getUsername(), user.getPassword(),
@@ -57,12 +57,12 @@ public class ConnectionController extends BaseWeAreApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        RequestModel[] requests = new Gson().fromJson(response.getBody().asString(), RequestModel[].class);
+        Request[] requests = new Gson().fromJson(response.getBody().asString(), Request[].class);
 
         return requests;
     }
 
-    public static String[] getUserReceivedRequests(UserModel receiver) {
+    public static String[] getUserReceivedRequests(User receiver) {
         Response response = given()
                 .auth()
                 .form(receiver.getUsername(), receiver.getPassword(),
@@ -72,7 +72,7 @@ public class ConnectionController extends BaseWeAreApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        RequestModel[] requests = new Gson().fromJson(response.getBody().asString(), RequestModel[].class);
+        Request[] requests = new Gson().fromJson(response.getBody().asString(), Request[].class);
 
         if (requests.length > 0) {
             String[] fields = new String[2];
@@ -86,7 +86,7 @@ public class ConnectionController extends BaseWeAreApi {
         return null;
     }
 
-    public static Response approveRequest(UserModel receiver, RequestModel request) {
+    public static Response approveRequest(User receiver, Request request) {
 
         Response response = given()
                 .auth()
@@ -103,7 +103,7 @@ public class ConnectionController extends BaseWeAreApi {
         return response;
     }
 
-    public static void disconnect(UserModel sender, UserModel receiver) {
+    public static void disconnect(User sender, User receiver) {
 
         Response response = given()
                 .auth()
@@ -123,9 +123,9 @@ public class ConnectionController extends BaseWeAreApi {
 
     }
 
-    public static void connect(UserModel sender, UserModel receiver) {
+    public static void connect(User sender, User receiver) {
 
-        RequestModel requestModel = sendRequest(sender, receiver);
+        Request requestModel = sendRequest(sender, receiver);
         approveRequest(receiver, requestModel);
 
     }

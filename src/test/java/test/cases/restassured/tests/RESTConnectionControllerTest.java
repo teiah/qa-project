@@ -1,7 +1,7 @@
 package test.cases.restassured.tests;
 
-import api.models.models.RequestModel;
-import api.models.models.UserModel;
+import api.models.models.Request;
+import api.models.models.User;
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.response.Response;
 import org.testng.annotations.AfterClass;
@@ -16,7 +16,7 @@ import static org.testng.Assert.*;
 
 public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
 
-    UserModel receiver = new UserModel();
+    User receiver = new User();
 
     @BeforeClass
     public void setUpCommentTest() {
@@ -43,9 +43,9 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
             initialRequestsCount = fields.length;
         }
 
-        RequestModel request = ConnectionController.sendRequest(globalRestApiUser, receiver);
+        Request request = ConnectionController.sendRequest(globalRestApiUser, receiver);
 
-        RequestModel[] requestsAfter = ConnectionController.getUserRequests(receiver);
+        Request[] requestsAfter = ConnectionController.getUserRequests(receiver);
         int afterRequestCount = requestsAfter.length;
 
         assertEquals(request.getSender().getId(), globalRestApiUser.getId(), "Sender doesn't match the one in the request.");
@@ -59,12 +59,12 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void connectionRequestApproved_By_User() {
 
-        RequestModel[] requests = ConnectionController.getUserRequests(receiver);
+        Request[] requests = ConnectionController.getUserRequests(receiver);
         int previousRequestsCount = requests.length;
 
-        RequestModel sentRequest = ConnectionController.sendRequest(globalRestApiUser, receiver);
+        Request sentRequest = ConnectionController.sendRequest(globalRestApiUser, receiver);
 
-        RequestModel[] requestsAfter = ConnectionController.getUserRequests(receiver);
+        Request[] requestsAfter = ConnectionController.getUserRequests(receiver);
         int afterRequestCount = requestsAfter.length;
 
         assertEquals(afterRequestCount, previousRequestsCount + 1, "Request is not sent.");
@@ -74,7 +74,7 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
         assertEquals(approveRequestResponse.body().asString(), String.format("%s approved request of %s",
                 receiver.getUsername(), globalRestApiUser.getUsername()), "Request is not approved.");
 
-        RequestModel[] requestsAfterApprove = ConnectionController.getUserRequests(receiver);
+        Request[] requestsAfterApprove = ConnectionController.getUserRequests(receiver);
         int requestsAfterApproveCount = requestsAfterApprove.length;
 
         assertEquals(requestsAfterApproveCount, previousRequestsCount, "Request is not approved.");
@@ -94,18 +94,18 @@ public class RESTConnectionControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void requestReceived_By_User() {
 
-        RequestModel[] requests = ConnectionController.getUserRequests(receiver);
+        Request[] requests = ConnectionController.getUserRequests(receiver);
         int previousRequestCount = requests.length;
 
-        RequestModel request = ConnectionController.sendRequest(globalRestApiUser, receiver);
+        Request request = ConnectionController.sendRequest(globalRestApiUser, receiver);
 
-        RequestModel[] requestsAfter = ConnectionController.getUserRequests(receiver);
+        Request[] requestsAfter = ConnectionController.getUserRequests(receiver);
         int afterRequestCount = requestsAfter.length;
 
         assertEquals(afterRequestCount, previousRequestCount + 1, "Request is not approved.");
         assertTrue(requestsAfter.length > 0, "There are no requests");
 
-        for (RequestModel requestAfter : requestsAfter) {
+        for (Request requestAfter : requestsAfter) {
             assertNotNull(requestAfter, "Request is null");
         }
 

@@ -2,7 +2,7 @@ package api.models.models;
 
 import api.models.basemodel.BaseModel;
 
-public class GrantedAuthorityModel extends BaseModel {
+public class Authority extends BaseModel {
     private String authority;
 
     public String getAuthority() {

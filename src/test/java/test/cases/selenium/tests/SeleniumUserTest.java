@@ -2,8 +2,8 @@ package test.cases.selenium.tests;
 
 
 import com.telerikacademy.testframework.utils.Helpers;
-import api.models.models.UserByIdModel;
-import api.models.models.UserModel;
+import api.models.models.UserById;
+import api.models.models.User;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.weare.HomePage;
@@ -39,7 +39,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
         registerPage.registerUser(username, email, password);
         registeredUserId = Integer.parseInt(registerPage.extractUserId());
 
-        UserByIdModel registeredUser = UserController.getUserById(username, registeredUserId).as(UserByIdModel.class);
+        UserById registeredUser = UserController.getUserById(username, registeredUserId).as(UserById.class);
 
         Assert.assertEquals(registeredUser.getUsername(), username);
         Assert.assertEquals(registeredUser.getEmail(), email);
@@ -49,7 +49,7 @@ public class SeleniumUserTest extends BaseWeareSeleniumTest {
     @Test
     public void userLoggedIn_When_ValidCredentialsProvided() {
 
-        UserModel registeredUser = new UserModel();
+        User registeredUser = new User();
 
         String password = Helpers.generatePassword();
         String email = Helpers.generateEmail();

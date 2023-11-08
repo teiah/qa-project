@@ -6,7 +6,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.weare.*;
 import api.controllers.PostController;
-import api.models.models.PostModel;
+import api.models.models.Post;
 import test.cases.selenium.base.BaseWeareSeleniumTest;
 
 public class SeleniumPostTest extends BaseWeareSeleniumTest {
@@ -56,7 +56,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void postLiked_By_User() {
 
-        PostModel createdPost = PostController.createPost(globalSeleniumUser, true);
+        Post createdPost = PostController.createPost(globalSeleniumUser, true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -73,7 +73,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void postEdited_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = PostController.createPost(globalSeleniumUser, true);
+        Post createdPost = PostController.createPost(globalSeleniumUser, true);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -93,7 +93,7 @@ public class SeleniumPostTest extends BaseWeareSeleniumTest {
     @Test
     public void postDeleted_By_AdminUser_When_NotAuthor() {
 
-        PostModel createdPost = PostController.createPost(globalSeleniumUser, true);
+        Post createdPost = PostController.createPost(globalSeleniumUser, true);
         Integer postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());

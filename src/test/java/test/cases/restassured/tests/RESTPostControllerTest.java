@@ -1,8 +1,8 @@
 package test.cases.restassured.tests;
 
-import api.models.models.CommentModel;
-import api.models.models.PostModel;
-import api.models.models.UserModel;
+import api.models.models.Comment;
+import api.models.models.Post;
+import api.models.models.User;
 import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
 import api.controllers.CommentController;
@@ -22,7 +22,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     public void publicPostCreated_When_ValidDataProvided() {
 
         boolean publicVisibility = true;
-        PostModel post = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post post = PostController.createPost(globalRestApiUser, publicVisibility);
 
         assertTrue(PostController.publicPostExists(post.getPostId()), "Post not created.");
 
@@ -34,7 +34,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     public void privatePostCreated_When_ValidDataProvided() {
 
         boolean publicVisibility = false;
-        PostModel post = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post post = PostController.createPost(globalRestApiUser, publicVisibility);
         assertTrue(PostController.privatePostExists(globalRestApiUser, post.getPostId()), "Post not created.");
 
         PostController.deletePost(globalRestApiUser, post.getPostId());
@@ -46,7 +46,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         boolean publicVisibility = true;
 
-        PostModel postToBeEdited = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post postToBeEdited = PostController.createPost(globalRestApiUser, publicVisibility);
         assertTrue(PostController.publicPostExists(postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
@@ -63,7 +63,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         boolean publicVisibility = false;
 
-        PostModel postToBeEdited = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post postToBeEdited = PostController.createPost(globalRestApiUser, publicVisibility);
         assertTrue(PostController.privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
@@ -81,7 +81,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         boolean publicVisibility = true;
 
-        PostModel postToBeEdited = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post postToBeEdited = PostController.createPost(globalRestApiUser, publicVisibility);
         assertTrue(PostController.publicPostExists(postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
@@ -98,7 +98,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         boolean publicVisibility = false;
 
-        PostModel postToBeEdited = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post postToBeEdited = PostController.createPost(globalRestApiUser, publicVisibility);
         assertTrue(PostController.privatePostExists(globalRestApiUser, postToBeEdited.getPostId()), "Post not created.");
 
         String postToBeEditedContent = postToBeEdited.getContent();
@@ -121,20 +121,20 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         int postCount = 5;
 
         for (int i = 0; i < postCount; i++) {
-            PostModel post = PostController.createPost(globalRestApiUser, publicVisibility);
+            Post post = PostController.createPost(globalRestApiUser, publicVisibility);
             assertTrue(PostController.publicPostExists(post.getPostId()), "Post not created.");
             postIds.add(post.getPostId());
         }
         publicVisibility = false;
         for (int i = 0; i < postCount; i++) {
-            PostModel post = PostController.createPost(globalRestApiUser, publicVisibility);
+            Post post = PostController.createPost(globalRestApiUser, publicVisibility);
             assertTrue(PostController.privatePostExists(globalRestApiUser, post.getPostId()), "Post not created.");
             postIds.add(post.getPostId());
         }
 
-        PostModel[] foundPosts = PostController.findAllPosts();
+        Post[] foundPosts = PostController.findAllPosts();
 
-        for (PostModel foundPost : foundPosts) {
+        for (Post foundPost : foundPosts) {
             if (postIds.contains(foundPost.getPostId())) {
                 assertNotNull(foundPost, "Post is null");
                 PostController.deletePost(globalRestApiUser, foundPost.getPostId());
@@ -151,7 +151,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     public void postLiked_By_User() {
 
         boolean publicVisibility = true;
-        PostModel postToBeLiked = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post postToBeLiked = PostController.createPost(globalRestApiUser, publicVisibility);
         assertTrue(PostController.publicPostExists(postToBeLiked.getPostId()), "Post not created.");
 
 
@@ -171,7 +171,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         boolean publicVisibility = false;
 
-        PostModel postToBeDeleted = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post postToBeDeleted = PostController.createPost(globalRestApiUser, publicVisibility);
         int postId = postToBeDeleted.getPostId();
         assertTrue(PostController.privatePostExists(globalRestApiUser, postId), "Post not created.");
 
@@ -184,7 +184,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     public void privatePostDeleted_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = false;
-        PostModel postToBeDeleted = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post postToBeDeleted = PostController.createPost(globalRestApiUser, publicVisibility);
         int postId = postToBeDeleted.getPostId();
         assertTrue(PostController.privatePostExists(globalRestApiUser, postId), "Post not created.");
 
@@ -197,7 +197,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     public void publicPostDeleted_By_AdminUser_When_NotAuthor() {
 
         boolean publicVisibility = true;
-        PostModel postToBeDeleted = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post postToBeDeleted = PostController.createPost(globalRestApiUser, publicVisibility);
         int postId = postToBeDeleted.getPostId();
         assertTrue(PostController.publicPostExists(postId), "Post not created.");
 
@@ -211,7 +211,7 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         List<Integer> commentIds = new ArrayList<>();
 
-        UserModel newUser = new UserModel();
+        User newUser = new User();
         String password = Helpers.generatePassword();
         String email = Helpers.generateEmail();
         String authority = ROLE_USER.toString();
@@ -221,22 +221,22 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
         boolean publicVisibility = true;
 
-        PostModel post = PostController.createPost(globalRestApiUser, publicVisibility);
+        Post post = PostController.createPost(globalRestApiUser, publicVisibility);
         assertTrue(PostController.publicPostExists(post.getPostId()), "Post not created.");
 
         int commentCount = 3;
 
         for (int i = 0; i < commentCount; i++) {
-            CommentModel comment = CommentController.createComment(newUser, post);
+            Comment comment = CommentController.createComment(newUser, post);
             assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
             commentIds.add(comment.getCommentId());
         }
 
-        CommentModel[] postComments = PostController.findCommentsOfAPost(post);
+        Comment[] postComments = PostController.findCommentsOfAPost(post);
 
         assertEquals(postComments.length, commentCount, "Wrong post comments count");
 
-        for (CommentModel comment : postComments) {
+        for (Comment comment : postComments) {
             if (commentIds.contains(comment.getCommentId())) {
                 assertNotNull(comment, "Comment is null");
                 CommentController.deleteComment(newUser, comment.getCommentId());

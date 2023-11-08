@@ -5,17 +5,17 @@ import api.models.basemodel.BaseModel;
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 
-public class UserBySearchModel extends BaseModel {
+public class UserBySearch extends BaseModel {
 
     private int userId;
     private String username;
-    private ExpertiseProfileModel expertiseProfile = new ExpertiseProfileModel();
+    private ExpertiseProfile expertiseProfile = new ExpertiseProfile();
     private boolean enabled;
     private boolean accountNonExpired;
     private boolean credentialsNonExpired;
     private boolean accountNonLocked;
 
-    public UserBySearchModel(int userId, String firstName) {
+    public UserBySearch(int userId, String firstName) {
 
     }
 
@@ -37,11 +37,11 @@ public class UserBySearchModel extends BaseModel {
         this.username = username;
     }
 
-    public ExpertiseProfileModel getExpertiseProfile() {
+    public ExpertiseProfile getExpertiseProfile() {
         return expertiseProfile;
     }
 
-    public void setExpertiseProfile(ExpertiseProfileModel expertiseProfile) {
+    public void setExpertiseProfile(ExpertiseProfile expertiseProfile) {
         this.expertiseProfile = expertiseProfile;
     }
 

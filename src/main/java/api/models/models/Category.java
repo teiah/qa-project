@@ -2,7 +2,7 @@ package api.models.models;
 
 import api.models.basemodel.BaseModel;
 
-public class CategoryModel extends BaseModel {
+public class Category extends BaseModel {
     private Integer id;
     private String name;
 

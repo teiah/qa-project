@@ -2,16 +2,16 @@ package api.models.models;
 
 import api.models.basemodel.BaseModel;
 
-public class CityModel extends BaseModel {
+public class City extends BaseModel {
     private String city = "";
-    private CountryModel country = new CountryModel();
+    private Country country = new Country();
     private Integer id;
 
     public String getCity() {
         return city;
     }
 
-    public CountryModel getCountry() {
+    public Country getCountry() {
         return country;
     }
 
@@ -27,7 +27,7 @@ public class CityModel extends BaseModel {
         this.city = city;
     }
 
-    public void setCountry(CountryModel country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
 

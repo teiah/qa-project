@@ -1,6 +1,6 @@
 package test.cases.restassured.tests;
 
-import api.models.models.SkillModel;
+import api.models.models.Skill;
 import io.restassured.response.Response;
 import org.testng.annotations.*;
 import api.controllers.SkillController;
@@ -19,16 +19,16 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
 
         List<Integer> skillIds = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            SkillModel skill = SkillController.createSkill(globalRestApiUser);
+            Skill skill = SkillController.createSkill(globalRestApiUser);
             assertTrue(SkillController.skillExists(skill.getSkillId()), "Skill was not deleted.");
             skillIds.add(skill.getSkillId());
         }
 
-        SkillModel[] foundSkills = SkillController.getAllSkills();
+        Skill[] foundSkills = SkillController.getAllSkills();
 
         assertTrue(foundSkills.length > 0, "There are no skills found.");
 
-        for (SkillModel skill : foundSkills) {
+        for (Skill skill : foundSkills) {
             if (skillIds.contains(skill.getSkillId())) {
                 SkillController.deleteSkill(skill.getSkillId());
                 assertFalse(SkillController.skillExists(skill.getSkillId()), "Skill was not deleted.");
@@ -40,7 +40,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void skill_Created_By_User() {
 
-        SkillModel skill = SkillController.createSkill(globalRestApiUser);
+        Skill skill = SkillController.createSkill(globalRestApiUser);
         assertTrue(SkillController.skillExists(skill.getSkillId()), "Skill was not deleted.");
 
         SkillController.deleteSkill(skill.getSkillId());
@@ -50,7 +50,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void skill_Deleted_By_User() {
 
-        SkillModel skill = SkillController.createSkill(globalRestApiUser);
+        Skill skill = SkillController.createSkill(globalRestApiUser);
         assertTrue(SkillController.skillExists(skill.getSkillId()), "Skill was not deleted.");
 
         SkillController.deleteSkill(skill.getSkillId());
@@ -61,7 +61,7 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void skill_Edited_By_User() {
 
-        SkillModel skill = SkillController.createSkill(globalRestApiUser);
+        Skill skill = SkillController.createSkill(globalRestApiUser);
         assertTrue(SkillController.skillExists(skill.getSkillId()), "Skill was not deleted.");
 
         Response editedSkillResponse = SkillController.editSkill(skill.getSkillId());
@@ -76,10 +76,10 @@ public class RESTSkillControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void skillFoundById_When_Requested_By_User() {
 
-        SkillModel skill = SkillController.createSkill(globalRestApiUser);
+        Skill skill = SkillController.createSkill(globalRestApiUser);
         assertTrue(SkillController.skillExists(skill.getSkillId()), "Skill was not deleted.");
 
-        SkillModel foundSkill = SkillController.getSkillById(skill.getSkillId());
+        Skill foundSkill = SkillController.getSkillById(skill.getSkillId());
 
         assertEquals(foundSkill.getSkillId(), skill.getSkillId(), "Ids do not match.");
         assertNotNull(foundSkill, "Skill not found.");

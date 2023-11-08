@@ -1,6 +1,6 @@
 package test.cases.selenium.base;
 
-import api.models.models.UserModel;
+import api.models.models.User;
 import com.telerikacademy.testframework.UserActions;
 import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
@@ -13,8 +13,8 @@ import static com.telerikacademy.testframework.utils.UserRoles.*;
 public class BaseWeareSeleniumTest extends BaseTestSetup {
 
     protected UserActions actions = new UserActions();
-    protected UserModel globalSeleniumUser = new UserModel();
-    protected UserModel globalSeleniumAdminUser = new UserModel();
+    protected User globalSeleniumUser = new User();
+    protected User globalSeleniumAdminUser = new User();
     protected String globalUserUsername;
     protected String globalUserPassword;
     protected String adminUsername;

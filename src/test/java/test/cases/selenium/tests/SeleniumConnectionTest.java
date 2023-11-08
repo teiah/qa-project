@@ -19,7 +19,7 @@ import static org.testng.Assert.assertTrue;
 
 public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
-    UserModel receiver = new UserModel();
+    User receiver = new User();
 
     @BeforeClass
     public void setUpCommentTest() {
@@ -55,12 +55,12 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         receiverProfilePage.sendRequest();
 
-        RequestModel[] requestsAfter = ConnectionController.getUserRequests(receiver);
+        Request[] requestsAfter = ConnectionController.getUserRequests(receiver);
         int afterRequestCount = requestsAfter.length;
 
         Assert.assertEquals(afterRequestCount, initialRequestsCount + 1, "Request not received");
 
-        RequestModel[] receiverRequests = ConnectionController.getUserRequests(receiver);
+        Request[] receiverRequests = ConnectionController.getUserRequests(receiver);
         ConnectionController.approveRequest(receiver, receiverRequests[receiverRequests.length - 1]);
         ConnectionController.disconnect(globalSeleniumUser, receiver);
     }
@@ -70,7 +70,7 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         int initialRequestsCount = ConnectionController.getUserRequests(receiver).length;
 
-        RequestModel request = ConnectionController.sendRequest(globalSeleniumUser, receiver);
+        Request request = ConnectionController.sendRequest(globalSeleniumUser, receiver);
 
         int afterRequestCount = ConnectionController.getUserRequests(receiver).length;
 
@@ -105,7 +105,7 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
     @Test
     public void connectionCutOff_From_ConnectedUser() {
 
-        RequestModel sendRequest = ConnectionController.sendRequest(globalSeleniumUser, receiver);
+        Request sendRequest = ConnectionController.sendRequest(globalSeleniumUser, receiver);
 
         ConnectionController.approveRequest(receiver, sendRequest);
 
@@ -125,7 +125,7 @@ public class SeleniumConnectionTest extends BaseWeareSeleniumTest {
 
         int initialRequestsCount = ConnectionController.getUserRequests(receiver).length;
 
-        RequestModel request = ConnectionController.sendRequest(globalSeleniumUser, receiver);
+        Request request = ConnectionController.sendRequest(globalSeleniumUser, receiver);
 
         int afterRequestCount = ConnectionController.getUserRequests(receiver).length;
 

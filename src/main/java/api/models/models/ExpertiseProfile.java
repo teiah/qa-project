@@ -5,22 +5,22 @@ import api.models.basemodel.BaseModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpertiseProfileModel extends BaseModel {
+public class ExpertiseProfile extends BaseModel {
 
     private Integer id;
-    private List<SkillModel> skills = new ArrayList<>();
-    private CategoryModel category;
+    private List<Skill> skills = new ArrayList<>();
+    private Category category;
     private double availability;
 
     public int getId() {
         return id;
     }
 
-    public List<SkillModel> getSkills() {
+    public List<Skill> getSkills() {
         return this.skills;
     }
 
-    public CategoryModel getCategory() {
+    public Category getCategory() {
         return this.category;
     }
 
@@ -32,11 +32,11 @@ public class ExpertiseProfileModel extends BaseModel {
         this.id = id;
     }
 
-    public void setSkills(List<SkillModel> skills) {
+    public void setSkills(List<Skill> skills) {
         this.skills = skills;
     }
 
-    public void setCategory(CategoryModel category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 

@@ -21,7 +21,7 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void commentOfPublicPostCreated_When_ValidDataProvided() {
 
-        PostModel createdPost = PostController.createPost(globalSeleniumUser, publicVisibility);
+        Post createdPost = PostController.createPost(globalSeleniumUser, publicVisibility);
         postId = createdPost.getPostId();
 
         LoginPage loginPage = new LoginPage(actions.getDriver());
@@ -41,9 +41,9 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void commentOfPublicPostEdited_By_Author() {
 
-        PostModel createdPost = PostController.createPost(globalSeleniumUser, publicVisibility);
+        Post createdPost = PostController.createPost(globalSeleniumUser, publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = CommentController.createComment(globalSeleniumUser, createdPost);
+        Comment createdComment = CommentController.createComment(globalSeleniumUser, createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 
@@ -61,9 +61,9 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void commentOfPublicPostDeleted_By_Author() {
 
-        PostModel createdPost = PostController.createPost(globalSeleniumUser, publicVisibility);
+        Post createdPost = PostController.createPost(globalSeleniumUser, publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = CommentController.createComment(globalSeleniumUser, createdPost);
+        Comment createdComment = CommentController.createComment(globalSeleniumUser, createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 
@@ -81,9 +81,9 @@ public class SeleniumCommentTest extends BaseWeareSeleniumTest {
     @Test
     public void commentOfPublicPostLiked_By_User() {
 
-        PostModel createdPost = PostController.createPost(globalSeleniumUser, publicVisibility);
+        Post createdPost = PostController.createPost(globalSeleniumUser, publicVisibility);
         postId = createdPost.getPostId();
-        CommentModel createdComment = CommentController.createComment(globalSeleniumUser, createdPost);
+        Comment createdComment = CommentController.createComment(globalSeleniumUser, createdPost);
         LoginPage loginPage = new LoginPage(actions.getDriver());
         loginPage.loginUser(globalUserUsername, globalUserPassword);
 

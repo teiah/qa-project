@@ -8,28 +8,28 @@ import java.util.Set;
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 
-public class PostModel extends BaseModel {
+public class Post extends BaseModel {
 
-    private CategoryModel category;
-    private List<CommentModel> comments;
+    private Category category;
+    private List<Comment> comments;
     private String content;
     private String date;
     private boolean isLiked;
-    private Set<UserModel> likes;
+    private Set<User> likes;
     private String picture;
     private Integer postId;
     private boolean isPublic;
     private int rank;
-    private UserModel user;
+    private User user;
 
-    public PostModel() {
+    public Post() {
     }
 
-    public CategoryModel getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public List<CommentModel> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
@@ -45,7 +45,7 @@ public class PostModel extends BaseModel {
         return isLiked;
     }
 
-    public Set<UserModel> getLikes() {
+    public Set<User> getLikes() {
         return likes;
     }
 
@@ -65,7 +65,7 @@ public class PostModel extends BaseModel {
         return rank;
     }
 
-    public UserModel getUser() {
+    public User getUser() {
         return user;
     }
 

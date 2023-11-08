@@ -8,24 +8,24 @@ import java.util.List;
 import static org.testng.Assert.assertNotEquals;
 import static io.restassured.RestAssured.given;
 
-public class UserModel extends BaseModel {
+public class User extends BaseModel {
 
-    private List<GrantedAuthorityModel> authorities = new ArrayList<>();
+    private List<Authority> authorities = new ArrayList<>();
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
     private boolean credentialsNonExpired = true;
     private String email;
     private boolean enabled = true;
-    private ExpertiseProfileModel expertiseProfile = new ExpertiseProfileModel();
+    private ExpertiseProfile expertiseProfile = new ExpertiseProfile();
     private String password;
-    private PersonalProfileModel personalProfile = new PersonalProfileModel();
+    private PersonalProfile personalProfile = new PersonalProfile();
     private int userId;
     private String username;
 
-    public UserModel() {
+    public User() {
     }
 
-    public List<GrantedAuthorityModel> getAuthorities() {
+    public List<Authority> getAuthorities() {
         return this.authorities;
     }
 
@@ -49,7 +49,7 @@ public class UserModel extends BaseModel {
         return enabled;
     }
 
-    public ExpertiseProfileModel getExpertiseProfile() {
+    public ExpertiseProfile getExpertiseProfile() {
         return expertiseProfile;
     }
 
@@ -61,7 +61,7 @@ public class UserModel extends BaseModel {
         this.userId = userId;
     }
 
-    public PersonalProfileModel getPersonalProfile() {
+    public PersonalProfile getPersonalProfile() {
         return personalProfile;
     }
 
@@ -73,7 +73,7 @@ public class UserModel extends BaseModel {
         return username;
     }
 
-    public void setAuthorities(List<GrantedAuthorityModel> authorities) {
+    public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
 
@@ -97,7 +97,7 @@ public class UserModel extends BaseModel {
         this.enabled = enabled;
     }
 
-    public void setExpertiseProfile(ExpertiseProfileModel expertiseProfile) {
+    public void setExpertiseProfile(ExpertiseProfile expertiseProfile) {
         this.expertiseProfile = expertiseProfile;
     }
 
@@ -113,7 +113,7 @@ public class UserModel extends BaseModel {
         this.username = username;
     }
 
-    public void setPersonalProfile(PersonalProfileModel personalProfileModel) {
+    public void setPersonalProfile(PersonalProfile personalProfileModel) {
         this.personalProfile = personalProfileModel;
     }
 

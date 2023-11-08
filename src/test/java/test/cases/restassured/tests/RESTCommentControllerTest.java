@@ -1,9 +1,9 @@
 package test.cases.restassured.tests;
 
 import api.controllers.*;
-import api.models.models.CommentModel;
-import api.models.models.PostModel;
-import api.models.models.UserModel;
+import api.models.models.Comment;
+import api.models.models.Post;
+import api.models.models.User;
 import com.telerikacademy.testframework.utils.Helpers;
 import org.testng.annotations.*;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
@@ -16,9 +16,9 @@ import static org.testng.Assert.*;
 
 public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
-    UserModel newUser = new UserModel();
-    PostModel publicPost = new PostModel();
-    PostModel privatePost = new PostModel();
+    User newUser = new User();
+    Post publicPost = new Post();
+    Post privatePost = new Post();
 
 
     @BeforeClass
@@ -40,7 +40,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void commentOfPublicPostCreated_When_ValidDataProvided() {
 
-        CommentModel comment = CommentController.createComment(newUser, publicPost);
+        Comment comment = CommentController.createComment(newUser, publicPost);
         assert comment != null;
         assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
 
@@ -54,7 +54,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         ConnectionController.connect(globalRestApiUser, newUser);
 
-        CommentModel comment = CommentController.createComment(newUser, privatePost);
+        Comment comment = CommentController.createComment(newUser, privatePost);
         assert comment != null;
         assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
 
@@ -67,7 +67,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void commentOfPrivatePostNotCreated_When_UsersNotConnected() {
 
-        CommentModel comment = CommentController.createComment(newUser, privatePost);
+        Comment comment = CommentController.createComment(newUser, privatePost);
 
         assertNull(comment, "Comment was made.");
 
@@ -80,15 +80,15 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         int commentsCount = 3;
         for (int i = 0; i < commentsCount; i++) {
-            CommentModel comment = CommentController.createComment(newUser, publicPost);
+            Comment comment = CommentController.createComment(newUser, publicPost);
             assert comment != null;
             assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
             commentIds.add(comment.getCommentId());
         }
 
-        CommentModel[] comments = CommentController.findAllComments();
+        Comment[] comments = CommentController.findAllComments();
 
-        for (CommentModel comment : comments) {
+        for (Comment comment : comments) {
             if (commentIds.contains(comment.getCommentId())) {
                 assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
                 CommentController.deleteComment(newUser, comment.getCommentId());
@@ -101,7 +101,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void commentOfPublicPostEdited_By_Author() {
 
-        CommentModel comment = CommentController.createComment(newUser, publicPost);
+        Comment comment = CommentController.createComment(newUser, publicPost);
         assert comment != null;
         assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
 
@@ -118,7 +118,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void commentOfPublicPostEdited_By_AdminUser() {
 
-        CommentModel comment = CommentController.createComment(newUser, publicPost);
+        Comment comment = CommentController.createComment(newUser, publicPost);
         assert comment != null;
         assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
 
@@ -135,7 +135,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void commentOfPrivatePostEdited_By_AdminUser() {
 
-        CommentModel comment = CommentController.createComment(globalRestApiUser, privatePost);
+        Comment comment = CommentController.createComment(globalRestApiUser, privatePost);
         assert comment != null;
         assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
 
@@ -152,7 +152,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void commentOfPublicPostLiked_By_User() {
 
-        UserModel userToLikeComment = new UserModel();
+        User userToLikeComment = new User();
         String password = Helpers.generatePassword();
         String email = Helpers.generateEmail();
         String authority = ROLE_USER.toString();
@@ -160,7 +160,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         UserController.register(userToLikeComment, username, password, email, authority);
 
-        CommentModel commentToBeLiked = CommentController.createComment(newUser, publicPost);
+        Comment commentToBeLiked = CommentController.createComment(newUser, publicPost);
         assert commentToBeLiked != null;
         assertTrue(CommentController.commentExists(commentToBeLiked.getCommentId()), "Comment not created.");
 
@@ -180,7 +180,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void commentOfPublicPostDeleted_By_Author() {
 
-        CommentModel commentToBeDeleted = CommentController.createComment(newUser, publicPost);
+        Comment commentToBeDeleted = CommentController.createComment(newUser, publicPost);
         assert commentToBeDeleted != null;
         int commentToBeDeletedId = commentToBeDeleted.getCommentId();
         assertTrue(CommentController.commentExists(commentToBeDeletedId), "Comment not created.");
@@ -193,7 +193,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void commentOfPublicPostDeleted_By_AdminUser() {
 
-        CommentModel commentToBeDeleted = CommentController.createComment(newUser, publicPost);
+        Comment commentToBeDeleted = CommentController.createComment(newUser, publicPost);
         assert commentToBeDeleted != null;
         int commentToBeDeletedId = commentToBeDeleted.getCommentId();
         assertTrue(CommentController.commentExists(commentToBeDeletedId), "Comment not created.");
@@ -208,7 +208,7 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
 
         ConnectionController.connect(globalRestApiUser, newUser);
 
-        CommentModel commentToBeDeleted = CommentController.createComment(newUser, privatePost);
+        Comment commentToBeDeleted = CommentController.createComment(newUser, privatePost);
         assert commentToBeDeleted != null;
         int commentToBeDeletedId = commentToBeDeleted.getCommentId();
         assertTrue(CommentController.commentExists(commentToBeDeletedId), "Comment not created.");
@@ -226,20 +226,20 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
         int commentCount = 3;
 
         for (int i = 0; i < commentCount; i++) {
-            CommentModel comment = CommentController.createComment(newUser, publicPost);
+            Comment comment = CommentController.createComment(newUser, publicPost);
             assert comment != null;
             assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
         }
 
-        CommentModel[] postComments = PostController.findAllCommentsOfAPost(globalRestApiUser, publicPost);
+        Comment[] postComments = PostController.findAllCommentsOfAPost(globalRestApiUser, publicPost);
 
         assertEquals(postComments.length, commentCount, "Wrong post comments count");
 
-        for (CommentModel comment : postComments) {
+        for (Comment comment : postComments) {
             assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
         }
 
-        for (CommentModel comment : postComments) {
+        for (Comment comment : postComments) {
             CommentController.deleteComment(newUser, comment.getCommentId());
             assertFalse(CommentController.commentExists(comment.getCommentId()), "Comment not deleted.");
         }
@@ -249,12 +249,12 @@ public class RESTCommentControllerTest extends BaseWeareRestAssuredTest {
     @Test
     public void commentOfPostFoundById_When_Requested_By_User() {
 
-        CommentModel comment = CommentController.createComment(newUser, publicPost);
+        Comment comment = CommentController.createComment(newUser, publicPost);
         assert comment != null;
         int commentId = comment.getCommentId();
         assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
 
-        CommentModel foundComment = CommentController.getCommentById(globalRestApiUser, commentId);
+        Comment foundComment = CommentController.getCommentById(globalRestApiUser, commentId);
         assertEquals(foundComment.getCommentId(), commentId, "Comments do not match.");
 
         CommentController.deleteComment(newUser, comment.getCommentId());

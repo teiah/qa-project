@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
-import api.models.models.CommentModel;
-import api.models.models.PostModel;
-import api.models.models.UserModel;
+import api.models.models.Comment;
+import api.models.models.Post;
+import api.models.models.User;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
@@ -25,7 +25,7 @@ public class CommentController extends BaseWeAreApi {
             "  \"userId\": %s\n" +
             "}";
 
-    public static CommentModel[] findAllComments() {
+    public static Comment[] findAllComments() {
 
         Response response = given()
                 .get(API + COMMENT_ALL)
@@ -34,13 +34,13 @@ public class CommentController extends BaseWeAreApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        CommentModel[] allComments = new Gson().fromJson(response.getBody().asString(), CommentModel[].class);
+        Comment[] allComments = new Gson().fromJson(response.getBody().asString(), Comment[].class);
 
         return allComments;
 
     }
 
-    public static CommentModel createComment(UserModel user, PostModel post) {
+    public static Comment createComment(User user, Post post) {
 
         String commentContent = Helpers.generateCommentContent();
         boolean deletedConfirmed = true;
@@ -65,7 +65,7 @@ public class CommentController extends BaseWeAreApi {
 
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
         assertEquals(response.jsonPath().getString("content"), commentContent, "Contents do not match.");
-        CommentModel comment = response.as(CommentModel.class);
+        Comment comment = response.as(Comment.class);
 
         comment.setUser(user);
         comment.setPost(post);
@@ -78,9 +78,9 @@ public class CommentController extends BaseWeAreApi {
 
     public static boolean commentExists(int commentId) {
 
-        CommentModel[] comments = findAllComments();
+        Comment[] comments = findAllComments();
 
-        for (CommentModel comment : comments) {
+        for (Comment comment : comments) {
             if (comment.getCommentId() == commentId) {
                 return true;
             }
@@ -90,7 +90,7 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static void editComment(UserModel user, CommentModel commentToBeEdited) {
+    public static void editComment(User user, Comment commentToBeEdited) {
 
         String commentContent = Helpers.generateCommentContent();
 
@@ -112,7 +112,7 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static void likeComment(UserModel user, CommentModel comment) {
+    public static void likeComment(User user, Comment comment) {
         int previousLikes = CommentController.getCommentById(user, comment.getCommentId()).getLikes().size();
         Response response = given()
                 .auth()
@@ -128,7 +128,7 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static CommentModel getCommentById(UserModel user, int commentId) {
+    public static Comment getCommentById(User user, int commentId) {
 
         Response response = given()
                 .auth()
@@ -140,12 +140,12 @@ public class CommentController extends BaseWeAreApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        CommentModel comment = response.as(CommentModel.class);
+        Comment comment = response.as(Comment.class);
 
         return comment;
     }
 
-    public static void deleteComment(UserModel user, int commentId) {
+    public static void deleteComment(User user, int commentId) {
         Response response = given()
                 .auth()
                 .form(user.getUsername(), user.getPassword(),
@@ -160,11 +160,11 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static void assertEditedComment(UserModel user, PostModel post, int commentId, String contentToBeEdited) {
+    public static void assertEditedComment(User user, Post post, int commentId, String contentToBeEdited) {
 
-        CommentModel[] postComments = PostController.findAllCommentsOfAPost(user, post);
+        Comment[] postComments = PostController.findAllCommentsOfAPost(user, post);
 
-        for (CommentModel postComment : postComments) {
+        for (Comment postComment : postComments) {
             if (postComment.getCommentId() == commentId) {
                 assertNotEquals(postComment.getContent(), contentToBeEdited, "Contents are the same.");
                 break;

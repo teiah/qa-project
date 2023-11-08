@@ -2,20 +2,20 @@ package api.models.models;
 
 import api.models.basemodel.BaseModel;
 
-public class PersonalProfileModel extends BaseModel{
+public class PersonalProfile extends BaseModel{
 
     private Integer id;
     private String firstName;
     private String lastName;
     private String sex;
-    private LocationModel location = new LocationModel();
+    private Location location = new Location();
     private String birthYear;
     private String personalReview;
     private String memberSince;
     private String picture;
     private boolean picturePrivacy;
 
-    public PersonalProfileModel() {
+    public PersonalProfile() {
     }
 
     public void setId(Integer id) {
@@ -34,7 +34,7 @@ public class PersonalProfileModel extends BaseModel{
         this.sex = sex;
     }
 
-    public void setLocation(LocationModel location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -74,7 +74,7 @@ public class PersonalProfileModel extends BaseModel{
         return sex;
     }
 
-    public LocationModel getLocation() {
+    public Location getLocation() {
         return location;
     }
 

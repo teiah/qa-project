@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
-import api.models.models.CommentModel;
-import api.models.models.PostModel;
-import api.models.models.UserModel;
+import api.models.models.Comment;
+import api.models.models.Post;
+import api.models.models.User;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
@@ -24,9 +24,9 @@ public class PostController extends BaseWeAreApi {
             "  \"public\": " + "%s" + "\n" +
             "}";
 
-    public static PostModel createPost(UserModel user, boolean publicVisibility) {
+    public static Post createPost(User user, boolean publicVisibility) {
 
-        PostModel post = given()
+        Post post = given()
                 .auth()
                 .form(user.getUsername(), user.getPassword(),
                         new FormAuthConfig(AUTHENTICATE, "username", "password"))
@@ -39,7 +39,7 @@ public class PostController extends BaseWeAreApi {
                 .statusCode(SC_OK)
                 .extract()
                 .response()
-                .as(PostModel.class);
+                .as(Post.class);
 
         if (publicVisibility) {
             LOGGER.info(String.format("Public post with id %d created by user %s.", post.getPostId(), user.getUsername()));
@@ -50,7 +50,7 @@ public class PostController extends BaseWeAreApi {
         return post;
     }
 
-    public static void editPost(UserModel user, PostModel post) {
+    public static void editPost(User user, Post post) {
 
         boolean visibility = post.isPublic();
 
@@ -75,7 +75,7 @@ public class PostController extends BaseWeAreApi {
 
     }
 
-    public static void likePost(UserModel user, PostModel postToBeLiked) {
+    public static void likePost(User user, Post postToBeLiked) {
 
         int likesBefore = postToBeLiked.getLikes().size();
 
@@ -89,7 +89,7 @@ public class PostController extends BaseWeAreApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        int likesAfter = response.as(PostModel.class).getLikes().size();
+        int likesAfter = response.as(Post.class).getLikes().size();
 
         assertEquals(likesAfter, likesBefore + 1, "Post was not liked.");
 
@@ -97,7 +97,7 @@ public class PostController extends BaseWeAreApi {
 
     }
 
-    public static PostModel[] showProfilePosts(UserModel user) {
+    public static Post[] showProfilePosts(User user) {
 
         int index = 0;
         boolean next = true;
@@ -119,13 +119,13 @@ public class PostController extends BaseWeAreApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        PostModel[] userPosts = new Gson().fromJson(response.getBody().asString(), PostModel[].class);
+        Post[] userPosts = new Gson().fromJson(response.getBody().asString(), Post[].class);
 
         return userPosts;
 
     }
 
-    public static void deletePost(UserModel user, int postId) {
+    public static void deletePost(User user, int postId) {
 
         Response response = given()
                 .auth()
@@ -142,7 +142,7 @@ public class PostController extends BaseWeAreApi {
 
     }
 
-    public static PostModel[] findAllPosts() {
+    public static Post[] findAllPosts() {
 
         Response response = given()
                 .queryParam("name", "adminvHQOD")
@@ -152,7 +152,7 @@ public class PostController extends BaseWeAreApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        PostModel[] foundPosts = response.as(PostModel[].class);
+        Post[] foundPosts = response.as(Post[].class);
 
         return foundPosts;
 
@@ -160,9 +160,9 @@ public class PostController extends BaseWeAreApi {
 
     public static boolean publicPostExists(int postId) {
 
-        PostModel[] posts = findAllPosts();
+        Post[] posts = findAllPosts();
 
-        for (PostModel post : posts) {
+        for (Post post : posts) {
             if (post.getPostId() == postId) {
                 return true;
             }
@@ -172,11 +172,11 @@ public class PostController extends BaseWeAreApi {
 
     }
 
-    public static boolean privatePostExists(UserModel user, int postId) {
+    public static boolean privatePostExists(User user, int postId) {
 
-        PostModel[] posts = showProfilePosts(user);
+        Post[] posts = showProfilePosts(user);
 
-        for (PostModel post : posts) {
+        for (Post post : posts) {
             if (post.getPostId() == postId) {
                 return true;
             }
@@ -188,9 +188,9 @@ public class PostController extends BaseWeAreApi {
 
     public static void assertEditedPublicPost(int postId, String postToBeEditedContent) {
 
-        PostModel[] foundPosts = findAllPosts();
+        Post[] foundPosts = findAllPosts();
 
-        for (PostModel post : foundPosts) {
+        for (Post post : foundPosts) {
             if (post.getPostId() == postId) {
                 assertNotEquals(post.getContent(), postToBeEditedContent,
                         "Post contents are equal. Post was not edited");
@@ -199,11 +199,11 @@ public class PostController extends BaseWeAreApi {
         }
     }
 
-    public static void assertEditedPrivatePost(UserModel user, int postId, String postToBeEditedContent) {
+    public static void assertEditedPrivatePost(User user, int postId, String postToBeEditedContent) {
 
-        PostModel[] foundPosts = showProfilePosts(user);
+        Post[] foundPosts = showProfilePosts(user);
 
-        for (PostModel post : foundPosts) {
+        for (Post post : foundPosts) {
             if (post.getPostId() == postId) {
                 assertNotEquals(post.getContent(), postToBeEditedContent,
                         "Post contents are equal. Post was not edited");
@@ -212,7 +212,7 @@ public class PostController extends BaseWeAreApi {
         }
     }
 
-    public static CommentModel[] findCommentsOfAPost(PostModel post) {
+    public static Comment[] findCommentsOfAPost(Post post) {
 
         Response response = given()
                 .queryParam("postId", post.getPostId())
@@ -221,12 +221,12 @@ public class PostController extends BaseWeAreApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        CommentModel[] postComments = new Gson().fromJson(response.getBody().asString(), CommentModel[].class);
+        Comment[] postComments = new Gson().fromJson(response.getBody().asString(), Comment[].class);
 
         return postComments;
     }
 
-    public static CommentModel[] findAllCommentsOfAPost(UserModel user, PostModel post) {
+    public static Comment[] findAllCommentsOfAPost(User user, Post post) {
 
         Response response = given()
                 .auth()
@@ -238,7 +238,7 @@ public class PostController extends BaseWeAreApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        CommentModel[] postComments = new Gson().fromJson(response.getBody().asString(), CommentModel[].class);
+        Comment[] postComments = new Gson().fromJson(response.getBody().asString(), Comment[].class);
 
         return postComments;
     }

@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
-import api.models.models.SkillModel;
-import api.models.models.UserModel;
+import api.models.models.Skill;
+import api.models.models.User;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
@@ -24,7 +24,7 @@ public class SkillController extends BaseWeAreApi{
             "  \"skillId\": 0\n" +
             "}";
 
-    public static SkillModel[] getAllSkills() {
+    public static Skill[] getAllSkills() {
 
         Response response = given()
                 .get(API + FIND_SKILL);
@@ -32,13 +32,13 @@ public class SkillController extends BaseWeAreApi{
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        SkillModel[] skills = new Gson().fromJson(response.getBody().asString(), SkillModel[].class);
+        Skill[] skills = new Gson().fromJson(response.getBody().asString(), Skill[].class);
 
         return skills;
 
     }
 
-    public static SkillModel createSkill(UserModel user) {
+    public static Skill createSkill(User user) {
 
         int categoryId = 100;
         String categoryName = "All";
@@ -57,7 +57,7 @@ public class SkillController extends BaseWeAreApi{
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        SkillModel skill = response.as(SkillModel.class);
+        Skill skill = response.as(Skill.class);
 
         LOGGER.info(String.format("Skill %s created in category %s.", skillService, categoryName));
 
@@ -66,9 +66,9 @@ public class SkillController extends BaseWeAreApi{
 
     public static boolean skillExists(int skillId) {
 
-        SkillModel[] skills = getAllSkills();
+        Skill[] skills = getAllSkills();
 
-        for (SkillModel skill : skills) {
+        for (Skill skill : skills) {
             if (skill.getSkillId() == skillId) {
                 return true;
             }
@@ -90,7 +90,7 @@ public class SkillController extends BaseWeAreApi{
         LOGGER.info("Skill deleted.");
     }
 
-    public static SkillModel getSkillById(int skillId) {
+    public static Skill getSkillById(int skillId) {
 
         Response response = given()
                 .queryParam("skillId", skillId)
@@ -99,7 +99,7 @@ public class SkillController extends BaseWeAreApi{
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        return response.as(SkillModel.class);
+        return response.as(Skill.class);
 
     }
 

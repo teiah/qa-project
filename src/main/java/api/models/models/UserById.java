@@ -2,10 +2,10 @@ package api.models.models;
 
 import api.models.basemodel.BaseModel;
 
-public class UserByIdModel extends BaseModel {
+public class UserById extends BaseModel {
     private String[] authorities;
     private String birthYear;
-    private CityModel city;
+    private City city;
     private String email;
     private String expertise;
     private String firstName;
@@ -13,7 +13,7 @@ public class UserByIdModel extends BaseModel {
     private int id;
     private String lastNAme;
     private String personalReview;
-    private SkillModel[] skills;
+    private Skill[] skills;
     private String username;
 
     public String[] getAuthorities() {
@@ -24,7 +24,7 @@ public class UserByIdModel extends BaseModel {
         return birthYear;
     }
 
-    public CityModel getCity() {
+    public City getCity() {
         return city;
     }
 
@@ -56,7 +56,7 @@ public class UserByIdModel extends BaseModel {
         return personalReview;
     }
 
-    public SkillModel[] getSkills() {
+    public Skill[] getSkills() {
         return skills;
     }
 

@@ -2,11 +2,11 @@ package api.models.models;
 
 import api.models.basemodel.BaseModel;
 
-public class LocationModel extends BaseModel {
-    private CityModel city = new CityModel();
+public class Location extends BaseModel {
+    private City city = new City();
     private Integer id;
 
-    public CityModel getCity() {
+    public City getCity() {
         return city;
     }
 
@@ -14,7 +14,7 @@ public class LocationModel extends BaseModel {
         return id;
     }
 
-    public void setCity(CityModel city) {
+    public void setCity(City city) {
         this.city = city;
     }
 

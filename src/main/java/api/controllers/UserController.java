@@ -85,7 +85,7 @@ public class UserController extends BaseWeAreApi {
 //
 //    }
 
-    public static void register(UserModel user, String username, String password, String email, String authority) {
+    public static void register(User user, String username, String password, String email, String authority) {
 
         user.setEmail(email);
         user.setPassword(password);
@@ -95,10 +95,10 @@ public class UserController extends BaseWeAreApi {
 
     }
 
-    private static void registerAndExtractUser(UserModel user, String authority) {
+    private static void registerAndExtractUser(User user, String authority) {
         int categoryId = 100;
         String categoryName = "All";
-        CategoryModel category = new CategoryModel();
+        Category category = new Category();
         category.setName(categoryName);
         category.setId(categoryId);
         String bodyAuthority = "";
@@ -129,26 +129,26 @@ public class UserController extends BaseWeAreApi {
         extractUser(user);
     }
 
-    private static void extractUser(UserModel user) {
+    private static void extractUser(User user) {
 
-        UserByIdModel userByIdModel = getUserById(user.getUsername(), user.getId()).as(UserByIdModel.class);
+        UserById userByIdModel = getUserById(user.getUsername(), user.getId()).as(UserById.class);
         user.setEmail(userByIdModel.getEmail());
         String firstName = Helpers.generateFirstName();
         UserController.setPersonalProfileFirstName(user, firstName);
-        UserBySearchModel userBySearchModel = searchUser(user.getId(), user.getPersonalProfile().getFirstName());
+        UserBySearch userBySearchModel = searchUser(user.getId(), user.getPersonalProfile().getFirstName());
         assert userBySearchModel != null;
         user.setExpertiseProfile(userBySearchModel.getExpertiseProfile());
         user.setAccountNonExpired(userBySearchModel.isAccountNonExpired());
         user.setAccountNonLocked(userBySearchModel.isAccountNonLocked());
         user.setCredentialsNonExpired(userBySearchModel.isCredentialsNonExpired());
         user.setEnabled(userBySearchModel.isEnabled());
-        List<GrantedAuthorityModel> authorities = new ArrayList<>();
-        RoleModel roleModel = new RoleModel();
-        roleModel.setAuthority(ROLE_USER.toString());
-        authorities.add(roleModel);
+        List<Authority> authorities = new ArrayList<>();
+        Authority authority = new Authority();
+        authority.setAuthority(ROLE_USER.toString());
+        authorities.add(authority);
         if (userByIdModel.getAuthorities().length == 2) {
-            roleModel.setAuthority(ROLE_ADMIN.toString());
-            authorities.add(roleModel);
+            authority.setAuthority(ROLE_ADMIN.toString());
+            authorities.add(authority);
         }
         user.setAuthorities(authorities);
 
@@ -156,7 +156,7 @@ public class UserController extends BaseWeAreApi {
 
     }
 
-    public static void setPersonalProfileFirstName(UserModel user, String firstName) {
+    public static void setPersonalProfileFirstName(User user, String firstName) {
 
         String body = String.format(personalProfileBodyFirstName, firstName);
 
@@ -170,13 +170,13 @@ public class UserController extends BaseWeAreApi {
 
         int statusCode = editProfileResponse.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-        user.setPersonalProfile(editProfileResponse.as(PersonalProfileModel.class));
+        user.setPersonalProfile(editProfileResponse.as(PersonalProfile.class));
         assertEquals(user.getPersonalProfile().getFirstName(), firstName);
         LOGGER.info(String.format("First name of user %s with id %d was set to %s.", user.getUsername(),
                 user.getId(), user.getPersonalProfile().getFirstName()));
     }
 
-    public static void updatePersonalProfile(UserModel user, PersonalProfileModel personalProfileEditData) {
+    public static void updatePersonalProfile(User user, PersonalProfile personalProfileEditData) {
 
         String birthYear = personalProfileEditData.getBirthYear();
         String firstName = personalProfileEditData.getFirstName();
@@ -202,7 +202,7 @@ public class UserController extends BaseWeAreApi {
         int statusCode = editProfileResponse.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        user.setPersonalProfile(editProfileResponse.as(PersonalProfileModel.class));
+        user.setPersonalProfile(editProfileResponse.as(PersonalProfile.class));
         user.getPersonalProfile().setPicture(picture);
 
         assertUpdatePersonalProfile(user.getPersonalProfile(), personalProfileEditData);
@@ -210,7 +210,7 @@ public class UserController extends BaseWeAreApi {
         LOGGER.info(String.format("Personal profile of user %s with id %d was updated", user.getUsername(), user.getId()));
     }
 
-    private static void assertUpdatePersonalProfile(PersonalProfileModel personalProfileAfterEdit, PersonalProfileModel personalProfileEditData) {
+    private static void assertUpdatePersonalProfile(PersonalProfile personalProfileAfterEdit, PersonalProfile personalProfileEditData) {
 
         assertEquals(personalProfileAfterEdit.getFirstName(), personalProfileEditData.getFirstName(), "First names do not match.");
         assertEquals(personalProfileAfterEdit.getLastName(), personalProfileEditData.getLastName(), "Last names do not match.");
@@ -221,7 +221,7 @@ public class UserController extends BaseWeAreApi {
         assertEquals(personalProfileAfterEdit.getPicturePrivacy(), personalProfileEditData.getPicturePrivacy(), "Picture privacies do not match.");
     }
 
-    public static void editExpertiseProfile(UserModel user, ExpertiseProfileModel expertiseProfileEditData) {
+    public static void editExpertiseProfile(User user, ExpertiseProfile expertiseProfileEditData) {
 
         double availability = expertiseProfileEditData.getAvailability();
         int categoryId = expertiseProfileEditData.getCategory().getId();
@@ -247,14 +247,14 @@ public class UserController extends BaseWeAreApi {
                 .statusCode(SC_OK)
                 .extract().response();
 
-        user.setExpertiseProfile(response.as(ExpertiseProfileModel.class));
+        user.setExpertiseProfile(response.as(ExpertiseProfile.class));
         assertEditExpertiseProfile(user.getExpertiseProfile(), expertiseProfileEditData);
 
         LOGGER.info(String.format("Expertise profile of user %s with id %d was updated", user.getUsername(), user.getId()));
 
     }
 
-    private static void assertEditExpertiseProfile(ExpertiseProfileModel userExpertiseProfile, ExpertiseProfileModel expertiseProfile) {
+    private static void assertEditExpertiseProfile(ExpertiseProfile userExpertiseProfile, ExpertiseProfile expertiseProfile) {
 
         assertEquals(userExpertiseProfile.getCategory().getId(), expertiseProfile.getCategory().getId(),
                 "Category ids do not match.");
@@ -267,7 +267,7 @@ public class UserController extends BaseWeAreApi {
 
     }
 
-    public static void disableUser(UserModel adminUser, UserModel user) {
+    public static void disableUser(User adminUser, User user) {
 
         Response response = given()
                 .auth()
@@ -284,7 +284,7 @@ public class UserController extends BaseWeAreApi {
 
     }
 
-    public static void enableUser(UserModel adminUser, UserModel userToBeEnabled) {
+    public static void enableUser(User adminUser, User userToBeEnabled) {
 
         Response response = given()
                 .auth()
@@ -321,7 +321,7 @@ public class UserController extends BaseWeAreApi {
         return response;
     }
 
-    public static UserBySearchModel searchUser(int userId, String firstname) {
+    public static UserBySearch searchUser(int userId, String firstname) {
 
         int index = 0;
         boolean next = true;
@@ -339,8 +339,8 @@ public class UserController extends BaseWeAreApi {
         int statusCode = response.getStatusCode();
         assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
 
-        UserBySearchModel[] foundUsers = new Gson().fromJson(response.getBody().asString(), UserBySearchModel[].class);
-        for (UserBySearchModel userBySearchModel : foundUsers) {
+        UserBySearch[] foundUsers = new Gson().fromJson(response.getBody().asString(), UserBySearch[].class);
+        for (UserBySearch userBySearchModel : foundUsers) {
             if (userBySearchModel.getUserId() == userId) {
                 return userBySearchModel;
             }
