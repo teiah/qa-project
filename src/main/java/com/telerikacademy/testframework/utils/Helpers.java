@@ -16,7 +16,7 @@ public class Helpers {
         return faker.number().numberBetween(100, 157);
     }
 
-    public static String generateUsernameAsImplemented(String authority) {
+    public static String generateUsername(String authority) {
 
         String regex = "[a-zA-Z]*";
         Generex generex = new Generex(regex);
