@@ -15,7 +15,7 @@ public class User {
     private ExpertiseProfile expertiseProfile = new ExpertiseProfile();
     private String password;
     private PersonalProfile personalProfile = new PersonalProfile();
-    private int userId;
+    private int id;
     private String username;
 
     private int categoryId;
@@ -29,6 +29,14 @@ public class User {
         confirmPassword = password;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return username.equals(user.getUsername()) && id == user.getId();
+    }
     public List<Authority> getAuthorities() {
         return authorities;
     }
@@ -54,16 +62,12 @@ public class User {
         return password;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public PersonalProfile getPersonalProfile() {
         return personalProfile;
     }
 
     public int getId() {
-        return userId;
+        return id;
     }
 
     public String getUsername() {
@@ -84,7 +88,7 @@ public class User {
     }
 
     public void setId(int id) {
-        this.userId = id;
+        this.id = id;
     }
 
     public void setUsername(String username) {
