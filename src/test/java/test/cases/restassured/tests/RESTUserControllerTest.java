@@ -1,6 +1,7 @@
 package test.cases.restassured.tests;
 
 import com.telerikacademy.testframework.utils.Helpers;
+import factories.UserFactory;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import api.controllers.UserController;
@@ -8,17 +9,18 @@ import api.models.models.*;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import static com.telerikacademy.testframework.utils.Authority.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class RESTUserControllerTest
-        extends BaseWeareRestAssuredTest
-{
+        extends BaseWeareRestAssuredTest {
 
     @Test
     public void shouldCreateUser() {
-        UserController.registerUser();
+        User registeredUser = UserController.registerUser(UserFactory.createUser());
+        User userFromGetRequest = UserController.getUserById(registeredUser.getUsername(), registeredUser.getId());
 
-//        assertEquals(user.getAuthorities().size(), 1, "User is not registered as \"USER\".");
-
+        assertEquals(userFromGetRequest, registeredUser);
     }
 
     @Test
@@ -27,9 +29,9 @@ public class RESTUserControllerTest
         String password = Helpers.generatePassword();
         String email = Helpers.generateEmail();
         String authority = ROLE_ADMIN.toString();
-        String username = Helpers.generateUsernameAsImplemented(authority);
+        String username = Helpers.generateUsername(authority);
 
-        UserController.registerUser();
+//        UserController.registerUser();
 
 //        assertEquals(adminUser.getUsername(), adminUser.getUsername(), "User was not registered");
 //        assertEquals(adminUser.getPassword(), adminUser.getPassword(), "User was not registered");
@@ -76,11 +78,11 @@ public class RESTUserControllerTest
         String skill4 = Helpers.generateSkill();
         String skill5 = Helpers.generateSkill();
 
-       expertiseProfile.setAvailability(availability);
-       Category category = new Category();
-       expertiseProfile.setCategory(category);
-       expertiseProfile.getCategory().setId(categoryId);
-       expertiseProfile.getCategory().setName(categoryName);
+        expertiseProfile.setAvailability(availability);
+        Category category = new Category();
+        expertiseProfile.setCategory(category);
+        expertiseProfile.getCategory().setId(categoryId);
+        expertiseProfile.getCategory().setName(categoryName);
 
         for (int i = 0; i < 5; i++) {
             expertiseProfile.getSkills().add(new Skill());
