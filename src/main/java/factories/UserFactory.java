@@ -17,21 +17,21 @@ public class UserFactory {
     public static User createUser() {
         int categoryId = Helpers.generateCategoryId();
         String username = Helpers.generateUsername(ROLE_USER.toString());
-        List<Authority> role = Collections.singletonList(ROLE_USER);
+        List<Authority> authorities = Collections.singletonList(ROLE_USER);
         String email = Helpers.generateEmail();
         String password = Helpers.generatePassword();
-        return new User(categoryId, username, role, email, password, password);
+        return new User(categoryId, username, authorities, email, password, password);
     }
 
     public static User createAdmin() {
         int categoryId = Helpers.generateCategoryId();
         String username = Helpers.generateUsername(ROLE_ADMIN.toString());
-        List<Authority> role = new ArrayList<Authority>() {{
+        List<Authority> authorities = new ArrayList<Authority>() {{
             add(ROLE_USER);
             add(ROLE_ADMIN);
         }};
         String email = Helpers.generateEmail();
         String password = Helpers.generatePassword();
-        return new User(categoryId, username, role, email, password, password);
+        return new User(categoryId, username, authorities, email, password, password);
     }
 }

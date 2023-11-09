@@ -2,10 +2,12 @@ package api.models.models;
 
 import com.telerikacademy.testframework.utils.Authority;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.telerikacademy.testframework.utils.Authority.ROLE_ADMIN;
+import static com.telerikacademy.testframework.utils.Authority.ROLE_USER;
 import static org.testng.Assert.assertNotEquals;
-import static io.restassured.RestAssured.given;
 
 public class User {
 
@@ -27,6 +29,7 @@ public class User {
         this.password = password;
         this.authorities = authorities;
         confirmPassword = password;
+
     }
 
     @Override
@@ -37,6 +40,7 @@ public class User {
         User user = (User) o;
         return username.equals(user.getUsername()) && id == user.getId();
     }
+
     public List<Authority> getAuthorities() {
         return authorities;
     }
@@ -73,7 +77,6 @@ public class User {
     public String getUsername() {
         return username;
     }
-
 
     public void setEmail(String email) {
         this.email = email;
