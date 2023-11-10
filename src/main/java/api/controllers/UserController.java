@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import api.models.models.*;
+import com.telerikacademy.testframework.utils.*;
+import org.testng.annotations.BeforeClass;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,6 +14,7 @@ import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;
+import static org.testng.Assert.assertEquals;
 
 public class UserController extends BaseWeAreApi {
     static final String searchUsersBody = "{\n" +
@@ -26,25 +29,7 @@ public class UserController extends BaseWeAreApi {
             "\"location\": {\n" +
             "}\n" +
             "}";
-    private static final String personalProfileBody = "{\n" +
-            "\"birthYear\": \"%s\",\n" +
-            "\"firstName\": \"%s\",\n" +
-            "\"id\": %d,\n" +
-            "\"lastName\": \"%s\",\n" +
-            "\"location\": {\n" +
-            "\"city\": {\n" +
-            "\"city\": \"%s\",\n" +
-            "\"country\": {},\n" +
-            "\"id\": 1\n" +
-            "},\n" +
-            "\"id\": 0\n" +
-            "},\n" +
-            "\"memberSince\": \"\",\n" +
-            "\"personalReview\": \"%s\",\n" +
-            "\"picture\": \"%s\",\n" +
-            "\"picturePrivacy\": %s,\n" +
-            "\"sex\": \"%s\"\n" +
-            "}";
+
     private static final String expertiseProfileBody = "{\n" +
             "  \"availability\": %.1f,\n" +
             "  \"category\": {\n" +
@@ -61,7 +46,6 @@ public class UserController extends BaseWeAreApi {
 
 
     public static User registerUser(User user) {
-
         Response responseBody = given()
                 .contentType(ContentType.JSON)
                 .body(user)
@@ -123,52 +107,25 @@ public class UserController extends BaseWeAreApi {
 //            LOGGER.info(String.format("First name of user %s with id %d was set to %s.", user.getUsername(),
 //                    user.getId(), user.getPersonalProfile().getFirstName()));
 //        }
-//
-//        public static void updatePersonalProfile (User user, PersonalProfile personalProfileEditData){
-//
-//            String birthYear = personalProfileEditData.getBirthYear();
-//            String firstName = personalProfileEditData.getFirstName();
-//            String lastName = personalProfileEditData.getLastName();
-//            String city = personalProfileEditData.getLocation().getCity().getCity();
-//            String personalReview = personalProfileEditData.getPersonalReview();
-//            String picture = personalProfileEditData.getPicture();
-//            boolean picturePrivacy = personalProfileEditData.getPicturePrivacy();
-//            String sex = personalProfileEditData.getSex();
-//
-//            String body = String.format(personalProfileBody, birthYear, firstName, user.getId(), lastName, city, personalReview,
-//                    picture, picturePrivacy, sex);
-//
-//            Response editProfileResponse = given()
-//                    .auth()
-//                    .form(user.getUsername(), user.getPassword(),
-//                            new FormAuthConfig(AUTHENTICATE, "username", "password"))
-//                    .contentType("application/json")
-//                    .queryParam("name", user.getUsername())
-//                    .body(body)
-//                    .post(String.format(API + UPGRADE_USER_PERSONAL_WITH_ID, user.getId()));
-//
-//            int statusCode = editProfileResponse.getStatusCode();
-//            assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-//
-//            user.setPersonalProfile(editProfileResponse.as(PersonalProfile.class));
-//            user.getPersonalProfile().setPicture(picture);
-//
-//            assertUpdatePersonalProfile(user.getPersonalProfile(), personalProfileEditData);
-//
-//            LOGGER.info(String.format("Personal profile of user %s with id %d was updated", user.getUsername(), user.getId()));
-//        }
-//
-//        private static void assertUpdatePersonalProfile (PersonalProfile personalProfileAfterEdit, PersonalProfile
-//        personalProfileEditData){
-//
-//            assertEquals(personalProfileAfterEdit.getFirstName(), personalProfileEditData.getFirstName(), "First names do not match.");
-//            assertEquals(personalProfileAfterEdit.getLastName(), personalProfileEditData.getLastName(), "Last names do not match.");
-//            assertEquals(personalProfileAfterEdit.getBirthYear(), personalProfileEditData.getBirthYear(),
-//                    "Birth years do not match.");
-//            assertEquals(personalProfileAfterEdit.getLocation().getCity().getCity(), personalProfileEditData.getLocation().getCity().getCity(), "Cities do not match.");
-//            assertEquals(personalProfileAfterEdit.getPersonalReview(), personalProfileEditData.getPersonalReview(), "Personal reviews do not match.");
-//            assertEquals(personalProfileAfterEdit.getPicturePrivacy(), personalProfileEditData.getPicturePrivacy(), "Picture privacies do not match.");
-//        }
+
+    public static PersonalProfile updatePersonalProfile(
+            User user, PersonalProfile personalProfileData, String cookieValue) {
+
+        Response response = given()
+                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
+                .contentType(ContentType.JSON)
+                .body(personalProfileData)
+                .post(String.format(API + UPGRADE_PERSONAL_PROFILE, user.getId()))
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
+
+//        user.setPersonalProfile(response.as(PersonalProfile.class));
+
+        LOGGER.info(String.format("Personal profile of user %s with id %d was updated", user.getUsername(), user.getId()));
+        return new Gson().fromJson(response.getBody().asString(), PersonalProfile.class);
+    }
 //
 //        public static void editExpertiseProfile (User user, ExpertiseProfile expertiseProfileEditData){
 //
@@ -254,7 +211,7 @@ public class UserController extends BaseWeAreApi {
 //
 //
 
-//
+    //
 //        public static UserBySearch searchUser ( int userId, String firstname){
 //
 //            int index = 0;
@@ -281,6 +238,13 @@ public class UserController extends BaseWeAreApi {
 //            }
 //            return null;
 //        }
+    public static Response authUser(String username, String password) {
+        return given()
+                .multiPart("username", username)
+                .multiPart("password", password)
+                .post(Utils.getConfigPropertyByKey("weare.auth"));
+
+    }
 
 }
 

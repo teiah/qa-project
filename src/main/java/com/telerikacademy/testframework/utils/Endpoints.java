@@ -79,7 +79,7 @@ public class Endpoints {
     public static final String USER_POSTS_WITH_ID = "/users/%d/posts";
     public static final String USER_BY_ID = "/users/auth/%d";
     public static final String UPGRADE_USER_EXPERTISE_WITH_ID = "/users/auth/%s/expertise";
-    public static final String UPGRADE_USER_PERSONAL_WITH_ID = "/users/auth/%s/personal";
+    public static final String UPGRADE_PERSONAL_PROFILE = "/users/auth/%s/personal";
 
     // Search-Controller
     public static final String SEARCH_USERS = "/search";

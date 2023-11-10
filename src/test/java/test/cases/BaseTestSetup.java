@@ -1,10 +1,16 @@
 package test.cases;
 
+import api.models.models.User;
 import io.restassured.RestAssured;
 import io.restassured.config.EncoderConfig;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.response.Response;
 import org.testng.*;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
+import com.telerikacademy.testframework.utils.*;
+import api.controllers.UserController;
 
 import static com.telerikacademy.testframework.utils.Constants.BASE_URL;
 
@@ -23,6 +29,15 @@ public class BaseTestSetup {
         TestRunner runner = (TestRunner) ctx;
         runner.setOutputDirectory("/target");
 
+        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+    }
+
+
+
+    public static String getCookieValue(User user) {
+        String name = Utils.getConfigPropertyByKey("auth.cookieName");
+        Response auth = UserController.authUser(user.getUsername(), user.getPassword());
+        return auth.getDetailedCookie(name).getValue();
     }
 
 }
