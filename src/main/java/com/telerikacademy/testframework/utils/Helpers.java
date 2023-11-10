@@ -2,6 +2,7 @@ package com.telerikacademy.testframework.utils;
 
 import com.github.javafaker.Faker;
 import com.mifmif.common.regex.Generex;
+import java.util.Random;
 
 import java.text.SimpleDateFormat;
 
@@ -53,8 +54,11 @@ public class Helpers {
         return faker.name().lastName();
     }
 
-    public static String generateCity() {
-        return faker.address().city();
+    public static Location generateCity() {
+        Location[] locationNames = Location.values();
+        Random random = new Random();
+        int randomIndex = random.nextInt(locationNames.length);
+        return locationNames[randomIndex];
     }
 
     public static String generatePicture() {
