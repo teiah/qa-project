@@ -1,19 +1,19 @@
 package test.cases.restassured.tests;
 
 import com.telerikacademy.testframework.utils.Helpers;
+import factories.ProfileFactory;
 import factories.UserFactory;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import api.controllers.UserController;
 import api.models.models.*;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
-import static com.telerikacademy.testframework.utils.Authority.*;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
-public class RESTUserControllerTest
-        extends BaseWeareRestAssuredTest {
+public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
+    private String cookieValue;
 
     @Test
     public void shouldCreateUser() {
@@ -34,29 +34,23 @@ public class RESTUserControllerTest
 //      TODO: Check if user has admin role
     }
 
-    @Ignore
     @Test
     public void shouldEditPersonalProfile() {
+        User registeredUser = UserController.registerUser(UserFactory.createUser());
+        cookieValue = getCookieValue(registeredUser);
+        PersonalProfile update = ProfileFactory.createProfile();
 
-        PersonalProfile personalProfile = new PersonalProfile();
-        personalProfile.setBirthYear(Helpers.generateBirthdayDate());
-//        personalProfile.setFirstName(globalRestApiUser.getPersonalProfile().getFirstName());
-//        personalProfile.setId(globalRestApiUser.getPersonalProfile().getId());
-//        personalProfile.setLastName(Helpers.generateLastName());
-//        personalProfile.getLocation().getCity().setCity(Helpers.generateCity());
-//        personalProfile.setPersonalReview(Helpers.generatePersonalReview());
-//        personalProfile.setPicture(Helpers.generatePicture());
-//        personalProfile.setPicturePrivacy(true);
-//        personalProfile.setSex("MALE");
-//
-//        assertNotEquals(globalRestApiUser.getPersonalProfile().toString(), personalProfile.toString(),
-//                "Personal profiles match.");
-//
-//        UserController.updatePersonalProfile(globalRestApiUser, personalProfile);
-//
-//        assertEquals(globalRestApiUser.getPersonalProfile().toString(), personalProfile.toString(),
-//                "Personal profile was not updated.");
+        PersonalProfile editedProfile = UserController.updatePersonalProfile(registeredUser, update, cookieValue);
 
+        assertEquals(editedProfile.getFirstName(), update.getFirstName(), "First names do not match.");
+        assertEquals(editedProfile.getLastName(), update.getLastName(), "Last names do not match.");
+        assertEquals(editedProfile.getBirthYear(), update.getBirthYear(), "Birth dates do not match.");
+        assertEquals(editedProfile.getLocation().getCity().getCity(), update.getLocation().getCity().getCity(),
+                "Cities do not match.");
+        assertEquals(editedProfile.getPersonalReview(), update.getPersonalReview(),
+                "Personal reviews do not match.");
+        assertEquals(editedProfile.getPicturePrivacy(), update.getPicturePrivacy(),
+                "Pictures' privacy do not match.");
     }
 
     @Ignore
