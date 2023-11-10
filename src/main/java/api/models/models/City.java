@@ -1,37 +1,36 @@
 package api.models.models;
 
 import api.models.basemodel.BaseModel;
+import com.telerikacademy.testframework.utils.Location;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Objects;
+
+@Getter
+@Setter
 public class City extends BaseModel {
-    private String city = "";
-    private Country country = new Country();
-    private Integer id;
 
-    public String getCity() {
-        return city;
+
+    public City(Location location) {
+        id = location.getId();
+        city = location.getStringValue();
     }
 
-    public Country getCountry() {
-        return country;
-    }
+    private int id;
+    private String city;
+    private Country country;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public String toString() {
-        return city;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        City c = (City) o;
+        return Objects.deepEquals(this.id, c.id) &&
+                Objects.deepEquals(this.city, c.city) &&
+                Objects.deepEquals(this.country, c.country);
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 }
+

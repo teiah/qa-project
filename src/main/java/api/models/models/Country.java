@@ -1,16 +1,23 @@
 package api.models.models;
 
-import api.models.basemodel.BaseModel;
+import lombok.Getter;
+import lombok.Setter;
 
-public class Country extends BaseModel {
-    private Integer id;
-    private String country;
+import java.util.Objects;
 
-    public Integer getId() {
-        return id;
+@Getter
+@Setter
+public class Country {
+
+    private int id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country c = (Country) o;
+        return Objects.deepEquals(this.id, c.id);
     }
 
-    public String getCountry() {
-        return country;
-    }
 }
+
