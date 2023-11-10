@@ -2,6 +2,7 @@ package com.telerikacademy.testframework.utils;
 
 import com.github.javafaker.Faker;
 import com.mifmif.common.regex.Generex;
+
 import java.util.Random;
 
 import java.text.SimpleDateFormat;
@@ -9,6 +10,10 @@ import java.text.SimpleDateFormat;
 import static com.telerikacademy.testframework.utils.Authority.ROLE_ADMIN;
 
 public class Helpers {
+    public enum Sex {
+        MALE,
+        FEMALE
+    }
 
     private static Faker faker = new Faker();
 
@@ -77,4 +82,14 @@ public class Helpers {
         return faker.lorem().sentence(5);
     }
 
+    public static boolean generatePrivacy() {
+        Random random = new Random();
+        return random.nextBoolean();
+    }
+
+    public static String generateSex() {
+        Random random = new Random();
+        int randomIndex = random.nextInt(Sex.values().length);
+        return Sex.values()[randomIndex].toString();
+    }
 }
