@@ -1,6 +1,6 @@
 package api.models.models;
 
-import api.models.basemodel.BaseModel;
+import api.models.BaseModel;
 import com.telerikacademy.testframework.utils.Location;
 import lombok.Getter;
 import lombok.Setter;
