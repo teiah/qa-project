@@ -1,24 +1,18 @@
 package api.models.models;
 
-import api.models.basemodel.BaseModel;
+import api.models.BaseModel;
+import com.telerikacademy.testframework.utils.Expertise;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Category extends BaseModel {
     private Integer id;
     private String name;
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public Category(Expertise category) {
+        setId(category.getId());
+        setName(category.getStringValue());
     }
 }
