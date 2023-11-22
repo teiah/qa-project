@@ -1,6 +1,6 @@
 package api.models.models;
 
-import api.models.basemodel.BaseModel;
+import api.models.BaseModel;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,9 +8,9 @@ import java.util.Set;
 public class Comment extends BaseModel {
     private Integer commentId;
     private Post post;
-    private User user;
+    private UserRequest user;
     private String content;
-    private Set<User> likes = new HashSet<>();
+    private Set<UserRequest> likes = new HashSet<>();
     private String date;
     private boolean liked = false;
 
@@ -22,7 +22,7 @@ public class Comment extends BaseModel {
         return post;
     }
 
-    public User getUser() {
+    public UserRequest getUser() {
         return user;
     }
 
@@ -30,7 +30,7 @@ public class Comment extends BaseModel {
         return content;
     }
 
-    public Set<User> getLikes() {
+    public Set<UserRequest> getLikes() {
         return likes;
     }
 
@@ -50,7 +50,7 @@ public class Comment extends BaseModel {
         this.post = post;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserRequest user) {
         this.user = user;
     }
 
@@ -58,7 +58,7 @@ public class Comment extends BaseModel {
         this.content = content;
     }
 
-    public void setLikes(Set<User> likes) {
+    public void setLikes(Set<UserRequest> likes) {
         this.likes = likes;
     }
 

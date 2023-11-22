@@ -1,6 +1,6 @@
 package api.models.models;
 
-import api.models.basemodel.BaseModel;
+import api.models.BaseModel;
 
 import java.util.List;
 import java.util.Set;
@@ -15,12 +15,12 @@ public class Post extends BaseModel {
     private String content;
     private String date;
     private boolean isLiked;
-    private Set<User> likes;
+    private Set<UserRequest> likes;
     private String picture;
     private Integer postId;
     private boolean isPublic;
     private int rank;
-    private User user;
+    private UserRequest user;
 
     public Post() {
     }
@@ -45,7 +45,7 @@ public class Post extends BaseModel {
         return isLiked;
     }
 
-    public Set<User> getLikes() {
+    public Set<UserRequest> getLikes() {
         return likes;
     }
 
@@ -65,7 +65,7 @@ public class Post extends BaseModel {
         return rank;
     }
 
-    public User getUser() {
+    public UserRequest getUser() {
         return user;
     }
 

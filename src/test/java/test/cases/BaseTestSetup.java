@@ -1,6 +1,7 @@
 package test.cases;
 
-import api.models.models.User;
+import api.models.models.UserRequest;
+import com.telerikacademy.testframework.models.User;
 import io.restassured.RestAssured;
 import io.restassured.config.EncoderConfig;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -8,7 +9,6 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import org.testng.*;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 import com.telerikacademy.testframework.utils.*;
 import api.controllers.UserController;
 

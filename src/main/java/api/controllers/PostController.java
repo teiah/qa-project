@@ -6,7 +6,7 @@ import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
 import api.models.models.Comment;
 import api.models.models.Post;
-import api.models.models.User;
+import api.models.models.UserRequest;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
@@ -24,7 +24,7 @@ public class PostController extends BaseWeAreApi {
             "  \"public\": " + "%s" + "\n" +
             "}";
 
-    public static Post createPost(User user, boolean publicVisibility) {
+    public static Post createPost(UserRequest user, boolean publicVisibility) {
 
         Post post = given()
                 .auth()
@@ -50,7 +50,7 @@ public class PostController extends BaseWeAreApi {
         return post;
     }
 
-    public static void editPost(User user, Post post) {
+    public static void editPost(UserRequest user, Post post) {
 
         boolean visibility = post.isPublic();
 
@@ -75,7 +75,7 @@ public class PostController extends BaseWeAreApi {
 
     }
 
-    public static void likePost(User user, Post postToBeLiked) {
+    public static void likePost(UserRequest user, Post postToBeLiked) {
 
         int likesBefore = postToBeLiked.getLikes().size();
 
@@ -97,35 +97,35 @@ public class PostController extends BaseWeAreApi {
 
     }
 
-    public static Post[] showProfilePosts(User user) {
+//    public static Post[] showProfilePosts(UserRequest user) {
+//
+//        int index = 0;
+//        boolean next = true;
+//        String searchParam1 = "";
+//        String searchParam2 = user.getPersonalProfile().getFirstName();
+//        int size = 1000000;
+//
+//        String body = String.format(searchUsersBody, index, next, searchParam1, searchParam2, size);
+//
+//        Response response = given()
+//                .auth()
+//                .form(user.getUsername(), user.getPassword(),
+//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
+//                .contentType("application/json")
+//                .body(body)
+//                .get(String.format(API + USER_POSTS_WITH_ID, user.getId()))
+//                .then()
+//                .assertThat()
+//                .statusCode(SC_OK)
+//                .extract().response();
+//
+//        Post[] userPosts = new Gson().fromJson(response.getBody().asString(), Post[].class);
+//
+//        return userPosts;
+//
+//    }
 
-        int index = 0;
-        boolean next = true;
-        String searchParam1 = "";
-        String searchParam2 = user.getPersonalProfile().getFirstName();
-        int size = 1000000;
-
-        String body = String.format(searchUsersBody, index, next, searchParam1, searchParam2, size);
-
-        Response response = given()
-                .auth()
-                .form(user.getUsername(), user.getPassword(),
-                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-                .contentType("application/json")
-                .body(body)
-                .get(String.format(API + USER_POSTS_WITH_ID, user.getId()))
-                .then()
-                .assertThat()
-                .statusCode(SC_OK)
-                .extract().response();
-
-        Post[] userPosts = new Gson().fromJson(response.getBody().asString(), Post[].class);
-
-        return userPosts;
-
-    }
-
-    public static void deletePost(User user, int postId) {
+    public static void deletePost(UserRequest user, int postId) {
 
         Response response = given()
                 .auth()
@@ -172,19 +172,19 @@ public class PostController extends BaseWeAreApi {
 
     }
 
-    public static boolean privatePostExists(User user, int postId) {
-
-        Post[] posts = showProfilePosts(user);
-
-        for (Post post : posts) {
-            if (post.getPostId() == postId) {
-                return true;
-            }
-        }
-
-        return false;
-
-    }
+//    public static boolean privatePostExists(UserRequest user, int postId) {
+//
+//        Post[] posts = showProfilePosts(user);
+//
+//        for (Post post : posts) {
+//            if (post.getPostId() == postId) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//
+//    }
 
     public static void assertEditedPublicPost(int postId, String postToBeEditedContent) {
 
@@ -199,18 +199,18 @@ public class PostController extends BaseWeAreApi {
         }
     }
 
-    public static void assertEditedPrivatePost(User user, int postId, String postToBeEditedContent) {
-
-        Post[] foundPosts = showProfilePosts(user);
-
-        for (Post post : foundPosts) {
-            if (post.getPostId() == postId) {
-                assertNotEquals(post.getContent(), postToBeEditedContent,
-                        "Post contents are equal. Post was not edited");
-                break;
-            }
-        }
-    }
+//    public static void assertEditedPrivatePost(UserRequest user, int postId, String postToBeEditedContent) {
+//
+//        Post[] foundPosts = showProfilePosts(user);
+//
+//        for (Post post : foundPosts) {
+//            if (post.getPostId() == postId) {
+//                assertNotEquals(post.getContent(), postToBeEditedContent,
+//                        "Post contents are equal. Post was not edited");
+//                break;
+//            }
+//        }
+//    }
 
     public static Comment[] findCommentsOfAPost(Post post) {
 
@@ -226,7 +226,7 @@ public class PostController extends BaseWeAreApi {
         return postComments;
     }
 
-    public static Comment[] findAllCommentsOfAPost(User user, Post post) {
+    public static Comment[] findAllCommentsOfAPost(UserRequest user, Post post) {
 
         Response response = given()
                 .auth()

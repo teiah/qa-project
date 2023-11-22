@@ -5,7 +5,6 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import api.models.models.*;
 import com.telerikacademy.testframework.utils.*;
-import org.testng.annotations.BeforeClass;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,7 +13,6 @@ import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;
-import static org.testng.Assert.assertEquals;
 
 public class UserController extends BaseWeAreApi {
     static final String searchUsersBody = "{\n" +
@@ -30,22 +28,8 @@ public class UserController extends BaseWeAreApi {
             "}\n" +
             "}";
 
-    private static final String expertiseProfileBody = "{\n" +
-            "  \"availability\": %.1f,\n" +
-            "  \"category\": {\n" +
-            "    \"id\": %d,\n" +
-            "    \"name\": \"%s\"\n" +
-            "  },\n" +
-            "  \"id\": 0,\n" +
-            "  \"skill1\": \"%s\",\n" +
-            "  \"skill2\": \"%s\",\n" +
-            "  \"skill3\": \"%s\",\n" +
-            "  \"skill4\": \"%s\",\n" +
-            "  \"skill5\": \"%s\"\n" +
-            "}";
 
-
-    public static User registerUser(User user) {
+    public static UserResponse registerUser(UserRequest user) {
         Response responseBody = given()
                 .contentType(ContentType.JSON)
                 .body(user)
@@ -60,19 +44,20 @@ public class UserController extends BaseWeAreApi {
         Pattern pattern = Pattern.compile("User with name (\\w+) and id (\\d+) was created");
         Matcher matcher = pattern.matcher(responseBody.getBody().asPrettyString());
 
+        UserResponse userResponse = new UserResponse();
         if (matcher.find()) {
             String name = matcher.group(1);
             int userId = Integer.parseInt(matcher.group(2));
-            user.setId(userId);
-            user.setUsername(name);
+            userResponse.setId(userId);
+            userResponse.setUsername(name);
         } else {
             System.out.println("No name and ID found in the log message.");
         }
-        return user;
+        return userResponse;
     }
 
 
-    public static User getUserById(String principal, int userId) {
+    public static UserResponse getUserById(String principal, int userId) {
         Response response = given()
                 .queryParam("principal", principal)
                 .get(String.format(API + USER_BY_ID, userId))
@@ -83,7 +68,7 @@ public class UserController extends BaseWeAreApi {
 
         LOGGER.info(String.format("User with id %d found", userId));
 
-        return new Gson().fromJson(response.getBody().asString(), User.class);
+        return new Gson().fromJson(response.getBody().asString(), UserResponse.class);
 
     }
 
@@ -109,13 +94,13 @@ public class UserController extends BaseWeAreApi {
 //        }
 
     public static PersonalProfile updatePersonalProfile(
-            User user, PersonalProfile personalProfileData, String cookieValue) {
+            int userId, PersonalProfile personalProfileData, String cookieValue) {
 
         Response response = given()
                 .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
                 .contentType(ContentType.JSON)
                 .body(personalProfileData)
-                .post(String.format(API + UPGRADE_PERSONAL_PROFILE, user.getId()))
+                .post(String.format(API + UPGRADE_PERSONAL_PROFILE, userId))
                 .then()
                 .assertThat()
                 .statusCode(SC_OK)
@@ -123,7 +108,8 @@ public class UserController extends BaseWeAreApi {
 
 //        user.setPersonalProfile(response.as(PersonalProfile.class));
 
-        LOGGER.info(String.format("Personal profile of user %s with id %d was updated", user.getUsername(), user.getId()));
+        LOGGER.info(String.format("Personal profile of user with id %d was updated",
+                userId));
         return new Gson().fromJson(response.getBody().asString(), PersonalProfile.class);
     }
 //
@@ -175,7 +161,6 @@ public class UserController extends BaseWeAreApi {
 //        }
 //
 
-    //
 //        public static UserBySearch searchUser ( int userId, String firstname){
 //
 //            int index = 0;

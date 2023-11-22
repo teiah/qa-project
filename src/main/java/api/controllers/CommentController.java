@@ -6,7 +6,7 @@ import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
 import api.models.models.Comment;
 import api.models.models.Post;
-import api.models.models.User;
+import api.models.models.UserRequest;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
@@ -40,7 +40,7 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static Comment createComment(User user, Post post) {
+    public static Comment createComment(UserRequest user, Post post) {
 
         String commentContent = Helpers.generateCommentContent();
         boolean deletedConfirmed = true;
@@ -90,7 +90,7 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static void editComment(User user, Comment commentToBeEdited) {
+    public static void editComment(UserRequest user, Comment commentToBeEdited) {
 
         String commentContent = Helpers.generateCommentContent();
 
@@ -112,7 +112,7 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static void likeComment(User user, Comment comment) {
+    public static void likeComment(UserRequest user, Comment comment) {
         int previousLikes = CommentController.getCommentById(user, comment.getCommentId()).getLikes().size();
         Response response = given()
                 .auth()
@@ -128,7 +128,7 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static Comment getCommentById(User user, int commentId) {
+    public static Comment getCommentById(UserRequest user, int commentId) {
 
         Response response = given()
                 .auth()
@@ -145,7 +145,7 @@ public class CommentController extends BaseWeAreApi {
         return comment;
     }
 
-    public static void deleteComment(User user, int commentId) {
+    public static void deleteComment(UserRequest user, int commentId) {
         Response response = given()
                 .auth()
                 .form(user.getUsername(), user.getPassword(),
@@ -160,7 +160,7 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static void assertEditedComment(User user, Post post, int commentId, String contentToBeEdited) {
+    public static void assertEditedComment(UserRequest user, Post post, int commentId, String contentToBeEdited) {
 
         Comment[] postComments = PostController.findAllCommentsOfAPost(user, post);
 

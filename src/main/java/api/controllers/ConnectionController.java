@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
 import api.models.models.Request;
-import api.models.models.User;
+import api.models.models.UserRequest;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
@@ -19,7 +19,7 @@ public class ConnectionController extends BaseWeAreApi {
             "  \"username\": \"%s\"\n" +
             "}";
 
-    public static Request sendRequest(User sender, User receiver) {
+    public static Request sendRequest(UserRequest sender, UserRequest receiver) {
 
         Response response = given()
                 .auth()
@@ -47,7 +47,7 @@ public class ConnectionController extends BaseWeAreApi {
 
     }
 
-    public static Request[] getUserRequests(User user) {
+    public static Request[] getUserRequests(UserRequest user) {
         Response response = given()
                 .auth()
                 .form(user.getUsername(), user.getPassword(),
@@ -62,7 +62,7 @@ public class ConnectionController extends BaseWeAreApi {
         return requests;
     }
 
-    public static String[] getUserReceivedRequests(User receiver) {
+    public static String[] getUserReceivedRequests(UserRequest receiver) {
         Response response = given()
                 .auth()
                 .form(receiver.getUsername(), receiver.getPassword(),
@@ -86,7 +86,7 @@ public class ConnectionController extends BaseWeAreApi {
         return null;
     }
 
-    public static Response approveRequest(User receiver, Request request) {
+    public static Response approveRequest(UserRequest receiver, Request request) {
 
         Response response = given()
                 .auth()
@@ -103,7 +103,7 @@ public class ConnectionController extends BaseWeAreApi {
         return response;
     }
 
-    public static void disconnect(User sender, User receiver) {
+    public static void disconnect(UserRequest sender, UserRequest receiver) {
 
         Response response = given()
                 .auth()
@@ -123,7 +123,7 @@ public class ConnectionController extends BaseWeAreApi {
 
     }
 
-    public static void connect(User sender, User receiver) {
+    public static void connect(UserRequest sender, UserRequest receiver) {
 
         Request requestModel = sendRequest(sender, receiver);
         approveRequest(receiver, requestModel);

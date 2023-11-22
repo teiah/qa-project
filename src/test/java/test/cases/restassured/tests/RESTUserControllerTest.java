@@ -1,10 +1,10 @@
 package test.cases.restassured.tests;
 
-import com.telerikacademy.testframework.utils.Helpers;
+import com.telerikacademy.testframework.models.User;
+import com.telerikacademy.testframework.utils.Authority;
+import factories.ExpertiseFactory;
 import factories.ProfileFactory;
 import factories.UserFactory;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import api.controllers.UserController;
 import api.models.models.*;
@@ -14,21 +14,26 @@ import static org.testng.Assert.*;
 
 public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
     private String cookieValue;
+    private User user;
 
     @Test
     public void shouldCreateUser() {
-        User registeredUser = UserController.registerUser(UserFactory.createUser());
-        User userFromGetRequest = UserController.getUserById(registeredUser.getUsername(), registeredUser.getId());
+        user = UserFactory.createUser();
+        UserResponse registeredUser = UserController.registerUser(
+                new UserRequest(Authority.ROLE_USER.toString(), user));
+
+        UserResponse userFromGetRequest = UserController.getUserById(registeredUser.getUsername(), registeredUser.getId());
 
         assertEquals(userFromGetRequest, registeredUser);
-//        TODO: Why are authorities null?
-//        assertEquals(userFromGetRequest.getAuthorities().get(0), ROLE_USER);
+//        assertEquals(userFromGetRequest.getAuthorities().get(0), Authority.ROLE_USER);
     }
 
     @Test
     public void shouldCreateAdmin() {
-        User registeredUser = UserController.registerUser(UserFactory.createAdmin());
-        User userFromGetRequest = UserController.getUserById(registeredUser.getUsername(), registeredUser.getId());
+        user = UserFactory.createAdmin();
+        UserResponse registeredUser = UserController.registerUser(
+                new UserRequest(Authority.ROLE_ADMIN.toString(), user));
+        UserResponse userFromGetRequest = UserController.getUserById(registeredUser.getUsername(), registeredUser.getId());
 
         assertEquals(userFromGetRequest, registeredUser);
 //      TODO: Check if user has admin role
@@ -36,11 +41,12 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
     public void shouldEditPersonalProfile() {
-        User registeredUser = UserController.registerUser(UserFactory.createUser());
-        cookieValue = getCookieValue(registeredUser);
+        user = UserFactory.createUser();
+        UserResponse registeredUser = UserController.registerUser(new UserRequest(Authority.ROLE_USER.toString(), user));
+        cookieValue = getCookieValue(user);
         PersonalProfile update = ProfileFactory.createProfile();
 
-        PersonalProfile editedProfile = UserController.updatePersonalProfile(registeredUser, update, cookieValue);
+        PersonalProfile editedProfile = UserController.updatePersonalProfile(registeredUser.getId(), update, cookieValue);
 
         assertEquals(editedProfile.getFirstName(), update.getFirstName(), "First names do not match.");
         assertEquals(editedProfile.getLastName(), update.getLastName(), "Last names do not match.");
@@ -163,65 +169,5 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 //        UserController.disableUser(globalRestApiAdminUser, userToFind);
 
     }
-
-    @Test
-    public void userDisabled_By_AdminUser() {
-
-//        User userToBeDisabled = new User();
-//        String password = Helpers.generatePassword();
-//        String email = Helpers.generateEmail();
-//        String authority = ROLE_USER.toString();
-//        String username = Helpers.generateUsernameAsImplemented(authority);
-//
-//        UserController.register();
-//
-//        String firstname = userToBeDisabled.getPersonalProfile().getFirstName();
-//
-//        assertTrue(userToBeDisabled.isEnabled(), "User is not enabled");
-//
-////        UserController.disableUser(globalRestApiAdminUser, userToBeDisabled);
-//
-//        UserBySearch returnedDisabledUser = searchUser(userToBeDisabled.getId(), firstname);
-//
-//        assert returnedDisabledUser != null;
-//        assertEquals(returnedDisabledUser.getUserId(), userToBeDisabled.getId(), "Users do not match.");
-//
-//        assertFalse(returnedDisabledUser.isEnabled(), "User was not disabled");
-//    }
-//
-//    @Test
-//    public void userEnabled_By_AdminUser() {
-//
-//        User userToBeEnabled = new User();
-//        String password = Helpers.generatePassword();
-//        String email = Helpers.generateEmail();
-//        String authority = ROLE_USER.toString();
-//        String username = Helpers.generateUsernameAsImplemented(authority);
-//
-//        UserController.register();
-//
-//        String firstname = userToBeEnabled.getPersonalProfile().getFirstName();
-//
-////        UserController.disableUser(globalRestApiAdminUser, userToBeEnabled);
-//
-//        UserBySearch returnedDisabledUser = searchUser(userToBeEnabled.getId(), firstname);
-//
-//        assert returnedDisabledUser != null;
-//        assertEquals(returnedDisabledUser.getUserId(), userToBeEnabled.getId(), "Users do not match.");
-//
-//        assertFalse(returnedDisabledUser.isEnabled(), "User is not disabled");
-//
-////        UserController.enableUser(globalRestApiAdminUser, userToBeEnabled);
-//
-//        UserBySearch returnedEnabledUser = searchUser(userToBeEnabled.getId(), firstname);
-//        assert returnedEnabledUser != null;
-//        assertEquals(returnedEnabledUser.getUserId(), userToBeEnabled.getId(), "User ids do not match.");
-//
-//        assertTrue(returnedEnabledUser.isEnabled(), "User wss not enabled");
-
-//        UserController.disableUser(globalRestApiAdminUser, userToBeEnabled);
-    }
-
-    // Delete User is not implemented and cannot be tested
 
 }

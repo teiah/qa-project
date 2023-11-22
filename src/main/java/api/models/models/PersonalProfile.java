@@ -1,6 +1,6 @@
 package api.models.models;
 
-import api.models.basemodel.BaseModel;
+import api.models.BaseModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,9 +18,6 @@ public class PersonalProfile extends BaseModel {
     private String memberSince;
     private String picture;
     private boolean picturePrivacy;
-
-    public PersonalProfile() {
-    }
 
     public PersonalProfile(String firstName, String lastName, String sex, ApiLocation location,
                            String birthYear, String personalReview, String picture, boolean picturePrivacy) {

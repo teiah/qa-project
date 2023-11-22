@@ -1,14 +1,14 @@
 package api.models.models;
 
-import api.models.basemodel.BaseModel;
+import api.models.BaseModel;
 
 public class Request extends BaseModel {
 
     private boolean approved = false;
     private int id;
-    private User receiver;
+    private UserRequest receiver;
     private boolean seen = false;
-    private User sender;
+    private UserRequest sender;
     private String timeStamp;
 
     public boolean isApproved() {
@@ -19,7 +19,7 @@ public class Request extends BaseModel {
         return id;
     }
 
-    public User getReceiver() {
+    public UserRequest getReceiver() {
         return receiver;
     }
 
@@ -27,7 +27,7 @@ public class Request extends BaseModel {
         return seen;
     }
 
-    public User getSender() {
+    public UserRequest getSender() {
         return sender;
     }
 
@@ -43,7 +43,7 @@ public class Request extends BaseModel {
         this.id = id;
     }
 
-    public void setReceiver(User receiver) {
+    public void setReceiver(UserRequest receiver) {
         this.receiver = receiver;
     }
 
@@ -51,7 +51,7 @@ public class Request extends BaseModel {
         this.seen = seen;
     }
 
-    public void setSender(User sender) {
+    public void setSender(UserRequest sender) {
         this.sender = sender;
     }
 
