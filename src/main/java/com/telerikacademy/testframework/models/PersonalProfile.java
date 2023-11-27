@@ -1,6 +1,6 @@
 package com.telerikacademy.testframework.models;
 
-import api.models.Post;
+import api.models.PostRequest;
 import com.telerikacademy.testframework.utils.Gender;
 import com.telerikacademy.testframework.utils.Location;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class PersonalProfile {
     private String picture;
     private boolean picturePrivacy;
     private ArrayList<User> friendList;
-    private ArrayList<Post> posts;
+    private ArrayList<PostRequest> posts;
     private SetOfSkills skills;
 
 

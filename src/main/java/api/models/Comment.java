@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Comment extends BaseModel {
     private Integer commentId;
-    private Post post;
+    private PostRequest post;
     private UserRequest user;
     private String content;
     private Set<UserRequest> likes = new HashSet<>();
@@ -16,7 +16,7 @@ public class Comment extends BaseModel {
         return commentId;
     }
 
-    public Post getPost() {
+    public PostRequest getPost() {
         return post;
     }
 
@@ -44,7 +44,7 @@ public class Comment extends BaseModel {
         this.commentId = commentId;
     }
 
-    public void setPost(Post post) {
+    public void setPost(PostRequest post) {
         this.post = post;
     }
 
