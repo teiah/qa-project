@@ -1,6 +1,5 @@
 package test.cases;
 
-import api.models.models.UserRequest;
 import com.telerikacademy.testframework.models.User;
 import io.restassured.RestAssured;
 import io.restassured.config.EncoderConfig;

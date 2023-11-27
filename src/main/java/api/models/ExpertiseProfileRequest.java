@@ -1,6 +1,5 @@
-package api.models.models;
+package api.models;
 
-import api.models.BaseModel;
 import com.telerikacademy.testframework.models.SetOfSkills;
 import com.telerikacademy.testframework.models.User;
 import lombok.Getter;

@@ -3,8 +3,8 @@ package api.controllers;
 import com.google.gson.Gson;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
-import api.models.models.Request;
-import api.models.models.UserRequest;
+import api.models.Request;
+import api.models.UserRequest;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;

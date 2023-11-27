@@ -6,7 +6,7 @@
 //import org.testng.annotations.*;
 //import pages.weare.*;
 //import api.controllers.PostController;
-//import api.models.models.Post;
+//import api.models.Post;
 //import test.cases.selenium.base.BaseWeareSeleniumTest;
 //
 //public class SeleniumPostTest extends BaseWeareSeleniumTest {

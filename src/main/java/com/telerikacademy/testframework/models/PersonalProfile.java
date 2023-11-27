@@ -1,7 +1,6 @@
 package com.telerikacademy.testframework.models;
 
-import api.models.models.ApiLocation;
-import api.models.models.Post;
+import api.models.Post;
 import com.telerikacademy.testframework.utils.Gender;
 import com.telerikacademy.testframework.utils.Location;
 import lombok.Getter;

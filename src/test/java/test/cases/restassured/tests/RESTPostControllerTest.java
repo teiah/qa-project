@@ -1,7 +1,7 @@
 //package test.cases.restassured.tests;
 //
-//import api.models.models.Comment;
-//import api.models.models.Post;
+//import api.models.Comment;
+//import api.models.Post;
 //import api.models.models.User;
 //import com.telerikacademy.testframework.utils.Helpers;
 //import org.testng.annotations.*;

@@ -1,4 +1,4 @@
-package api.models.models;
+package api.models;
 
 import lombok.Getter;
 import lombok.Setter;

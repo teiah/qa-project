@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
-import api.models.models.Comment;
-import api.models.models.Post;
-import api.models.models.UserRequest;
+import api.models.Comment;
+import api.models.Post;
+import api.models.UserRequest;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
@@ -14,7 +14,6 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
-import static api.controllers.UserController.searchUsersBody;
 
 public class PostController extends BaseWeAreApi {
 

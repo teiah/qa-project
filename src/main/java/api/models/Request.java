@@ -1,6 +1,4 @@
-package api.models.models;
-
-import api.models.BaseModel;
+package api.models;
 
 public class Request extends BaseModel {
 

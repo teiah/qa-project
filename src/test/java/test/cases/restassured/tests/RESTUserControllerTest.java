@@ -1,5 +1,6 @@
 package test.cases.restassured.tests;
 
+import api.models.*;
 import com.telerikacademy.testframework.models.User;
 import com.telerikacademy.testframework.utils.Authority;
 import factories.ExpertiseFactory;
@@ -8,7 +9,6 @@ import factories.UserFactory;
 import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.Test;
 import api.controllers.UserController;
-import api.models.models.*;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import static org.testng.Assert.*;

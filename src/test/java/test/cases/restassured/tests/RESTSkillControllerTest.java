@@ -1,6 +1,6 @@
 //package test.cases.restassured.tests;
 //
-//import api.models.models.Skill;
+//import api.models.Skill;
 //import io.restassured.response.Response;
 //import org.testng.annotations.*;
 //import api.controllers.SkillController;

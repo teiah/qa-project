@@ -1,6 +1,6 @@
 package api.controllers;
 
-import api.models.basemodel.BaseModel;
+import api.models.BaseModel;
 import org.testng.log4testng.Logger;
 
 public class BaseWeAreApi {

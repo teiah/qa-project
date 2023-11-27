@@ -1,6 +1,4 @@
-package api.models.models;
-
-import api.models.BaseModel;
+package api.models;
 
 import java.util.List;
 import java.util.Set;

@@ -1,6 +1,6 @@
 //package test.cases.restassured.tests;
 //
-//import api.models.models.Request;
+//import api.models.Request;
 //import api.models.models.User;
 //import com.telerikacademy.testframework.utils.Helpers;
 //import io.restassured.response.Response;

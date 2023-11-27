@@ -1,9 +1,8 @@
 package api.controllers;
 
-import com.google.gson.Gson;
+import api.models.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import api.models.models.*;
 import com.telerikacademy.testframework.utils.*;
 
 import java.util.regex.Matcher;

@@ -1,4 +1,4 @@
-package api.models.models;
+package api.models;
 
 import com.telerikacademy.testframework.models.User;
 import lombok.Getter;

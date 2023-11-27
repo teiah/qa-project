@@ -1,4 +1,4 @@
-package api.models.models;
+package api.models;
 
 import api.models.BaseModel;
 import com.telerikacademy.testframework.utils.Expertise;
