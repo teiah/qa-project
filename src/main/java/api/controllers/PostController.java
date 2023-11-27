@@ -5,7 +5,7 @@ import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
 import api.models.Comment;
-import api.models.Post;
+import api.models.PostRequest;
 import api.models.UserRequest;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
@@ -23,78 +23,78 @@ public class PostController extends BaseWeAreApi {
             "  \"public\": " + "%s" + "\n" +
             "}";
 
-    public static Post createPost(UserRequest user, boolean publicVisibility) {
+//    public static PostRequest createPost(UserRequest user, boolean publicVisibility) {
+//
+//        PostRequest post = given()
+//                .auth()
+//                .form(user.getUsername(), user.getPassword(),
+//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
+//                .contentType("application/json")
+//                .body(generatePostBody(publicVisibility))
+//                .when()
+//                .post(API + CREATE_POST)
+//                .then()
+//                .assertThat()
+//                .statusCode(SC_OK)
+//                .extract()
+//                .response()
+//                .as(PostRequest.class);
+//
+//        if (publicVisibility) {
+//            LOGGER.info(String.format("Public post with id %d created by user %s.", post.getPostId(), user.getUsername()));
+//        } else {
+//            LOGGER.info(String.format("Private post with id %d created by user %s.", post.getPostId(), user.getUsername()));
+//        }
+//
+//        return post;
+//    }
 
-        Post post = given()
-                .auth()
-                .form(user.getUsername(), user.getPassword(),
-                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-                .contentType("application/json")
-                .body(generatePostBody(publicVisibility))
-                .when()
-                .post(API + CREATE_POST)
-                .then()
-                .assertThat()
-                .statusCode(SC_OK)
-                .extract()
-                .response()
-                .as(Post.class);
+//    public static void editPost(UserRequest user, PostRequest post) {
+//
+//        boolean visibility = post.isPublic();
+//
+//        Response editedPostResponse = given()
+//                .auth()
+//                .form(user.getUsername(), user.getPassword(),
+//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
+//                .contentType("application/json")
+//                .queryParam("postId", post.getPostId())
+//                .body(String.format(generatePostBody(visibility)))
+//                .put(API + EDIT_POST)
+//                .then()
+//                .assertThat()
+//                .statusCode(SC_OK)
+//                .extract().response();
+//
+//        if (post.isPublic()) {
+//            LOGGER.info(String.format("Public post with id %d edited.", post.getPostId()));
+//        } else {
+//            LOGGER.info(String.format("Private post with id %d edited.", post.getPostId()));
+//        }
+//
+//    }
 
-        if (publicVisibility) {
-            LOGGER.info(String.format("Public post with id %d created by user %s.", post.getPostId(), user.getUsername()));
-        } else {
-            LOGGER.info(String.format("Private post with id %d created by user %s.", post.getPostId(), user.getUsername()));
-        }
-
-        return post;
-    }
-
-    public static void editPost(UserRequest user, Post post) {
-
-        boolean visibility = post.isPublic();
-
-        Response editedPostResponse = given()
-                .auth()
-                .form(user.getUsername(), user.getPassword(),
-                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-                .contentType("application/json")
-                .queryParam("postId", post.getPostId())
-                .body(String.format(generatePostBody(visibility)))
-                .put(API + EDIT_POST)
-                .then()
-                .assertThat()
-                .statusCode(SC_OK)
-                .extract().response();
-
-        if (post.isPublic()) {
-            LOGGER.info(String.format("Public post with id %d edited.", post.getPostId()));
-        } else {
-            LOGGER.info(String.format("Private post with id %d edited.", post.getPostId()));
-        }
-
-    }
-
-    public static void likePost(UserRequest user, Post postToBeLiked) {
-
-        int likesBefore = postToBeLiked.getLikes().size();
-
-        Response response = given()
-                .auth()
-                .form(user.getUsername(), user.getPassword(),
-                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-                .queryParam("postId", postToBeLiked.getPostId())
-                .post(API + LIKE_POST);
-
-        int statusCode = response.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-
-        int likesAfter = response.as(Post.class).getLikes().size();
-
-        assertEquals(likesAfter, likesBefore + 1, "Post was not liked.");
-
-        postToBeLiked.getLikes().add(user);
-
-    }
+//    public static void likePost(UserRequest user, PostRequest postToBeLiked) {
+//
+//        int likesBefore = postToBeLiked.getLikes().size();
+//
+//        Response response = given()
+//                .auth()
+//                .form(user.getUsername(), user.getPassword(),
+//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
+//                .queryParam("postId", postToBeLiked.getPostId())
+//                .post(API + LIKE_POST);
+//
+//        int statusCode = response.getStatusCode();
+//        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+//
+//        int likesAfter = response.as(PostRequest.class).getLikes().size();
+//
+//        assertEquals(likesAfter, likesBefore + 1, "Post was not liked.");
+//
+//        postToBeLiked.getLikes().add(user);
+//
+//    }
 
 //    public static Post[] showProfilePosts(UserRequest user) {
 //
@@ -124,52 +124,52 @@ public class PostController extends BaseWeAreApi {
 //
 //    }
 
-    public static void deletePost(UserRequest user, int postId) {
+//    public static void deletePost(UserRequest user, int postId) {
+//
+//        Response response = given()
+//                .auth()
+//                .form(user.getUsername(), user.getPassword(),
+//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
+//                .queryParam("postId", postId)
+//                .delete(API + DELETE_POST)
+//                .then()
+//                .assertThat()
+//                .statusCode(SC_OK)
+//                .extract().response();
+//
+//        LOGGER.info(String.format("Post with id %d deleted.", postId));
+//
+//    }
 
-        Response response = given()
-                .auth()
-                .form(user.getUsername(), user.getPassword(),
-                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-                .queryParam("postId", postId)
-                .delete(API + DELETE_POST)
-                .then()
-                .assertThat()
-                .statusCode(SC_OK)
-                .extract().response();
+//    public static PostRequest[] findAllPosts() {
+//
+//        Response response = given()
+//                .queryParam("name", "adminvHQOD")
+//                .get(API + POST)
+//                .then()
+//                .assertThat()
+//                .statusCode(SC_OK)
+//                .extract().response();
+//
+//        PostRequest[] foundPosts = response.as(PostRequest[].class);
+//
+//        return foundPosts;
+//
+//    }
 
-        LOGGER.info(String.format("Post with id %d deleted.", postId));
-
-    }
-
-    public static Post[] findAllPosts() {
-
-        Response response = given()
-                .queryParam("name", "adminvHQOD")
-                .get(API + POST)
-                .then()
-                .assertThat()
-                .statusCode(SC_OK)
-                .extract().response();
-
-        Post[] foundPosts = response.as(Post[].class);
-
-        return foundPosts;
-
-    }
-
-    public static boolean publicPostExists(int postId) {
-
-        Post[] posts = findAllPosts();
-
-        for (Post post : posts) {
-            if (post.getPostId() == postId) {
-                return true;
-            }
-        }
-
-        return false;
-
-    }
+//    public static boolean publicPostExists(int postId) {
+//
+//        PostRequest[] posts = findAllPosts();
+//
+//        for (PostRequest post : posts) {
+//            if (post.getPostId() == postId) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//
+//    }
 
 //    public static boolean privatePostExists(UserRequest user, int postId) {
 //
@@ -185,18 +185,18 @@ public class PostController extends BaseWeAreApi {
 //
 //    }
 
-    public static void assertEditedPublicPost(int postId, String postToBeEditedContent) {
-
-        Post[] foundPosts = findAllPosts();
-
-        for (Post post : foundPosts) {
-            if (post.getPostId() == postId) {
-                assertNotEquals(post.getContent(), postToBeEditedContent,
-                        "Post contents are equal. Post was not edited");
-                break;
-            }
-        }
-    }
+//    public static void assertEditedPublicPost(int postId, String postToBeEditedContent) {
+//
+//        PostRequest[] foundPosts = findAllPosts();
+//
+//        for (PostRequest post : foundPosts) {
+//            if (post.getPostId() == postId) {
+//                assertNotEquals(post.getContent(), postToBeEditedContent,
+//                        "Post contents are equal. Post was not edited");
+//                break;
+//            }
+//        }
+//    }
 
 //    public static void assertEditedPrivatePost(UserRequest user, int postId, String postToBeEditedContent) {
 //
@@ -211,40 +211,40 @@ public class PostController extends BaseWeAreApi {
 //        }
 //    }
 
-    public static Comment[] findCommentsOfAPost(Post post) {
-
-        Response response = given()
-                .queryParam("postId", post.getPostId())
-                .get(API + COMMENTS_OF_POST);
-
-        int statusCode = response.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-
-        Comment[] postComments = new Gson().fromJson(response.getBody().asString(), Comment[].class);
-
-        return postComments;
-    }
-
-    public static Comment[] findAllCommentsOfAPost(UserRequest user, Post post) {
-
-        Response response = given()
-                .auth()
-                .form(user.getUsername(), user.getPassword(),
-                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-                .queryParam("postId", post.getPostId())
-                .get(API + COMMENT_BY_POST);
-
-        int statusCode = response.getStatusCode();
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-
-        Comment[] postComments = new Gson().fromJson(response.getBody().asString(), Comment[].class);
-
-        return postComments;
-    }
-
-    static String generatePostBody(boolean visibility) {
-        String postContent = Helpers.generatePostContent();
-        String postPicture = Helpers.generatePicture();
-        return String.format(postBody, postContent, postPicture, visibility);
-    }
+//    public static Comment[] findCommentsOfAPost(PostRequest post) {
+//
+//        Response response = given()
+//                .queryParam("postId", post.getPostId())
+//                .get(API + COMMENTS_OF_POST);
+//
+//        int statusCode = response.getStatusCode();
+//        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+//
+//        Comment[] postComments = new Gson().fromJson(response.getBody().asString(), Comment[].class);
+//
+//        return postComments;
+//    }
+//
+//    public static Comment[] findAllCommentsOfAPost(UserRequest user, PostRequest post) {
+//
+//        Response response = given()
+//                .auth()
+//                .form(user.getUsername(), user.getPassword(),
+//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
+//                .queryParam("postId", post.getPostId())
+//                .get(API + COMMENT_BY_POST);
+//
+//        int statusCode = response.getStatusCode();
+//        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+//
+//        Comment[] postComments = new Gson().fromJson(response.getBody().asString(), Comment[].class);
+//
+//        return postComments;
+//    }
+//
+//    static String generatePostBody(boolean visibility) {
+//        String postContent = Helpers.generatePostContent();
+//        String postPicture = Helpers.generatePicture();
+//        return String.format(postBody, postContent, postPicture, visibility);
+//    }
 }

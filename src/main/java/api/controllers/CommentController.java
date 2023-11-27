@@ -5,7 +5,7 @@ import com.telerikacademy.testframework.utils.Helpers;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
 import api.models.Comment;
-import api.models.Post;
+import api.models.PostRequest;
 import api.models.UserRequest;
 
 import static com.telerikacademy.testframework.utils.Constants.API;
@@ -40,41 +40,41 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static Comment createComment(UserRequest user, Post post) {
-
-        String commentContent = Helpers.generateCommentContent();
-        boolean deletedConfirmed = true;
-        int postId = post.getPostId();
-        int userId = user.getId();
-
-        String body = String.format(commentBody, commentContent, deletedConfirmed, postId, userId);
-
-        Response response = given()
-                .auth()
-                .form(user.getUsername(), user.getPassword(),
-                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-                .contentType("application/json")
-                .body(body)
-                .post(API + CREATE_COMMENT);
-
-        int statusCode = response.getStatusCode();
-
-        if (statusCode == 500) {
-            return null;
-        }
-
-        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-        assertEquals(response.jsonPath().getString("content"), commentContent, "Contents do not match.");
-        Comment comment = response.as(Comment.class);
-
-        comment.setUser(user);
-        comment.setPost(post);
-
-        LOGGER.info(String.format("Comment with id %d created.", comment.getCommentId()));
-
-        return comment;
-
-    }
+//    public static Comment createComment(UserRequest user, PostRequest post) {
+//
+//        String commentContent = Helpers.generateCommentContent();
+//        boolean deletedConfirmed = true;
+//        int postId = post.getPostId();
+//        int userId = user.getId();
+//
+//        String body = String.format(commentBody, commentContent, deletedConfirmed, postId, userId);
+//
+//        Response response = given()
+//                .auth()
+//                .form(user.getUsername(), user.getPassword(),
+//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
+//                .contentType("application/json")
+//                .body(body)
+//                .post(API + CREATE_COMMENT);
+//
+//        int statusCode = response.getStatusCode();
+//
+//        if (statusCode == 500) {
+//            return null;
+//        }
+//
+//        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
+//        assertEquals(response.jsonPath().getString("content"), commentContent, "Contents do not match.");
+//        Comment comment = response.as(Comment.class);
+//
+//        comment.setUser(user);
+//        comment.setPost(post);
+//
+//        LOGGER.info(String.format("Comment with id %d created.", comment.getCommentId()));
+//
+//        return comment;
+//
+//    }
 
     public static boolean commentExists(int commentId) {
 
@@ -160,15 +160,15 @@ public class CommentController extends BaseWeAreApi {
 
     }
 
-    public static void assertEditedComment(UserRequest user, Post post, int commentId, String contentToBeEdited) {
-
-        Comment[] postComments = PostController.findAllCommentsOfAPost(user, post);
-
-        for (Comment postComment : postComments) {
-            if (postComment.getCommentId() == commentId) {
-                assertNotEquals(postComment.getContent(), contentToBeEdited, "Contents are the same.");
-                break;
-            }
-        }
-    }
+//    public static void assertEditedComment(UserRequest user, PostRequest post, int commentId, String contentToBeEdited) {
+//
+//        Comment[] postComments = PostController.findAllCommentsOfAPost(user, post);
+//
+//        for (Comment postComment : postComments) {
+//            if (postComment.getCommentId() == commentId) {
+//                assertNotEquals(postComment.getContent(), contentToBeEdited, "Contents are the same.");
+//                break;
+//            }
+//        }
+//    }
 }
