@@ -53,18 +53,13 @@ public class UserController extends BaseWeAreApi {
 
 
     public static UserResponse getUserById(String principal, int userId) {
-        Response response = given()
+        return given()
                 .queryParam("principal", principal)
                 .get(String.format(API + USER_BY_ID, userId))
                 .then()
                 .assertThat()
                 .statusCode(SC_OK)
-                .extract().response();
-
-        LOGGER.info(String.format("User with id %d found", userId));
-
-        return new Gson().fromJson(response.getBody().asString(), UserResponse.class);
-
+                .extract().response().as(UserResponse.class);
     }
 
 
@@ -91,7 +86,7 @@ public class UserController extends BaseWeAreApi {
     public static PersonalProfileRequest updatePersonalProfile(
             int userId, PersonalProfileRequest personalProfileData, String cookieValue) {
 
-        Response response = given()
+        return given()
                 .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
                 .contentType(ContentType.JSON)
                 .body(personalProfileData)
@@ -99,17 +94,13 @@ public class UserController extends BaseWeAreApi {
                 .then()
                 .assertThat()
                 .statusCode(SC_OK)
-                .extract().response();
-
-        LOGGER.info(String.format("Personal profile of user with id %d was updated",
-                userId));
-        return new Gson().fromJson(response.getBody().asString(), PersonalProfileRequest.class);
+                .extract().response().as(PersonalProfileRequest.class);
     }
 
     public static ExpertiseProfileResponse editExpertiseProfile(
             int userId, ExpertiseProfileRequest expertiseProfileData, String cookieValue) {
 
-        Response response = given()
+        return given()
                 .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
                 .contentType("application/json")
                 .body(expertiseProfileData)
@@ -117,39 +108,21 @@ public class UserController extends BaseWeAreApi {
                 .then()
                 .assertThat()
                 .statusCode(SC_OK)
-                .extract().response();
-
-        LOGGER.info(String.format("Expertise profile of user with id %d was updated",
-                userId));
-        return new Gson().fromJson(response.getBody().asString(), ExpertiseProfileResponse.class);
+                .extract().response().as(ExpertiseProfileResponse.class);
     }
 
-//        public static UserBySearch searchUser ( int userId, String firstname){
-//
-//            int index = 0;
-//            boolean next = true;
-//            String searchParam1 = "";
-//            String searchParam2 = firstname;
-//            int size = 1000000;
-//
-//            String body = String.format(searchUsersBody, index, next, searchParam1, searchParam2, size);
-//
-//            Response response = given()
-//                    .contentType("application/json")
-//                    .body(body)
-//                    .post(API + USERS);
-//
-//            int statusCode = response.getStatusCode();
-//            assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-//
-//            UserBySearch[] foundUsers = new Gson().fromJson(response.getBody().asString(), UserBySearch[].class);
-//            for (UserBySearch userBySearchModel : foundUsers) {
-//                if (userBySearchModel.getUserId() == userId) {
-//                    return userBySearchModel;
-//                }
-//            }
-//            return null;
-//        }
+    public static AllUsersResponse[] getUsers(AllUsersRequest request) {
+
+        return given()
+                .contentType("application/json")
+                .body(request)
+                .post(API + USERS)
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response().as(AllUsersResponse[].class);
+    }
+
     public static Response authUser(String username, String password) {
         return given()
                 .multiPart("username", username)

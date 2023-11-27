@@ -5,6 +5,7 @@ import com.telerikacademy.testframework.utils.Authority;
 import factories.ExpertiseFactory;
 import factories.ProfileFactory;
 import factories.UserFactory;
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.Test;
 import api.controllers.UserController;
 import api.models.models.*;
@@ -82,15 +83,26 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
     public void shouldRetrieveUsersByExpertiseAndName() {
+        user = UserFactory.createUser();
+        UserResponse registeredUser = UserController.registerUser(new UserRequest(Authority.ROLE_USER.toString(), user));
+        user.setProfile(ProfileFactory.createProfile());
+        PersonalProfileRequest update = new PersonalProfileRequest(user);
+        cookieValue = getCookieValue(user);
+        PersonalProfileRequest editedProfile = UserController.updatePersonalProfile(registeredUser.getId(), update, cookieValue);
 
-//        String firstname = globalRestApiUser.getPersonalProfile().getFirstName();
-//
-//        UserBySearch userAfterSearch = searchUser(globalRestApiUser.getId(), firstname);
-//
-//        assert userAfterSearch != null;
-//        assertEquals(userAfterSearch.getUsername(), globalRestApiUser.getUsername(), "User was not found");
-//        assertEquals(userAfterSearch.getUserId(), globalRestApiUser.getId(), "User was not found");
+        AllUsersRequest allUsersRequest = new AllUsersRequest(0, true, "", editedProfile.getFirstName(), 10);
+        AllUsersResponse[] users = UserController.getUsers(allUsersRequest);
 
+        for (AllUsersResponse responseUser : users) {
+            UserResponse returnedUser = UserController.getUserById("admin", responseUser.getUserId());
+
+            Assertions.assertEquals(editedProfile.getFirstName(), returnedUser.getFirstName(),
+                    "The username didn't match.");
+            Assertions.assertEquals(responseUser.getUsername(), returnedUser.getUsername(),
+                    "The username didn't match.");
+            Assertions.assertEquals(responseUser.getUserId(), returnedUser.getId(),
+                    "The id didn't match.");
+        }
     }
 
     @Test
