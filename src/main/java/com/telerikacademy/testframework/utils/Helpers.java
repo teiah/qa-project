@@ -10,11 +10,6 @@ import java.text.SimpleDateFormat;
 import static com.telerikacademy.testframework.utils.Authority.ROLE_ADMIN;
 
 public class Helpers {
-    public enum Sex {
-        MALE,
-        FEMALE
-    }
-
     private static Faker faker = new Faker();
 
     public static int generateCategoryId() {
@@ -71,7 +66,30 @@ public class Helpers {
     }
 
     public static String generateSkill() {
-        return faker.lorem().characters(5, 10);
+        String[] skillNames = {"Programming", "Design", "Communication", "Problem Solving", "Teamwork", "Time Management"};
+        Random random = new Random();
+
+//        Expertise[] categories = Expertise.values();
+//        Expertise randomCategory = categories[random.nextInt(categories.length)];
+
+        return skillNames[random.nextInt(skillNames.length)];
+    }
+
+//    public static Skill generateSkill() {
+//        String[] skillNames = {"Programming", "Design", "Communication", "Problem Solving", "Teamwork", "Time Management"};
+//        Expertise[] expertiseValues = Expertise.values();
+//        Random random = new Random();
+//        String randomSkillName = skillNames[random.nextInt(skillNames.length)];
+//        Expertise randomCategory = expertiseValues[random.nextInt(expertiseValues.length)];
+//
+//        return new Skill(randomSkillName, randomCategory);
+//    }
+
+    public static Expertise generateExpertise(){
+        Expertise[] expertiseNames = Expertise.values();
+        Random random = new Random();
+        int randomIndex = random.nextInt(expertiseNames.length);
+        return expertiseNames[randomIndex];
     }
 
     public static String generatePostContent() {
@@ -87,9 +105,17 @@ public class Helpers {
         return random.nextBoolean();
     }
 
-    public static String generateSex() {
+    public static Gender generateGender() {
         Random random = new Random();
-        int randomIndex = random.nextInt(Sex.values().length);
-        return Sex.values()[randomIndex].toString();
+        return Gender.values()[random.nextInt(Gender.values().length)];
+    }
+
+
+    public static int generateAvailability() {
+        Random random = new Random();
+        int HOURS_MIN = 1;
+        int HOURS_MAX = 40;
+
+        return random.nextInt(HOURS_MAX - HOURS_MIN + 1) + HOURS_MIN;
     }
 }
