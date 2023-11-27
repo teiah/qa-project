@@ -14,14 +14,6 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;
 
 public class UserController extends BaseWeAreApi {
-    static final String searchUsersBody = "{\n" +
-            "  \"index\": %s,\n" +
-            "  \"next\": %s,\n" +
-            "  \"searchParam1\": \"%s\",\n" +
-            "  \"searchParam2\": \"%s\",\n" +
-            "  \"size\": %s\n" +
-            "}";
-
 
     public static UserResponse registerUser(UserRequest user) {
         Response responseBody = given()
@@ -50,7 +42,6 @@ public class UserController extends BaseWeAreApi {
         return userResponse;
     }
 
-
     public static UserResponse getUserById(String principal, int userId) {
         return given()
                 .queryParam("principal", principal)
@@ -60,27 +51,6 @@ public class UserController extends BaseWeAreApi {
                 .statusCode(SC_OK)
                 .extract().response().as(UserResponse.class);
     }
-
-
-//        public static void setPersonalProfileFirstName (User user, String firstName){
-//
-//            String body = String.format(personalProfileBodyFirstName, firstName);
-//
-//            Response editProfileResponse = given()
-//                    .auth()
-//                    .form(user.getUsername(), user.getPassword(),
-//                            new FormAuthConfig(AUTHENTICATE, "username", "password"))
-//                    .contentType("application/json")
-//                    .body(body)
-//                    .post(String.format(API + UPGRADE_USER_PERSONAL_WITH_ID, user.getId()));
-//
-//            int statusCode = editProfileResponse.getStatusCode();
-//            assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-//            user.setPersonalProfile(editProfileResponse.as(PersonalProfile.class));
-//            assertEquals(user.getPersonalProfile().getFirstName(), firstName);
-//            LOGGER.info(String.format("First name of user %s with id %d was set to %s.", user.getUsername(),
-//                    user.getId(), user.getPersonalProfile().getFirstName()));
-//        }
 
     public static PersonalProfileRequest updatePersonalProfile(
             int userId, PersonalProfileRequest personalProfileData, String cookieValue) {
@@ -111,7 +81,6 @@ public class UserController extends BaseWeAreApi {
     }
 
     public static AllUsersResponse[] getUsers(AllUsersRequest request) {
-
         return given()
                 .contentType("application/json")
                 .body(request)
@@ -127,8 +96,6 @@ public class UserController extends BaseWeAreApi {
                 .multiPart("username", username)
                 .multiPart("password", password)
                 .post(Utils.getConfigPropertyByKey("weare.auth"));
-
     }
 
 }
-
