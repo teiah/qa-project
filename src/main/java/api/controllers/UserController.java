@@ -103,56 +103,26 @@ public class UserController extends BaseWeAreApi {
 
         LOGGER.info(String.format("Personal profile of user with id %d was updated",
                 userId));
-        return new Gson().fromJson(response.getBody().asString(), PersonalProfile.class);
+        return new Gson().fromJson(response.getBody().asString(), PersonalProfileRequest.class);
     }
-//
-//        public static void editExpertiseProfile (User user, ExpertiseProfile expertiseProfileEditData){
-//
-//            double availability = expertiseProfileEditData.getAvailability();
-//            int categoryId = expertiseProfileEditData.getCategory().getId();
-//            String categoryName = expertiseProfileEditData.getCategory().getName();
-//            String skill1 = expertiseProfileEditData.getSkills().get(0).getSkill();
-//            String skill2 = expertiseProfileEditData.getSkills().get(1).getSkill();
-//            String skill3 = expertiseProfileEditData.getSkills().get(2).getSkill();
-//            String skill4 = expertiseProfileEditData.getSkills().get(3).getSkill();
-//            String skill5 = expertiseProfileEditData.getSkills().get(4).getSkill();
-//
-//            String body = String.format(expertiseProfileBody, availability, categoryId, categoryName, skill1, skill2, skill3,
-//                    skill4, skill5);
-//
-//            Response response = given()
-//                    .auth()
-//                    .form(user.getUsername(), user.getPassword(),
-//                            new FormAuthConfig(AUTHENTICATE, "username", "password"))
-//                    .contentType("application/json")
-//                    .body(body)
-//                    .post(String.format(API + UPGRADE_USER_EXPERTISE_WITH_ID, user.getId()))
-//                    .then()
-//                    .assertThat()
-//                    .statusCode(SC_OK)
-//                    .extract().response();
-//
-//            user.setExpertiseProfile(response.as(ExpertiseProfile.class));
-//            assertEditExpertiseProfile(user.getExpertiseProfile(), expertiseProfileEditData);
-//
-//            LOGGER.info(String.format("Expertise profile of user %s with id %d was updated", user.getUsername(), user.getId()));
-//
-//        }
-//
-//        private static void assertEditExpertiseProfile (ExpertiseProfile userExpertiseProfile, ExpertiseProfile
-//        expertiseProfile){
-//
-//            assertEquals(userExpertiseProfile.getCategory().getId(), expertiseProfile.getCategory().getId(),
-//                    "Category ids do not match.");
-//            assertEquals(userExpertiseProfile.getCategory().getName(), expertiseProfile.getCategory().getName(),
-//                    "Category names do not match.");
-//            assertEquals(userExpertiseProfile.getAvailability(), expertiseProfile.getAvailability(),
-//                    "Availabilities do not match.");
-//            assertEquals(userExpertiseProfile.getSkills().size(), expertiseProfile.getSkills().size(),
-//                    "Availabilities do not match.");
-//
-//        }
-//
+
+    public static ExpertiseProfileResponse editExpertiseProfile(
+            int userId, ExpertiseProfileRequest expertiseProfileData, String cookieValue) {
+
+        Response response = given()
+                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
+                .contentType("application/json")
+                .body(expertiseProfileData)
+                .post(String.format(API + UPGRADE_USER_EXPERTISE_WITH_ID, userId))
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
+
+        LOGGER.info(String.format("Expertise profile of user with id %d was updated",
+                userId));
+        return new Gson().fromJson(response.getBody().asString(), ExpertiseProfileResponse.class);
+    }
 
 //        public static UserBySearch searchUser ( int userId, String firstname){
 //

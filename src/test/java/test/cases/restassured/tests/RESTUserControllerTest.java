@@ -60,42 +60,24 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
                 "Pictures' privacy do not match.");
     }
 
-    @Ignore
+
     @Test
     public void shouldEditExpertiseProfile() {
+        user = UserFactory.createUser();
+        UserResponse registeredUser = UserController.registerUser(new UserRequest(Authority.ROLE_USER.toString(), user));
+        cookieValue = getCookieValue(user);
+        user.getProfile().setSkills(ExpertiseFactory.createSkills());
+        ExpertiseProfileRequest update = new ExpertiseProfileRequest(user);
+        ExpertiseProfileResponse editedProfile = UserController.editExpertiseProfile(
+                registeredUser.getId(), update, cookieValue);
+        UserResponse userFromGetRequest = UserController.getUserById(registeredUser.getUsername(), registeredUser.getId());
 
-        ExpertiseProfile expertiseProfile = new ExpertiseProfile();
-        double availability = 8;
-        int categoryId = 100;
-        String categoryName = "All";
-        String skill1 = Helpers.generateSkill();
-        String skill2 = Helpers.generateSkill();
-        String skill3 = Helpers.generateSkill();
-        String skill4 = Helpers.generateSkill();
-        String skill5 = Helpers.generateSkill();
 
-        expertiseProfile.setAvailability(availability);
-        Category category = new Category();
-        expertiseProfile.setCategory(category);
-        expertiseProfile.getCategory().setId(categoryId);
-        expertiseProfile.getCategory().setName(categoryName);
+        assertEquals(editedProfile.getAvailability(), update.getAvailability(), "Availability does not match.");
 
-        for (int i = 0; i < 5; i++) {
-            expertiseProfile.getSkills().add(new Skill());
-        }
-        expertiseProfile.getSkills().get(0).setSkill(skill1);
-        expertiseProfile.getSkills().get(1).setSkill(skill2);
-        expertiseProfile.getSkills().get(2).setSkill(skill3);
-        expertiseProfile.getSkills().get(3).setSkill(skill4);
-        expertiseProfile.getSkills().get(4).setSkill(skill5);
+        assertEquals(editedProfile.getCategory().getName(), update.getCategory().getName(), "Category does not match.");
+        assertEquals(userFromGetRequest, registeredUser);
 
-//        assertNotEquals(globalRestApiUser.getExpertiseProfile().toString(), expertiseProfile.toString(),
-//                "Expertise profiles match.");
-//
-//        UserController.editExpertiseProfile(globalRestApiUser, expertiseProfile);
-//
-//        assertEquals(globalRestApiUser.getExpertiseProfile().toString(), expertiseProfile.toString(),
-//                "User expertise profile was not updated.");
     }
 
     @Test
