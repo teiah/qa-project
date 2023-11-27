@@ -93,8 +93,8 @@ public class UserController extends BaseWeAreApi {
 //                    user.getId(), user.getPersonalProfile().getFirstName()));
 //        }
 
-    public static PersonalProfile updatePersonalProfile(
-            int userId, PersonalProfile personalProfileData, String cookieValue) {
+    public static PersonalProfileRequest updatePersonalProfile(
+            int userId, PersonalProfileRequest personalProfileData, String cookieValue) {
 
         Response response = given()
                 .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)

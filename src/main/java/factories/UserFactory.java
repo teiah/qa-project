@@ -1,5 +1,6 @@
 package factories;
 
+import com.telerikacademy.testframework.models.PersonalProfile;
 import com.telerikacademy.testframework.models.User;
 import com.telerikacademy.testframework.utils.Helpers;
 
@@ -18,5 +19,10 @@ public class UserFactory {
 
         return new User(Helpers.generateUsername(ROLE_ADMIN.toString()), Helpers.generateEmail(),
                 Helpers.generatePassword(), Helpers.generateExpertise());
+    }
+
+    public static User createUserWithProfile(PersonalProfile profile) {
+        return new User(Helpers.generateUsername(ROLE_USER.toString()), Helpers.generateEmail(),
+                Helpers.generatePassword(), Helpers.generateExpertise(), profile);
     }
 }

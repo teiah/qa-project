@@ -44,9 +44,10 @@ public class RESTUserControllerTest extends BaseWeareRestAssuredTest {
         user = UserFactory.createUser();
         UserResponse registeredUser = UserController.registerUser(new UserRequest(Authority.ROLE_USER.toString(), user));
         cookieValue = getCookieValue(user);
-        PersonalProfile update = ProfileFactory.createProfile();
+        user.setProfile(ProfileFactory.createProfile());
+        PersonalProfileRequest update = new PersonalProfileRequest(user);
 
-        PersonalProfile editedProfile = UserController.updatePersonalProfile(registeredUser.getId(), update, cookieValue);
+        PersonalProfileRequest editedProfile = UserController.updatePersonalProfile(registeredUser.getId(), update, cookieValue);
 
         assertEquals(editedProfile.getFirstName(), update.getFirstName(), "First names do not match.");
         assertEquals(editedProfile.getLastName(), update.getLastName(), "Last names do not match.");

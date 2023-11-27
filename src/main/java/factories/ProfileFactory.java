@@ -1,27 +1,29 @@
 package factories;
 
-import api.models.models.ApiLocation;
-import api.models.models.PersonalProfile;
+
 import com.telerikacademy.testframework.utils.Helpers;
-import com.telerikacademy.testframework.utils.Location;
+import com.telerikacademy.testframework.models.PersonalProfile;
+
+
 
 public class ProfileFactory {
 
     public static PersonalProfile createProfile() {
+        PersonalProfile profile = new PersonalProfile(
+                Helpers.generateFirstName(), Helpers.generateLastName(),
+                Helpers.generateBirthdayDate(), Helpers.generateCity() );
+        profile.setGender(Helpers.generateGender());
+        profile.setPersonalReview(Helpers.generatePersonalReview());
+        return profile;
+    }
 
-        String birthYear = Helpers.generateBirthdayDate();
-        String firstName = Helpers.generateFirstName();
-        String lastName = Helpers.generateLastName();
-        Location city = Helpers.generateCity();
+    public static PersonalProfile createProfileWithSkills() {
+        PersonalProfile profile = new PersonalProfile(
+                Helpers.generateFirstName(), Helpers.generateLastName(),
+                Helpers.generateBirthdayDate(), Helpers.generateCity());
+        profile.setGender(Helpers.generateGender());
 
-        String personalReview = Helpers.generatePersonalReview();
-        String picture = Helpers.generatePicture();
-        boolean picturePrivacy = Helpers.generatePrivacy();
-        String sex = Helpers.generateSex();
-
-        ApiLocation location = new ApiLocation(city);
-        return new PersonalProfile(
-                firstName, lastName, sex, location, birthYear, personalReview, picture, picturePrivacy);
-
+        profile.setSkills(ExpertiseFactory.createSkills());
+        return profile;
     }
 }

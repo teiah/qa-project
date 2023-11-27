@@ -14,12 +14,18 @@ public class User {
     private Expertise category;
 
 
-    public User(String username, String email, String password, Expertise category) {
+    public User(String username, String email, String password, Expertise category, PersonalProfile profile) {
         setUsername(username);
         setEmail(email);
         setPassword(password);
         setCategory(category);
         setPersonalProfile(new PersonalProfile());
+    }
+    public User(String username, String email, String password, Expertise category) {
+        setUsername(username);
+        setEmail(email);
+        setPassword(password);
+        setCategory(category);
     }
 
     private void setPersonalProfile(PersonalProfile personalProfile) {
