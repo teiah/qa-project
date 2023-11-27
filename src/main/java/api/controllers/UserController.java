@@ -22,11 +22,6 @@ public class UserController extends BaseWeAreApi {
             "  \"searchParam2\": \"%s\",\n" +
             "  \"size\": %s\n" +
             "}";
-    private static final String personalProfileBodyFirstName = "{\n" +
-            "\"firstName\": \"%s\",\n" +
-            "\"location\": {\n" +
-            "}\n" +
-            "}";
 
 
     public static UserResponse registerUser(UserRequest user) {
@@ -105,8 +100,6 @@ public class UserController extends BaseWeAreApi {
                 .assertThat()
                 .statusCode(SC_OK)
                 .extract().response();
-
-//        user.setPersonalProfile(response.as(PersonalProfile.class));
 
         LOGGER.info(String.format("Personal profile of user with id %d was updated",
                 userId));
