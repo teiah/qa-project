@@ -31,6 +31,8 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     private PostRequest postRequest;
     private PostResponse postResponse;
 
+    private boolean deleted = false;
+
 
     @BeforeClass
     public void userSetup() {
@@ -176,20 +178,17 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
                         .anyMatch(x -> x.getUsername().equals(user.getUsername())),
                 "The response body doesn't contain the user with whom the post was liked.");
     }
-//
-//    @Test
-//    public void privatePostDeleted_By_Author() {
-//
-//        boolean publicVisibility = false;
-//
-//        Post postToBeDeleted = PostController.createPost(globalRestApiUser, publicVisibility);
-//        int postId = postToBeDeleted.getPostId();
-//        assertTrue(PostController.privatePostExists(globalRestApiUser, postId), "Post not created.");
-//
-//        PostController.deletePost(globalRestApiUser, postId);
-//        assertFalse(PostController.privatePostExists(globalRestApiUser, postId), "Post was not deleted.");
-//
-//    }
+
+    @Test
+    public void deletePost() {
+        PostController.deletePost(postResponse.getPostId(), authCookie);
+        deleted = true;
+
+        PostResponse[] posts = PostController.getAllPosts(authCookie);
+        Assertions.assertFalse(Arrays.stream(posts)
+                        .anyMatch(x -> x.getPostId() == postId && x.getContent().equals(postResponse.getContent())),
+                "The deletion was unsuccessful, Get All Request's body still contains the post.");
+    }
 //
 //    @Test
 //    public void privatePostDeleted_By_AdminUser_When_NotAuthor() {

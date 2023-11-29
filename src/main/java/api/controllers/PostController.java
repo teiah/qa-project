@@ -88,22 +88,16 @@ public class PostController extends BaseWeAreApi {
 //
 //    }
 
-//    public static void deletePost(UserRequest user, int postId) {
-//
-//        Response response = given()
-//                .auth()
-//                .form(user.getUsername(), user.getPassword(),
-//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-//                .queryParam("postId", postId)
-//                .delete(API + DELETE_POST)
-//                .then()
-//                .assertThat()
-//                .statusCode(SC_OK)
-//                .extract().response();
-//
-//        LOGGER.info(String.format("Post with id %d deleted.", postId));
-//
-//    }
+    public static Response deletePost(int postId, String cookieValue) {
+        return given()
+                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
+                .queryParam("postId", postId)
+                .delete(API + DELETE_POST)
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
+    }
 
     public static PostResponse[] getAllPosts(String cookieValue) {
         return given()
