@@ -1,10 +1,7 @@
 package test.cases.restassured.tests;
 
-import api.models.EditPostRequest;
-import api.models.PostRequest;
-import api.models.PostResponse;
+import api.models.*;
 
-import api.models.UserRequest;
 import com.telerikacademy.testframework.models.User;
 import com.telerikacademy.testframework.models.Post;
 import com.telerikacademy.testframework.utils.Authority;
@@ -12,6 +9,7 @@ import com.telerikacademy.testframework.utils.Helpers;
 import factories.PostFactory;
 import factories.UserFactory;
 import com.telerikacademy.testframework.utils.Visibility;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.*;
 import api.controllers.PostController;
@@ -20,12 +18,14 @@ import api.controllers.UserController;
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.testng.Assert.*;
 
 public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
-    private String authCookie;
+    private String cookieValue;
     private User user;
+    private UserResponse registeredUser;
     private Post post;
     private int postId;
     private PostRequest postRequest;
@@ -38,15 +38,15 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     public void userSetup() {
         user = UserFactory.createUser();
         UserRequest userRequest = new UserRequest(Authority.ROLE_USER.toString(), user);
-        UserController.registerUser(userRequest);
-        authCookie = getCookieValue(user);
+        registeredUser = UserController.registerUser(userRequest);
+        cookieValue = getCookieValue(user);
     }
 
     @BeforeMethod
     public void postSetup() {
         post = PostFactory.createPost(user, Visibility.PUBLIC);
         postRequest = new PostRequest(post);
-        postResponse = PostController.createPost(postRequest, authCookie);
+        postResponse = PostController.createPost(postRequest, cookieValue);
         postId = postResponse.getPostId();
     }
 
@@ -56,8 +56,8 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
                 "The post's content doesn't match the expected content.");
     }
 
-    //
-//    @Test
+
+    //    @Test
 //    public void privatePostCreated_When_ValidDataProvided() {
 //
 //        boolean publicVisibility = false;
@@ -72,16 +72,16 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     public void editPublicPost() {
         EditPostRequest postEditRequest = new EditPostRequest(Helpers.generatePostContent());
 
-        PostController.editPost(postId, postEditRequest, authCookie);
+        PostController.editPost(postId, postEditRequest, cookieValue);
 
-        PostResponse[] posts = PostController.getAllPosts(authCookie);
+        PostResponse[] posts = PostController.getAllPosts(cookieValue);
         Assertions.assertTrue(Arrays.stream(posts)
                         .anyMatch(x -> x.getPostId() == postId && x.getContent().equals(postEditRequest.getContent())),
                 "Get All Request's body doesn't contain the new content of the post.");
     }
 
-    //
-//    @Test
+
+    //    @Test
 //    public void privatePostEdited_By_Author() {
 //
 //        boolean publicVisibility = false;
@@ -134,45 +134,20 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 //
 //    }
 //
-//    @Test
-//    public void allPostsListed_When_Requested_By_User() {
-//
-//        List<Integer> postIds = new ArrayList<>();
-//
-//        boolean publicVisibility = true;
-//
-//        int postCount = 5;
-//
-//        for (int i = 0; i < postCount; i++) {
-//            Post post = PostController.createPost(globalRestApiUser, publicVisibility);
-//            assertTrue(PostController.publicPostExists(post.getPostId()), "Post not created.");
-//            postIds.add(post.getPostId());
-//        }
-//        publicVisibility = false;
-//        for (int i = 0; i < postCount; i++) {
-//            Post post = PostController.createPost(globalRestApiUser, publicVisibility);
-//            assertTrue(PostController.privatePostExists(globalRestApiUser, post.getPostId()), "Post not created.");
-//            postIds.add(post.getPostId());
-//        }
-//
-//        Post[] foundPosts = PostController.findAllPosts();
-//
-//        for (Post foundPost : foundPosts) {
-//            if (postIds.contains(foundPost.getPostId())) {
-//                assertNotNull(foundPost, "Post is null");
-//                PostController.deletePost(globalRestApiUser, foundPost.getPostId());
-//                postIds.remove(foundPost.getPostId());
-//                assertFalse(PostController.publicPostExists(foundPost.getPostId()), "Post was not deleted.");
-//            }
-//        }
-//
-//        assertEquals(postIds.size(), 0, "Some posts were not received");
-//
-//    }
-//
+    @Test
+    public void getProfilePosts() {
+        AllUsersRequest profilePostsRequest = new AllUsersRequest(0, true, "", "", 10);
+
+        PostResponse[] posts = PostController.getAllProfilePosts(profilePostsRequest, registeredUser.getId(), cookieValue);
+
+        assertTrue(Arrays.stream(posts)
+                .anyMatch(x -> x.getPostId() == postResponse.getPostId()
+                        && Objects.equals(x.getContent(), postResponse.getContent())));
+    }
+
     @Test
     public void likePost() {
-        PostResponse likedPost = PostController.likePost(postResponse.getPostId(), authCookie);
+        PostResponse likedPost = PostController.likePost(postResponse.getPostId(), cookieValue);
 
         assertTrue(Arrays.stream(likedPost.getLikes())
                         .anyMatch(x -> x.getUsername().equals(user.getUsername())),
@@ -181,16 +156,17 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 
     @Test
     public void deletePost() {
-        PostController.deletePost(postResponse.getPostId(), authCookie);
+        PostController.deletePost(postResponse.getPostId(), cookieValue);
         deleted = true;
 
-        PostResponse[] posts = PostController.getAllPosts(authCookie);
+        PostResponse[] posts = PostController.getAllPosts(cookieValue);
         Assertions.assertFalse(Arrays.stream(posts)
                         .anyMatch(x -> x.getPostId() == postId && x.getContent().equals(postResponse.getContent())),
                 "The deletion was unsuccessful, Get All Request's body still contains the post.");
     }
-//
-//    @Test
+
+
+    //    @Test
 //    public void privatePostDeleted_By_AdminUser_When_NotAuthor() {
 //
 //        boolean publicVisibility = false;
@@ -216,48 +192,15 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 //
 //    }
 //
-//    @Test
-//    public void postCommentsListed_When_Requested_By_User() {
-//
-//        List<Integer> commentIds = new ArrayList<>();
-//
-//        User newUser = new User();
-//        String password = Helpers.generatePassword();
-//        String email = Helpers.generateEmail();
-//        String authority = ROLE_USER.toString();
-//        String username = Helpers.generateUsernameAsImplemented(authority);
-//
-//        UserController.register(newUser, username, password, email, authority);
-//
-//        boolean publicVisibility = true;
-//
-//        Post post = PostController.createPost(globalRestApiUser, publicVisibility);
-//        assertTrue(PostController.publicPostExists(post.getPostId()), "Post not created.");
-//
-//        int commentCount = 3;
-//
-//        for (int i = 0; i < commentCount; i++) {
-//            Comment comment = CommentController.createComment(newUser, post);
-//            assertTrue(CommentController.commentExists(comment.getCommentId()), "Comment not created.");
-//            commentIds.add(comment.getCommentId());
-//        }
-//
-//        Comment[] postComments = PostController.findCommentsOfAPost(post);
-//
-//        assertEquals(postComments.length, commentCount, "Wrong post comments count");
-//
-//        for (Comment comment : postComments) {
-//            if (commentIds.contains(comment.getCommentId())) {
-//                assertNotNull(comment, "Comment is null");
-//                CommentController.deleteComment(newUser, comment.getCommentId());
-//                assertFalse(CommentController.commentExists(comment.getCommentId()), "Post was not deleted.");
-//            }
-//        }
-//
-//        PostController.deletePost(globalRestApiUser, post.getPostId());
-//        assertFalse(PostController.publicPostExists(post.getPostId()), "Post was not deleted.");
-//
-//        UserController.disableUser(globalRestApiAdminUser, newUser);
-//    }
-//
+    @Test
+    public void postCommentsListed_When_Requested_By_User() {
+//        TODO: fix commentController first
+    }
+
+    @AfterEach
+    public void cleanup() {
+        if (!deleted) PostController.deletePost(postId, cookieValue);
+//        TODO: delete user too
+    }
+
 }

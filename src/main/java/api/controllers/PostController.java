@@ -1,5 +1,6 @@
 package api.controllers;
 
+import api.models.AllUsersRequest;
 import api.models.EditPostRequest;
 import api.models.PostResponse;
 import com.telerikacademy.testframework.utils.Utils;
@@ -53,33 +54,17 @@ public class PostController extends BaseWeAreApi {
                 .extract().response().as(PostResponse.class);
     }
 
-//    public static Post[] showProfilePosts(UserRequest user) {
-//
-//        int index = 0;
-//        boolean next = true;
-//        String searchParam1 = "";
-//        String searchParam2 = user.getPersonalProfile().getFirstName();
-//        int size = 1000000;
-//
-//        String body = String.format(searchUsersBody, index, next, searchParam1, searchParam2, size);
-//
-//        Response response = given()
-//                .auth()
-//                .form(user.getUsername(), user.getPassword(),
-//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-//                .contentType("application/json")
-//                .body(body)
-//                .get(String.format(API + USER_POSTS_WITH_ID, user.getId()))
-//                .then()
-//                .assertThat()
-//                .statusCode(SC_OK)
-//                .extract().response();
-//
-//        Post[] userPosts = new Gson().fromJson(response.getBody().asString(), Post[].class);
-//
-//        return userPosts;
-//
-//    }
+    public static PostResponse[] getAllProfilePosts(AllUsersRequest request, int userId, String cookieValue) {
+        return given()
+                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
+                .contentType("application/json")
+                .body(request)
+                .get(String.format(API + USER_POSTS_WITH_ID, userId))
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response().as(PostResponse[].class);
+    }
 
     public static Response deletePost(int postId, String cookieValue) {
         return given()
