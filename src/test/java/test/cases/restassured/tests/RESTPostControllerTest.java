@@ -1,34 +1,47 @@
-//package test.cases.restassured.tests;
-//
-//import api.models.Comment;
-//import api.models.Post;
-//import api.models.models.User;
-//import com.telerikacademy.testframework.utils.Helpers;
-//import org.testng.annotations.*;
-//import api.controllers.CommentController;
-//import api.controllers.PostController;
-//import api.controllers.UserController;
-//import test.cases.restassured.base.BaseWeareRestAssuredTest;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static com.telerikacademy.testframework.utils.Authority.*;
-//import static org.testng.Assert.*;
-//
-//public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
-//
-//    @Test
-//    public void publicPostCreated_When_ValidDataProvided() {
-//
-//        boolean publicVisibility = true;
-//        Post post = PostController.createPost(globalRestApiUser, publicVisibility);
-//
-//        assertTrue(PostController.publicPostExists(post.getPostId()), "Post not created.");
-//
-//        PostController.deletePost(globalRestApiUser, post.getPostId());
-//        assertFalse(PostController.publicPostExists(post.getPostId()), "Post was not deleted.");
-//    }
+package test.cases.restassured.tests;
+
+import api.models.PostRequest;
+import api.models.PostResponse;
+
+import api.models.UserRequest;
+import com.telerikacademy.testframework.models.User;
+import com.telerikacademy.testframework.models.Post;
+import com.telerikacademy.testframework.utils.Authority;
+import factories.PostFactory;
+import factories.UserFactory;
+import com.telerikacademy.testframework.utils.Visibility;
+import org.testng.annotations.*;
+import api.controllers.PostController;
+import api.controllers.UserController;
+
+import test.cases.restassured.base.BaseWeareRestAssuredTest;
+
+import static org.testng.Assert.*;
+
+public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
+    private String authCookie;
+    private User user;
+    private Post post;
+    private int postId;
+    private PostRequest postRequest;
+    private PostResponse postResponse;
+
+    @Test
+    public void createPost() {
+        user = UserFactory.createUser();
+        post = PostFactory.createPost(user, Visibility.PUBLIC);
+        UserRequest userRequest = new UserRequest(Authority.ROLE_USER.toString(), user);
+        UserController.registerUser(userRequest);
+        authCookie = getCookieValue(user);
+
+        postRequest = new PostRequest(post);
+        postResponse = PostController.createPost(postRequest, authCookie);
+        postId = postResponse.getPostId();
+
+       assertEquals(post.getContent(), postResponse.getContent(),
+                "The post's content doesn't match the expected content.");
+
+    }
 //
 //    @Test
 //    public void privatePostCreated_When_ValidDataProvided() {
@@ -250,4 +263,4 @@
 //        UserController.disableUser(globalRestApiAdminUser, newUser);
 //    }
 //
-//}
+}

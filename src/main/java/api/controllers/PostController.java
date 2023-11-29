@@ -1,19 +1,14 @@
 package api.controllers;
 
-import com.google.gson.Gson;
-import com.telerikacademy.testframework.utils.Helpers;
-import io.restassured.authentication.FormAuthConfig;
-import io.restassured.response.Response;
-import api.models.Comment;
+import api.models.PostResponse;
+import com.telerikacademy.testframework.utils.Utils;
 import api.models.PostRequest;
-import api.models.UserRequest;
+
 
 import static com.telerikacademy.testframework.utils.Constants.API;
 import static com.telerikacademy.testframework.utils.Endpoints.*;
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_OK;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
 
 public class PostController extends BaseWeAreApi {
 
@@ -23,31 +18,19 @@ public class PostController extends BaseWeAreApi {
             "  \"public\": " + "%s" + "\n" +
             "}";
 
-//    public static PostRequest createPost(UserRequest user, boolean publicVisibility) {
-//
-//        PostRequest post = given()
-//                .auth()
-//                .form(user.getUsername(), user.getPassword(),
-//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-//                .contentType("application/json")
-//                .body(generatePostBody(publicVisibility))
-//                .when()
-//                .post(API + CREATE_POST)
-//                .then()
-//                .assertThat()
-//                .statusCode(SC_OK)
-//                .extract()
-//                .response()
-//                .as(PostRequest.class);
-//
-//        if (publicVisibility) {
-//            LOGGER.info(String.format("Public post with id %d created by user %s.", post.getPostId(), user.getUsername()));
-//        } else {
-//            LOGGER.info(String.format("Private post with id %d created by user %s.", post.getPostId(), user.getUsername()));
-//        }
-//
-//        return post;
-//    }
+    public static PostResponse createPost(PostRequest post, String cookieValue) {
+
+        return given()
+                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue).contentType("application/json")
+                .body(post)
+                .when()
+                .post(API + CREATE_POST)
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response().as(PostResponse.class);
+
+    }
 
 //    public static void editPost(UserRequest user, PostRequest post) {
 //
