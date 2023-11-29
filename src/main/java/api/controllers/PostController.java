@@ -49,27 +49,16 @@ public class PostController extends BaseWeAreApi {
     }
 
 
-//    public static void likePost(UserRequest user, PostRequest postToBeLiked) {
-//
-//        int likesBefore = postToBeLiked.getLikes().size();
-//
-//        Response response = given()
-//                .auth()
-//                .form(user.getUsername(), user.getPassword(),
-//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-//                .queryParam("postId", postToBeLiked.getPostId())
-//                .post(API + LIKE_POST);
-//
-//        int statusCode = response.getStatusCode();
-//        assertEquals(statusCode, SC_OK, "Incorrect status code. Expected 200.");
-//
-//        int likesAfter = response.as(PostRequest.class).getLikes().size();
-//
-//        assertEquals(likesAfter, likesBefore + 1, "Post was not liked.");
-//
-//        postToBeLiked.getLikes().add(user);
-//
-//    }
+    public static PostResponse likePost(int postId, String cookieValue) {
+        return given()
+                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
+                .queryParam("postId", postId)
+                .post(API + LIKE_POST)
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response().as(PostResponse.class);
+    }
 
 //    public static Post[] showProfilePosts(UserRequest user) {
 //

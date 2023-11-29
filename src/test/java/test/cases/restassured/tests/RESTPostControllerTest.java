@@ -53,7 +53,8 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
         assertEquals(post.getContent(), postResponse.getContent(),
                 "The post's content doesn't match the expected content.");
     }
-//
+
+    //
 //    @Test
 //    public void privatePostCreated_When_ValidDataProvided() {
 //
@@ -76,7 +77,8 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
                         .anyMatch(x -> x.getPostId() == postId && x.getContent().equals(postEditRequest.getContent())),
                 "Get All Request's body doesn't contain the new content of the post.");
     }
-//
+
+    //
 //    @Test
 //    public void privatePostEdited_By_Author() {
 //
@@ -166,24 +168,14 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 //
 //    }
 //
-//    @Test
-//    public void postLiked_By_User() {
-//
-//        boolean publicVisibility = true;
-//        Post postToBeLiked = PostController.createPost(globalRestApiUser, publicVisibility);
-//        assertTrue(PostController.publicPostExists(postToBeLiked.getPostId()), "Post not created.");
-//
-//
-//        int likedPostLikesToHave = postToBeLiked.getLikes().size() + 1;
-//
-//        PostController.likePost(globalRestApiUser, postToBeLiked);
-//
-//        assertEquals(postToBeLiked.getLikes().size(), likedPostLikesToHave, "Post was not liked.");
-//
-//        PostController.deletePost(globalRestApiUser, postToBeLiked.getPostId());
-//        assertFalse(PostController.publicPostExists(postToBeLiked.getPostId()), "Post was not deleted.");
-//
-//    }
+    @Test
+    public void likePost() {
+        PostResponse likedPost = PostController.likePost(postResponse.getPostId(), authCookie);
+
+        assertTrue(Arrays.stream(likedPost.getLikes())
+                        .anyMatch(x -> x.getUsername().equals(user.getUsername())),
+                "The response body doesn't contain the user with whom the post was liked.");
+    }
 //
 //    @Test
 //    public void privatePostDeleted_By_Author() {
