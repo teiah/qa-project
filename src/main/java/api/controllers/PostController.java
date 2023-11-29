@@ -1,8 +1,10 @@
 package api.controllers;
 
+import api.models.EditPostRequest;
 import api.models.PostResponse;
 import com.telerikacademy.testframework.utils.Utils;
 import api.models.PostRequest;
+import io.restassured.response.Response;
 
 
 import static com.telerikacademy.testframework.utils.Constants.API;
@@ -21,7 +23,8 @@ public class PostController extends BaseWeAreApi {
     public static PostResponse createPost(PostRequest post, String cookieValue) {
 
         return given()
-                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue).contentType("application/json")
+                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
+                .contentType("application/json")
                 .body(post)
                 .when()
                 .post(API + CREATE_POST)
@@ -32,30 +35,19 @@ public class PostController extends BaseWeAreApi {
 
     }
 
-//    public static void editPost(UserRequest user, PostRequest post) {
-//
-//        boolean visibility = post.isPublic();
-//
-//        Response editedPostResponse = given()
-//                .auth()
-//                .form(user.getUsername(), user.getPassword(),
-//                        new FormAuthConfig(AUTHENTICATE, "username", "password"))
-//                .contentType("application/json")
-//                .queryParam("postId", post.getPostId())
-//                .body(String.format(generatePostBody(visibility)))
-//                .put(API + EDIT_POST)
-//                .then()
-//                .assertThat()
-//                .statusCode(SC_OK)
-//                .extract().response();
-//
-//        if (post.isPublic()) {
-//            LOGGER.info(String.format("Public post with id %d edited.", post.getPostId()));
-//        } else {
-//            LOGGER.info(String.format("Private post with id %d edited.", post.getPostId()));
-//        }
-//
-//    }
+    public static Response editPost(int postId, EditPostRequest postEditor, String cookieValue) {
+        return given()
+                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
+                .contentType("application/json")
+                .queryParam("postId", postId)
+                .body(postEditor)
+                .put(API + EDIT_POST)
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response();
+    }
+
 
 //    public static void likePost(UserRequest user, PostRequest postToBeLiked) {
 //
@@ -124,21 +116,15 @@ public class PostController extends BaseWeAreApi {
 //
 //    }
 
-//    public static PostRequest[] findAllPosts() {
-//
-//        Response response = given()
-//                .queryParam("name", "adminvHQOD")
-//                .get(API + POST)
-//                .then()
-//                .assertThat()
-//                .statusCode(SC_OK)
-//                .extract().response();
-//
-//        PostRequest[] foundPosts = response.as(PostRequest[].class);
-//
-//        return foundPosts;
-//
-//    }
+    public static PostResponse[] getAllPosts(String cookieValue) {
+        return given()
+                .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
+                .get(API + POST)
+                .then()
+                .assertThat()
+                .statusCode(SC_OK)
+                .extract().response().as(PostResponse[].class);
+    }
 
 //    public static boolean publicPostExists(int postId) {
 //

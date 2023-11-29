@@ -1,5 +1,6 @@
 package test.cases.restassured.tests;
 
+import api.models.EditPostRequest;
 import api.models.PostRequest;
 import api.models.PostResponse;
 
@@ -7,14 +8,18 @@ import api.models.UserRequest;
 import com.telerikacademy.testframework.models.User;
 import com.telerikacademy.testframework.models.Post;
 import com.telerikacademy.testframework.utils.Authority;
+import com.telerikacademy.testframework.utils.Helpers;
 import factories.PostFactory;
 import factories.UserFactory;
 import com.telerikacademy.testframework.utils.Visibility;
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.*;
 import api.controllers.PostController;
 import api.controllers.UserController;
 
 import test.cases.restassured.base.BaseWeareRestAssuredTest;
+
+import java.util.Arrays;
 
 import static org.testng.Assert.*;
 
@@ -60,22 +65,17 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
 //        assertFalse(PostController.privatePostExists(globalRestApiUser, post.getPostId()), "Post was not deleted.");
 //    }
 //
-//    @Test
-//    public void publicPostEdited_By_Author() {
-//
-//        boolean publicVisibility = true;
-//
-//        Post postToBeEdited = PostController.createPost(globalRestApiUser, publicVisibility);
-//        assertTrue(PostController.publicPostExists(postToBeEdited.getPostId()), "Post not created.");
-//
-//        String postToBeEditedContent = postToBeEdited.getContent();
-//
-//        PostController.editPost(globalRestApiUser, postToBeEdited);
-//        PostController.assertEditedPublicPost(postToBeEdited.getPostId(), postToBeEditedContent);
-//
-//        PostController.deletePost(globalRestApiUser, postToBeEdited.getPostId());
-//        assertFalse(PostController.publicPostExists(postToBeEdited.getPostId()), "Post was not deleted.");
-//    }
+    @Test
+    public void editPublicPost() {
+        EditPostRequest postEditRequest = new EditPostRequest(Helpers.generatePostContent());
+
+        PostController.editPost(postId, postEditRequest, authCookie);
+
+        PostResponse[] posts = PostController.getAllPosts(authCookie);
+        Assertions.assertTrue(Arrays.stream(posts)
+                        .anyMatch(x -> x.getPostId() == postId && x.getContent().equals(postEditRequest.getContent())),
+                "Get All Request's body doesn't contain the new content of the post.");
+    }
 //
 //    @Test
 //    public void privatePostEdited_By_Author() {
