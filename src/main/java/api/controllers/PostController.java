@@ -14,14 +14,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 
 public class PostController extends BaseWeAreApi {
 
-    private static final String postBody = "{\n" +
-            "  \"content\": \"" + "%s" + "\",\n" +
-            "  \"picture\": \"" + "%s" + "\",\n" +
-            "  \"public\": " + "%s" + "\n" +
-            "}";
-
     public static PostResponse createPost(PostRequest post, String cookieValue) {
-
         return given()
                 .cookie(Utils.getConfigPropertyByKey("auth.cookieName"), cookieValue)
                 .contentType("application/json")
@@ -192,11 +185,5 @@ public class PostController extends BaseWeAreApi {
 //        Comment[] postComments = new Gson().fromJson(response.getBody().asString(), Comment[].class);
 //
 //        return postComments;
-//    }
-//
-//    static String generatePostBody(boolean visibility) {
-//        String postContent = Helpers.generatePostContent();
-//        String postPicture = Helpers.generatePicture();
-//        return String.format(postBody, postContent, postPicture, visibility);
 //    }
 }
