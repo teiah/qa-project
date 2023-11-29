@@ -26,21 +26,27 @@ public class RESTPostControllerTest extends BaseWeareRestAssuredTest {
     private PostRequest postRequest;
     private PostResponse postResponse;
 
-    @Test
-    public void createPost() {
+
+    @BeforeClass
+    public void userSetup() {
         user = UserFactory.createUser();
-        post = PostFactory.createPost(user, Visibility.PUBLIC);
         UserRequest userRequest = new UserRequest(Authority.ROLE_USER.toString(), user);
         UserController.registerUser(userRequest);
         authCookie = getCookieValue(user);
+    }
 
+    @BeforeMethod
+    public void postSetup() {
+        post = PostFactory.createPost(user, Visibility.PUBLIC);
         postRequest = new PostRequest(post);
         postResponse = PostController.createPost(postRequest, authCookie);
         postId = postResponse.getPostId();
+    }
 
-       assertEquals(post.getContent(), postResponse.getContent(),
+    @Test
+    public void createPost() {
+        assertEquals(post.getContent(), postResponse.getContent(),
                 "The post's content doesn't match the expected content.");
-
     }
 //
 //    @Test
